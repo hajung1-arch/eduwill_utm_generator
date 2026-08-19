@@ -1,0 +1,1388 @@
+<title>에듀윌 CRM UTM 생성기</title>
+<style>
+  :root {
+    --bg: #f5f3ee;
+    --surface: #ffffff;
+    --surface-2: #faf8f4;
+    --border: #e2ddd2;
+    --ink: #201f1c;
+    --ink-soft: #6b6459;
+    --ink-faint: #9b9488;
+    --accent: #2a4b6e;
+    --accent-ink: #ffffff;
+    --accent-soft: #e7edf3;
+    --success: #2e7d5b;
+    --success-soft: #e5f2ec;
+    --warn: #b3691d;
+    --warn-soft: #f7ecdd;
+    --danger: #b23b3b;
+    --chip-0: #2a4b6e;
+    --chip-1: #4c6b8a;
+    --chip-2: #6d5a2a;
+    --chip-3: #5a6b3a;
+    --chip-4: #8a5a1f;
+    --chip-5: #5a4a6e;
+    --chip-6: #3f6b4e;
+    --chip-7: #7a3f52;
+    --mono: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+    --sans: "Pretendard", -apple-system, BlinkMacSystemFont, "Malgun Gothic", "Apple SD Gothic Neo", sans-serif;
+    --shadow: 0 1px 2px rgba(32,31,28,0.04), 0 6px 16px -8px rgba(32,31,28,0.10);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #16181a;
+      --surface: #1f2225;
+      --surface-2: #26292d;
+      --border: #363a3e;
+      --ink: #eceae6;
+      --ink-soft: #a8a39a;
+      --ink-faint: #7a766e;
+      --accent: #7fa8d6;
+      --accent-ink: #101418;
+      --accent-soft: #253242;
+      --success: #6ec9a0;
+      --success-soft: #1e2f27;
+      --warn: #e0a85c;
+      --warn-soft: #33291a;
+      --danger: #e08080;
+      --chip-0: #7fa8d6;
+      --chip-1: #8fb0c9;
+      --chip-2: #c9b273;
+      --chip-3: #a3c17f;
+      --chip-4: #d6a566;
+      --chip-5: #b39fd6;
+      --chip-6: #8fc9a3;
+      --chip-7: #d68fa6;
+      --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 20px -8px rgba(0,0,0,0.5);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #16181a; --surface: #1f2225; --surface-2: #26292d; --border: #363a3e;
+    --ink: #eceae6; --ink-soft: #a8a39a; --ink-faint: #7a766e;
+    --accent: #7fa8d6; --accent-ink: #101418; --accent-soft: #253242;
+    --success: #6ec9a0; --success-soft: #1e2f27; --warn: #e0a85c; --warn-soft: #33291a; --danger: #e08080;
+    --chip-0: #7fa8d6; --chip-1: #8fb0c9; --chip-2: #c9b273; --chip-3: #a3c17f; --chip-4: #d6a566; --chip-5: #b39fd6; --chip-6: #8fc9a3; --chip-7: #d68fa6;
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 20px -8px rgba(0,0,0,0.5);
+  }
+  :root[data-theme="light"] {
+    --bg: #f5f3ee; --surface: #ffffff; --surface-2: #faf8f4; --border: #e2ddd2;
+    --ink: #201f1c; --ink-soft: #6b6459; --ink-faint: #9b9488;
+    --accent: #2a4b6e; --accent-ink: #ffffff; --accent-soft: #e7edf3;
+    --success: #2e7d5b; --success-soft: #e5f2ec; --warn: #b3691d; --warn-soft: #f7ecdd; --danger: #b23b3b;
+    --chip-0: #2a4b6e; --chip-1: #4c6b8a; --chip-2: #6d5a2a; --chip-3: #5a6b3a; --chip-4: #8a5a1f; --chip-5: #5a4a6e; --chip-6: #3f6b4e; --chip-7: #7a3f52;
+    --shadow: 0 1px 2px rgba(32,31,28,0.04), 0 6px 16px -8px rgba(32,31,28,0.10);
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: var(--sans);
+    color: var(--ink);
+    background: var(--bg);
+    font-size: 14px;
+    line-height: 1.55;
+  }
+  .wrap {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 28px 20px 60px;
+  }
+  header.top {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 22px;
+    flex-wrap: wrap;
+  }
+  .eyebrow {
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--accent);
+    margin: 0 0 4px;
+  }
+  h1 {
+    font-size: 22px;
+    font-weight: 700;
+    margin: 0;
+    letter-spacing: -0.01em;
+    text-wrap: balance;
+  }
+  .top-meta {
+    font-size: 12px;
+    color: var(--ink-faint);
+    text-align: right;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+    gap: 20px;
+    align-items: start;
+  }
+  @media (max-width: 900px) {
+    .grid { grid-template-columns: 1fr; }
+  }
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+  }
+  .card-pad { padding: 20px; }
+  .card-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--border);
+  }
+  .card-head h2 {
+    font-size: 13px;
+    font-weight: 700;
+    margin: 0;
+    letter-spacing: -0.01em;
+  }
+  .card-head .hint {
+    font-size: 11.5px;
+    color: var(--ink-faint);
+  }
+  .field-group { margin-bottom: 18px; }
+  .field-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  label {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--ink-soft);
+    margin-bottom: 6px;
+  }
+  label .req { color: var(--danger); margin-left: 2px; }
+  label .opt { color: var(--ink-faint); font-weight: 500; margin-left: 4px; }
+  select, input[type="text"], input[type="month"], input[type="url"] {
+    width: 100%;
+    padding: 9px 10px;
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    background: var(--surface-2);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 13.5px;
+    outline: none;
+    transition: border-color 0.12s;
+  }
+  select:focus, input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-soft);
+  }
+  .field-desc {
+    font-size: 11.5px;
+    color: var(--ink-faint);
+    margin-top: 5px;
+  }
+  .field-warning {
+    font-size: 11.5px;
+    color: #B23B3B;
+    background: #FBEFE1;
+    border-left: 2px solid #B23B3B;
+    padding: 6px 10px;
+    margin-top: 6px;
+    border-radius: 0 4px 4px 0;
+  }
+  .section-label {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--ink-faint);
+    margin: 0 0 12px;
+    padding-top: 4px;
+    border-top: 1px solid var(--border);
+  }
+  .field-group:first-child .section-label { border-top: none; padding-top: 0; }
+
+  /* preview */
+  .sticky { position: sticky; top: 20px; display: flex; flex-direction: column; gap: 16px; }
+  .code-breakdown {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 16px 20px;
+    background: var(--surface-2);
+  }
+  .chip {
+    font-family: var(--mono);
+    font-size: 12.5px;
+    font-weight: 600;
+    padding: 5px 9px;
+    border-radius: 6px;
+    color: var(--accent-ink);
+    white-space: nowrap;
+  }
+  .chip.sep { background: none; color: var(--ink-faint); padding: 5px 2px; font-weight: 400; }
+  .chip-label {
+    display: block;
+    font-size: 9.5px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    opacity: 0.75;
+    margin-bottom: 1px;
+  }
+  .url-block { padding: 16px 20px; }
+  .url-box {
+    font-family: var(--mono);
+    font-size: 12.5px;
+    line-height: 1.6;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    padding: 12px 14px;
+    word-break: break-all;
+    color: var(--ink);
+    min-height: 44px;
+  }
+  .url-box .qs { color: var(--ink-soft); }
+  .url-box .param-key { color: var(--accent); }
+  .btn-row { display: flex; gap: 8px; margin-top: 10px; }
+  button {
+    font-family: var(--sans);
+    font-size: 12.5px;
+    font-weight: 600;
+    border-radius: 7px;
+    padding: 8px 14px;
+    cursor: pointer;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--ink);
+    transition: transform 0.08s, background 0.12s;
+  }
+  button:active { transform: scale(0.97); }
+  button.primary {
+    background: var(--accent);
+    color: var(--accent-ink);
+    border-color: var(--accent);
+  }
+  button.ghost { background: transparent; }
+  button:disabled { opacity: 0.45; cursor: not-allowed; }
+  .toast {
+    font-size: 12px;
+    color: var(--success);
+    font-weight: 600;
+    opacity: 0;
+    transition: opacity 0.2s;
+    align-self: center;
+  }
+  .toast.show { opacity: 1; }
+  .warning-line {
+    font-size: 12px;
+    color: var(--warn);
+    background: var(--warn-soft);
+    border-radius: 7px;
+    padding: 8px 12px;
+    margin-top: 10px;
+    display: none;
+  }
+  .warning-line.show { display: block; }
+
+  /* history */
+  .history-list {
+    display: flex;
+    flex-direction: column;
+    max-height: 320px;
+    overflow-y: auto;
+  }
+  .history-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 20px;
+    border-bottom: 1px solid var(--border);
+  }
+  .history-item:last-child { border-bottom: none; }
+  .history-main { flex: 1; min-width: 0; }
+  .history-campaign {
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--ink);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .history-url {
+    font-size: 11px;
+    color: var(--ink-faint);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .history-actions { display: flex; gap: 6px; flex-shrink: 0; }
+  .icon-btn {
+    padding: 5px 8px;
+    font-size: 11px;
+  }
+  .empty-state {
+    padding: 28px 20px;
+    text-align: center;
+    color: var(--ink-faint);
+    font-size: 12.5px;
+  }
+  .ref-toggle {
+    font-size: 11.5px;
+    color: var(--accent);
+    background: none;
+    border: none;
+    padding: 0;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: underline;
+  }
+  .ref-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+    margin-top: 10px;
+  }
+  .ref-table th, .ref-table td {
+    text-align: left;
+    padding: 6px 8px;
+    border-bottom: 1px solid var(--border);
+  }
+  .ref-table th {
+    color: var(--ink-faint);
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 10px;
+    letter-spacing: 0.04em;
+  }
+  .ref-table td.mono { font-family: var(--mono); }
+  #refPanel { display: none; padding: 0 20px 18px; }
+  #refPanel.show { display: block; }
+
+  .head-actions { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+  .hint-line {
+    font-size: 11.5px;
+    color: var(--ink-faint);
+    padding: 12px 20px 0;
+  }
+  .csv-status {
+    font-size: 11.5px;
+    padding: 6px 20px 0;
+    display: none;
+    font-weight: 600;
+  }
+  .csv-status.show { display: block; }
+  .csv-status.success { color: var(--success); }
+  .csv-status.warn { color: var(--warn); }
+  .csv-status.error { color: var(--danger); }
+
+  input[type="text"]::placeholder { color: var(--ink-faint); }
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div>
+      <p class="eyebrow">에듀윌 마케팅 · UTM 캠페인 생성 도구</p>
+      <h1>UTM 링크 생성기</h1>
+    </div>
+    <div class="top-meta">캠페인/채널 텍소노미 v1.0 기준<br>{item/브랜드}_{purpose}_{target}_{YYMMDD}</div>
+  </header>
+
+  <div class="card card-pad" id="sheetSettingsCard" style="margin-bottom: 20px;">
+    <div style="display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap; align-items:flex-start;">
+      <div style="flex:1; min-width:260px;">
+        <label style="margin-bottom:4px;">데이터 소스 — 구글 시트 연동 <span class="opt">(기본 연결됨)</span></label>
+        <p class="field-desc" style="margin-top:0;">
+          팀 공용 시트가 기본으로 연결되어 있어 별도 설정 없이 바로 사용할 수 있습니다. 시트의 <b>medium / purpose / target / source / content</b> 탭 내용을 수정하면 "새로고침"만 눌러 반영하세요.
+          다른 시트로 바꾸려면 URL/ID를 입력하고 저장하세요.
+        </p>
+      </div>
+    </div>
+    <div style="display:flex; gap:8px; margin-top:10px; flex-wrap:wrap;">
+      <input type="text" id="sheetIdInput" placeholder="https://docs.google.com/spreadsheets/d/……/edit  또는  시트 ID" style="flex:1; min-width:220px;" />
+      <button class="primary" id="sheetSaveBtn" type="button">저장 후 불러오기</button>
+      <button class="ghost" id="sheetRefreshBtn" type="button">새로고침</button>
+      <button class="ghost" id="sheetResetBtn" type="button">기본 시트로 되돌리기</button>
+    </div>
+    <div class="csv-status" id="sheetStatus"></div>
+  </div>
+
+  <div class="card card-pad" id="archiveSettingsCard" style="margin-bottom: 20px;">
+    <div style="flex:1; min-width:260px;">
+      <label style="margin-bottom:4px;">팀별 아카이빙 — Apps Script 웹앱 연동 <span class="opt">(선택, 최초 1회 설정)</span></label>
+      <p class="field-desc" style="margin-top:0;">
+        "기록에 저장"을 누를 때마다 생성된 링크가 팀 이름의 시트 탭에 자동으로 쌓입니다. 아직 설정 전이면 이 브라우저에만 저장돼요.
+        설정 방법은 시트의 <b>campaign_정의</b> 탭 하단 또는 가이드 문서를 참고하세요.
+      </p>
+    </div>
+    <div style="display:flex; gap:8px; margin-top:10px; flex-wrap:wrap;">
+      <input type="text" id="archiveUrlInput" placeholder="Apps Script 웹앱 URL (https://script.google.com/macros/s/……/exec)" style="flex:1; min-width:220px;" />
+      <button class="primary" id="archiveSaveBtn" type="button">연결 저장</button>
+      <button class="ghost" id="archiveResetBtn" type="button">연결 해제</button>
+    </div>
+    <div class="csv-status" id="archiveStatus"></div>
+  </div>
+
+  <div class="grid">
+    <!-- LEFT: FORM -->
+    <div class="card card-pad">
+      <div class="field-group">
+        <p class="section-label">STEP 1 · 대상 링크</p>
+        <label for="baseUrl">랜딩 URL <span class="req">*</span></label>
+        <input type="url" id="baseUrl" placeholder="https://www.eduwill.net/gov9/basic" />
+        <p class="field-desc">고객이 최종적으로 도착할 페이지 주소를 입력합니다.</p>
+        <div style="margin-top:12px;">
+          <label for="teamSelect">작성 팀 <span class="opt">(아카이빙용, 선택)</span></label>
+          <select id="teamSelect"></select>
+          <div id="customTeamWrap" style="display:none; margin-top:10px;">
+            <input type="text" id="customTeam" placeholder="예: 콘텐츠제휴팀 (시트 탭 이름으로 그대로 쓰입니다)" />
+          </div>
+          <p class="field-desc" style="margin-top:6px;">"기록에 저장" 시 이 팀 이름의 시트 탭에 자동으로 쌓입니다. 목록은 연동된 시트의 <b>team 탭</b>에서 관리됩니다 — 조직 개편 시 코드 수정 없이 그 탭만 편집하면 됩니다. 목록에 없으면 직접 입력도 가능합니다.</p>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <p class="section-label">STEP 2 · 소스 (누가 보냈나) <span class="req">*</span></p>
+        <label for="source">소스 (utm_source)</label>
+        <select id="source"></select>
+        <p class="field-desc" style="margin-top:6px;">이 트래픽을 발생시킨 발신 주체·플랫폼입니다. 목록에 없는 소스가 필요하면 팀에 코드 추가를 요청하세요 (직접 입력은 지원하지 않습니다).</p>
+      </div>
+
+      <div class="field-group">
+        <p class="section-label">STEP 3 · 매체 (어떻게 보냈나) <span class="req">*</span></p>
+        <label for="medium">매체 (utm_medium)</label>
+        <select id="medium"></select>
+        <p class="field-desc" style="margin-top:6px;">전달 방식·채널 유형입니다. campaign 문자열에는 포함되지 않고 utm_medium에 별도로 담깁니다.</p>
+      </div>
+
+      <div class="field-group">
+        <p class="section-label">STEP 4 · 캠페인 (아이템 · 목적 · 타겟 · 발송일)</p>
+        <div class="field-row">
+          <div>
+            <label for="content">아이템/브랜드 <span class="req">*</span></label>
+            <select id="content"></select>
+          </div>
+          <div>
+            <label for="purpose">캠페인 목적 (purpose) <span class="req">*</span></label>
+            <select id="purpose"></select>
+          </div>
+        </div>
+        <div id="customContentWrap" style="display:none; margin-top:10px;">
+          <input type="text" id="customContent" placeholder="직접 입력할 아이템/브랜드 코드 (예: license_housing_package)" />
+        </div>
+        <div class="field-row" style="margin-top:14px;">
+          <div>
+            <label for="target">타겟 세그먼트 (target) <span class="req">*</span></label>
+            <select id="target"></select>
+          </div>
+          <div>
+            <label for="sendDate">발송일 (YYMMDD) <span class="req">*</span></label>
+            <input type="date" id="sendDate" />
+          </div>
+        </div>
+        <div style="margin-top:10px;">
+          <label for="campaignSlug">캠페인 세부명 <span class="opt">(선택 — 같은 날 같은 아이템·목적·타겟으로 캠페인이 여러 개 나갈 때만)</span></label>
+          <input type="text" id="campaignSlug" placeholder="예: bongtoo, blackfriday, d100 (영문 소문자·숫자, 공백 없이)" />
+          <p class="field-desc" style="margin-top:6px;">아이템·목적·타겟·발송일이 같은 캠페인이 이 날 하나뿐이면 비워두세요. campaign에는 medium이 들어가지 않으므로, 같은 프로모션을 여러 채널로 함께 보내도 campaign 값은 하나로 묶입니다(채널별 구분은 utm_medium으로 필터링). 서로 다른 프로모션을 구분하고 싶을 때만 세부명을 짧게 입력하세요.</p>
+          <p id="slugWarning" class="field-warning" style="display:none;"></p>
+        </div>
+        <p class="field-desc" style="margin-top:10px;">아이템/브랜드는 utm_campaign 맨 앞에 반영되는 필수값입니다. (utm_content는 중복이라 URL에 별도로 붙지 않습니다.)</p>
+      </div>
+
+      <div class="field-group" style="margin-bottom: 4px;">
+        <p class="section-label">검색 키워드 <span class="opt">(선택, 유료 검색 캠페인용)</span></p>
+        <label for="term">키워드 (utm_term)</label>
+        <input type="text" id="term" placeholder="예: 9급공무원 인강" />
+      </div>
+    </div>
+
+    <!-- RIGHT: PREVIEW + HISTORY -->
+    <div class="sticky">
+      <div class="card">
+        <div class="card-head">
+          <h2>캠페인 코드 미리보기</h2>
+          <span class="hint">utm_campaign</span>
+        </div>
+        <div class="code-breakdown" id="codeBreakdown"></div>
+      </div>
+
+      <div class="card">
+        <div class="card-head">
+          <h2>생성된 URL</h2>
+          <button class="ref-toggle" id="refToggle" type="button">코드표 보기</button>
+        </div>
+        <div id="refPanel"></div>
+        <div class="url-block">
+          <div class="url-box" id="urlBox">—</div>
+          <div class="warning-line" id="warnLine">랜딩 URL을 입력하면 전체 UTM 링크가 완성됩니다.</div>
+          <div class="btn-row">
+            <button class="primary" id="copyBtn" type="button">URL 복사</button>
+            <button class="ghost" id="saveBtn" type="button">기록에 저장</button>
+            <span class="toast" id="toast">복사됨</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-head">
+          <h2>생성 기록</h2>
+          <div class="head-actions">
+            <button class="ref-toggle" id="exportCsv" type="button">CSV 내보내기</button>
+            <button class="ref-toggle" id="importCsvBtn" type="button">CSV 가져오기</button>
+            <button class="ref-toggle" id="clearHistory" type="button">전체 삭제</button>
+          </div>
+        </div>
+        <p class="hint-line">CSV로 내보내 Slack·이메일로 팀원과 공유하고, 팀원이 보낸 CSV를 가져와 기록을 합칠 수 있습니다.</p>
+        <div class="csv-status" id="csvStatus"></div>
+        <input type="file" id="importCsvFile" accept=".csv,text/csv" style="display:none" />
+        <div class="history-list" id="historyList"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ---- 기본 내장 데이터 (구글 시트 연동 실패/미설정 시 사용) ----
+  const DEFAULTS = {
+    medium: [
+      { code: "search", label: "검색광고" },
+      { code: "brandsearch", label: "브랜드검색" },
+      { code: "powerlink", label: "네이버 파워링크" },
+      { code: "shopping_search", label: "쇼핑검색" },
+      { code: "display", label: "디스플레이광고" },
+      { code: "paid_social", label: "유료 소셜광고" },
+      { code: "paid_video", label: "유료 영상광고" },
+      { code: "blog", label: "블로그" },
+      { code: "cafe", label: "네이버 카페 (외부/비공식)" },
+      { code: "cafe1", label: "공식카페_공무원" },
+      { code: "cafe2", label: "공식카페_공인중개사" },
+      { code: "cafe3", label: "공식카페_기사" },
+      { code: "cafe4", label: "공식카페_주택관리사" },
+      { code: "cafe5", label: "공식카페_취업" },
+      { code: "cafe6", label: "공식카페_한국사" },
+      { code: "cafe7", label: "공식카페_경찰 (중지)" },
+      { code: "cafe8", label: "공식카페_소방" },
+      { code: "cafe9", label: "공식카페_행정" },
+      { code: "cafe10", label: "공식카페_군무원 (중지)" },
+      { code: "cafe11", label: "공식카페_기술 (중지)" },
+      { code: "cafe12", label: "공식카페_계리" },
+      { code: "cafe13", label: "공식카페_경비" },
+      { code: "cafe14", label: "공식카페_검정" },
+      { code: "cafe15", label: "공식카페_금융" },
+      { code: "cafe16", label: "공식카페_무역" },
+      { code: "cafe17", label: "공식카페_직상" },
+      { code: "cafe18", label: "공식카페_IT (중지)" },
+      { code: "cafe19", label: "공식카페_산안기" },
+      { code: "cafe20", label: "공식카페_운전 (중지)" },
+      { code: "cafe21", label: "공식카페_토익" },
+      { code: "cafe22", label: "공식카페_CPTA (중지)" },
+      { code: "cafe23", label: "공식카페_편입" },
+      { code: "community", label: "커뮤니티 게시물" },
+      { code: "channel", label: "카카오 채널" },
+      { code: "openchat", label: "카카오 오픈채팅방" },
+      { code: "profile", label: "프로필 링크" },
+      { code: "litt", label: "리틀리" },
+      { code: "owned_text", label: "텍스트형 자사 콘텐츠" },
+      { code: "owned_image", label: "이미지형 자사 콘텐츠" },
+      { code: "owned_video", label: "영상형 자사 콘텐츠" },
+      { code: "viral", label: "바이럴 광고/게시" },
+      { code: "unpaid_seeding", label: "무가시딩" },
+      { code: "paid_seeding", label: "유가시딩" },
+      { code: "groupbuy", label: "공동구매" },
+      { code: "brand_message", label: "카카오 브랜드메시지" },
+      { code: "alimtalk", label: "카카오 알림톡" },
+      { code: "email", label: "이메일" },
+      { code: "sms", label: "SMS" },
+      { code: "lms", label: "LMS" },
+      { code: "mms", label: "MMS" },
+      { code: "push", label: "앱 푸시" },
+      { code: "in_app", label: "인앱 메시지" },
+      { code: "qr", label: "QR코드" },
+      { code: "referral", label: "외부 추천/제휴 링크" },
+    ],
+    purpose: [
+      { code: "awareness", label: "인지도/브랜딩" },
+      { code: "traffic", label: "사이트 유입" },
+      { code: "lead", label: "상담/리드" },
+      { code: "signup", label: "회원가입" },
+      { code: "activation", label: "가입 후 첫 행동" },
+      { code: "event", label: "이벤트 참여" },
+      { code: "retention", label: "재방문/지속 이용" },
+      { code: "winback", label: "이탈고객 재활성화" },
+      { code: "purchase", label: "구매" },
+      { code: "upsell", label: "추가구매" },
+      { code: "transactional", label: "서비스성 안내" },
+    ],
+    target: [
+      { code: "prospect", label: "잠재고객" },
+      { code: "visitor_nopurchase", label: "방문_미구매" },
+      { code: "new_nopurchase", label: "신규가입_미구매" },
+      { code: "lead_nopurchase", label: "상담/리드_미구매" },
+      { code: "cartpending", label: "구매전환대기" },
+      { code: "buyer", label: "구매고객" },
+      { code: "active7d", label: "활성수강생" },
+      { code: "dormant30d", label: "비활성수강생_30d" },
+      { code: "aboutcomplete", label: "수료예정군" },
+      { code: "repeat", label: "재구매후보" },
+      { code: "vip", label: "VIP고객" },
+      { code: "examd30", label: "시험임박군_D30" },
+      { code: "all", label: "전체" },
+    ],
+    source: [
+      { code: "eduwill", label: "에듀윌 웹/자사 채널 (CRM 자체발송 발신주체, 전사표준)" },
+      { code: "eduwill_app", label: "에듀윌 앱 (앱 푸시 등 앱 발신)" },
+      { code: "naver", label: "네이버" },
+      { code: "google", label: "구글" },
+      { code: "daum", label: "다음" },
+      { code: "bing", label: "빙" },
+      { code: "msn", label: "MSN (포털/엣지 새탭)" },
+      { code: "yahoo", label: "야후" },
+      { code: "chatgpt", label: "챗GPT (AI 레퍼럴)" },
+      { code: "youtube", label: "유튜브" },
+      { code: "instagram", label: "인스타그램_콘텐츠" },
+      { code: "facebook", label: "페이스북" },
+      { code: "meta", label: "메타_인스타 (유료광고 소재, medium=paid_social)" },
+      { code: "threads", label: "스레드" },
+      { code: "x", label: "X(트위터)" },
+      { code: "tiktok", label: "틱톡" },
+      { code: "kakao", label: "카카오" },
+      { code: "message", label: "문자 발송 주체 (SMS/LMS/MMS)" },
+      { code: "email", label: "이메일" },
+      { code: "dcinside", label: "디시인사이드" },
+      { code: "tg", label: "TG (매체사)" },
+      { code: "realclick", label: "리얼클릭 (매체사)" },
+      { code: "mobon", label: "모비온 (매체사)" },
+      { code: "nscreen", label: "스크린뷰 (매체사)" },
+      { code: "criteo", label: "크리테오 (매체사)" },
+      { code: "dable", label: "데이블 (매체사)" },
+      { code: "taboola", label: "타불라 (매체사)" },
+      { code: "neoclick", label: "네오클릭 (매체사)" },
+      { code: "searchnclick", label: "서치N클릭 (매체사, 기존 오탈자 교정)" },
+    ],
+    content: [
+      { code: "gov9_admin_basic", label: "gov9_admin_basic — 9급공무원 · 행정법 · 기본강의" },
+      { code: "gov9_admin_advanced", label: "gov9_admin_advanced — 9급공무원 · 행정법 · 심화강의" },
+      { code: "license_realestate_basic", label: "license_realestate_basic — 공인중개사 · 기본강의" },
+      { code: "license_realestate_advanced", label: "license_realestate_advanced — 공인중개사 · 심화강의" },
+      { code: "license_housing_package", label: "license_housing_package — 주택관리사 · 종합반" },
+      { code: "job_public_mockexam", label: "job_public_mockexam — 공기업 취업 · 모의고사" },
+      { code: "job_corp_basic", label: "job_corp_basic — 대기업 취업 · 기본강의" },
+      { code: "lang_toeic_basic", label: "lang_toeic_basic — 토익 · 기본강의" },
+    ],
+    team: [
+      { code: "온라인사업1실", label: "온라인사업1실" },
+      { code: "온라인사업2실", label: "온라인사업2실" },
+      { code: "마케팅실", label: "마케팅실" },
+      { code: "고객상담실", label: "고객상담실" },
+    ],
+  };
+
+  const SHEET_TABS = ["medium", "purpose", "target", "source", "content", "team"];
+  let DATA = JSON.parse(JSON.stringify(DEFAULTS));
+
+  function fillSelect(selectEl, items) {
+    selectEl.innerHTML = items.map(i => `<option value="${i.code}">${i.label}</option>`).join("");
+  }
+
+  function fillSelectPreserve(selectEl, items) {
+    const prev = selectEl.value;
+    fillSelect(selectEl, items);
+    if (items.some(i => i.code === prev)) selectEl.value = prev;
+  }
+
+  function optionsFor(category) {
+    const items = DATA[category] || [];
+    if (category === "content") return [...items, { code: "__custom", label: "직접 입력…" }];
+    if (category === "team") return [...items, { code: "__custom", label: "직접 입력…" }];
+    return items;
+  }
+
+  function populateSelectsFromData() {
+    fillSelectPreserve(document.getElementById("medium"), optionsFor("medium"));
+    fillSelectPreserve(document.getElementById("purpose"), optionsFor("purpose"));
+    fillSelectPreserve(document.getElementById("target"), optionsFor("target"));
+    fillSelectPreserve(document.getElementById("source"), optionsFor("source"));
+    fillSelectPreserve(document.getElementById("content"), optionsFor("content"));
+    fillSelectPreserve(document.getElementById("teamSelect"), optionsFor("team"));
+    renderRefPanel();
+  }
+
+  const now = new Date();
+  const dateInput = document.getElementById("sendDate");
+  dateInput.value = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
+
+  const el = (id) => document.getElementById(id);
+  const baseUrlEl = el("baseUrl"), mediumEl = el("medium"), purposeEl = el("purpose"),
+        targetEl = el("target"), sourceEl = el("source"), contentEl = el("content"),
+        termEl = el("term"), customContentEl = el("customContent"),
+        campaignSlugEl = el("campaignSlug"), teamSelectEl = el("teamSelect"), customTeamEl = el("customTeam");
+
+  contentEl.addEventListener("change", () => {
+    el("customContentWrap").style.display = contentEl.value === "__custom" ? "block" : "none";
+    render();
+  });
+  teamSelectEl.addEventListener("change", () => {
+    el("customTeamWrap").style.display = teamSelectEl.value === "__custom" ? "block" : "none";
+  });
+
+  [baseUrlEl, mediumEl, purposeEl, targetEl, dateInput, sourceEl, contentEl, termEl, customContentEl, campaignSlugEl]
+    .forEach(e => e.addEventListener("input", render));
+
+  // 팀명을 시트 탭 이름으로 그대로 쓰므로, 구글시트 탭 이름에 못 쓰는 문자만 제거
+  function sanitizeTeamName(raw) {
+    return raw.trim().replace(/[\[\]\*\?:\/\\]/g, "").slice(0, 100);
+  }
+  function currentTeam() {
+    if (teamSelectEl.value === "__custom") {
+      return sanitizeTeamName(customTeamEl.value || "") || "기타";
+    }
+    return teamSelectEl.value;
+  }
+
+  // 캠페인 세부명 정리: 소문자화, 공백/특수문자를 밑줄로, 연속 밑줄 정리
+  // (source/medium이 대소문자·공백 편차로 GA4에서 갈라졌던 문제를 세부명에서 반복하지 않기 위함)
+  function sanitizeSlug(raw) {
+    return raw
+      .trim()
+      .toLowerCase()
+      .replace(/[^a-z0-9가-힣]+/g, "_")
+      .replace(/^_+|_+$/g, "")
+      .replace(/_{2,}/g, "_");
+  }
+
+  // 세부명이 source/medium/아이템 코드북에 이미 있는 값과 겹치면 경고
+  // (겹치면 캠페인 문자열만 보고 "이게 세부명인지 다른 매체/소스/아이템을 가리키는 건지" 헷갈릴 수 있음)
+  function checkSlugCollision(slug) {
+    if (!slug) return null;
+    if (DATA.source.some(s => s.code === slug)) return `"${slug}"은(는) 이미 source 코드로 쓰이고 있어요. 다른 이름을 써주세요.`;
+    if (DATA.medium.some(m => m.code === slug)) return `"${slug}"은(는) 이미 medium 코드로 쓰이고 있어요. 다른 이름을 써주세요.`;
+    if (DATA.content.some(c => c.code === slug)) return `"${slug}"은(는) 이미 아이템/브랜드 코드로 쓰이고 있어요. 다른 이름을 써주세요.`;
+    return null;
+  }
+
+  // 발송일 입력(YYYY-MM-DD)을 YYMMDD로 변환 (연도는 뒤 2자리만 사용)
+  function toYYMMDD(dateStr) {
+    if (!dateStr) return "";
+    const [y, m, d] = dateStr.split("-");
+    if (!y || !m || !d) return "";
+    return y.slice(2) + m + d;
+  }
+
+  function currentValues() {
+    const yymmdd = toYYMMDD(dateInput.value);
+    const source = sourceEl.value;
+    const content = contentEl.value === "__custom" ? customContentEl.value.trim() : contentEl.value;
+    const campaignSlug = sanitizeSlug(campaignSlugEl.value || "");
+    return {
+      baseUrl: baseUrlEl.value.trim(),
+      medium: mediumEl.value,
+      purpose: purposeEl.value,
+      target: targetEl.value,
+      yymmdd,
+      campaignSlug,
+      source,
+
+      content,
+      term: termEl.value.trim(),
+    };
+  }
+
+  function buildCampaignCode(v) {
+    return [v.content, v.purpose, v.target, v.yymmdd, v.campaignSlug].filter(Boolean).join("_");
+  }
+
+  function buildUrl(v, campaignCode) {
+    if (!v.baseUrl) return null;
+    let url;
+    try {
+      url = new URL(v.baseUrl);
+    } catch (e) {
+      return "__invalid__";
+    }
+    const params = new URLSearchParams(url.search);
+    if (v.source) params.set("utm_source", v.source);
+    params.set("utm_medium", v.medium);
+    params.set("utm_campaign", campaignCode);
+    // utm_content는 넣지 않음 — 아이템/브랜드가 이미 campaign 맨 앞 조각으로 들어가 있어 중복.
+    // (아이템 값 자체는 v.content로 계속 보관되어 아카이브 시트의 '아이템/브랜드' 컬럼에는 그대로 기록됨)
+    if (v.term) params.set("utm_term", v.term);
+    url.search = params.toString();
+    return url.toString();
+  }
+
+  function renderBreakdown(v, campaignCode) {
+    const parts = [
+      { seg: v.content, key: "아이템/브랜드" },
+      { seg: v.purpose, key: "purpose" },
+      { seg: v.target, key: "target" },
+      { seg: v.yymmdd, key: "yymmdd" },
+      { seg: v.campaignSlug, key: "세부명" },
+    ].filter(p => p.seg);
+    const purposeIdx = DATA.purpose.findIndex(p => p.code === v.purpose);
+    const chipColor = purposeIdx >= 0 ? `var(--chip-${purposeIdx % 8})` : "var(--accent)";
+    const html = parts.map((p, i) => {
+      const chip = `<span class="chip" style="background:${chipColor}"><span class="chip-label">${p.key}</span>${p.seg}</span>`;
+      const sep = i < parts.length - 1 ? `<span class="chip sep">_</span>` : "";
+      return chip + sep;
+    }).join("");
+    el("codeBreakdown").innerHTML = html || `<span class="field-desc">아이템/브랜드·목적·타겟·발송일을 선택하면 캠페인 코드가 조립됩니다.</span>`;
+  }
+
+  function escapeHtml(s) {
+    return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  }
+
+  function renderUrlBox(url) {
+    const box = el("urlBox");
+    const warn = el("warnLine");
+    if (!url) {
+      box.textContent = "—";
+      warn.classList.add("show");
+      warn.textContent = "랜딩 URL을 입력하면 전체 UTM 링크가 완성됩니다.";
+      return false;
+    }
+    if (url === "__invalid__") {
+      box.textContent = "—";
+      warn.classList.add("show");
+      warn.textContent = "올바른 URL 형식이 아닙니다. (예: https://www.eduwill.net/...)";
+      return false;
+    }
+    warn.classList.remove("show");
+    const [base, qs] = url.split("?");
+    const qsHtml = qs
+      ? "?" + qs.split("&").map(pair => {
+          const [k, val] = pair.split("=");
+          let decoded = val || "";
+          try { decoded = decodeURIComponent(decoded); } catch (e) {}
+          return `<span class="param-key">${escapeHtml(k)}</span>=${escapeHtml(decoded)}`;
+        }).join("&amp;")
+      : "";
+    box.innerHTML = `${escapeHtml(base)}<span class="qs">${qsHtml}</span>`;
+    return true;
+  }
+
+  let lastUrl = null, lastCampaign = null, lastValues = null;
+
+  function render() {
+    const v = currentValues();
+    const campaignCode = buildCampaignCode(v);
+    renderBreakdown(v, campaignCode);
+    const url = buildUrl(v, campaignCode);
+    const valid = renderUrlBox(url);
+
+    const slugIssue = checkSlugCollision(v.campaignSlug);
+    const warnEl = el("slugWarning");
+    if (slugIssue) {
+      warnEl.textContent = slugIssue;
+      warnEl.style.display = "block";
+    } else {
+      warnEl.style.display = "none";
+    }
+
+    // 소스는 필수값 — 비어 있으면(직접입력 공란 등) 생성 자체를 막음
+    const sourceMissing = !v.source;
+    // 아이템/브랜드는 utm_campaign 맨 앞에 들어가는 필수값 — 비어 있으면(직접입력 공란 등) 생성 자체를 막음
+    const contentMissing = !v.content;
+
+    if (valid) {
+      if (sourceMissing) {
+        el("warnLine").classList.add("show");
+        el("warnLine").textContent = "소스를 선택해야 링크가 만들어집니다.";
+      } else if (contentMissing) {
+        el("warnLine").classList.add("show");
+        el("warnLine").textContent = "아이템/브랜드를 선택하거나 직접 입력해야 캠페인 코드가 완성됩니다.";
+      }
+    }
+
+    const finalValid = valid && !slugIssue && !contentMissing && !sourceMissing;
+    lastUrl = finalValid ? url : null;
+    lastCampaign = campaignCode;
+    lastValues = finalValid ? v : null;
+    el("copyBtn").disabled = !finalValid;
+    el("saveBtn").disabled = !finalValid;
+  }
+
+  el("copyBtn").addEventListener("click", async () => {
+    if (!lastUrl) return;
+    try {
+      await navigator.clipboard.writeText(lastUrl);
+    } catch (e) {
+      const ta = document.createElement("textarea");
+      ta.value = lastUrl;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand("copy");
+      ta.remove();
+    }
+    const toast = el("toast");
+    toast.textContent = "복사됨";
+    toast.classList.add("show");
+    setTimeout(() => toast.classList.remove("show"), 1400);
+  });
+
+  const HISTORY_KEY = "eduwill_utm_history_v1";
+
+  function loadHistory() {
+    try {
+      return JSON.parse(localStorage.getItem(HISTORY_KEY) || "[]");
+    } catch (e) {
+      return [];
+    }
+  }
+  function saveHistory(items) {
+    localStorage.setItem(HISTORY_KEY, JSON.stringify(items.slice(0, 300)));
+  }
+
+  function renderHistory() {
+    const items = loadHistory();
+    const list = el("historyList");
+    if (!items.length) {
+      list.innerHTML = `<div class="empty-state">아직 저장된 링크가 없습니다.<br>URL 생성 후 "기록에 저장"을 눌러보세요.</div>`;
+      return;
+    }
+    list.innerHTML = items.map((item, idx) => `
+      <div class="history-item">
+        <div class="history-main">
+          <div class="history-campaign">${escapeHtml(item.campaign)}</div>
+          <div class="history-url">${escapeHtml(item.url)}</div>
+        </div>
+        <div class="history-actions">
+          <button class="icon-btn" data-copy="${idx}" type="button">복사</button>
+          <button class="icon-btn" data-del="${idx}" type="button">삭제</button>
+        </div>
+      </div>
+    `).join("");
+  }
+
+  el("saveBtn").addEventListener("click", () => {
+    if (!lastUrl) return;
+    const entryId = (crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}-${Math.random().toString(36).slice(2)}`);
+    const team = currentTeam();
+    const items = loadHistory();
+    items.unshift({ campaign: lastCampaign, url: lastUrl, savedAt: Date.now(), entryId, team });
+    saveHistory(items);
+    renderHistory();
+
+    const toast = el("toast");
+    if (effectiveArchiveUrl() && lastValues) {
+      archiveToSheet({
+        action: "save",
+        entryId,
+        team,
+        landingUrl: lastValues.baseUrl,
+        url: lastUrl,
+        campaign: lastCampaign,
+        content: lastValues.content,
+        purpose: lastValues.purpose,
+        target: lastValues.target,
+        yymmdd: lastValues.yymmdd,
+        campaignSlug: lastValues.campaignSlug,
+        source: lastValues.source,
+        medium: lastValues.medium,
+        term: lastValues.term,
+      });
+      toast.textContent = `저장됨 · ${team} 시트로 전송 중`;
+    } else {
+      toast.textContent = "이 브라우저에 저장됨 (팀 시트 연동 안 됨)";
+    }
+    toast.classList.add("show");
+    setTimeout(() => toast.classList.remove("show"), 1800);
+  });
+
+  el("historyList").addEventListener("click", async (e) => {
+    const copyIdx = e.target.getAttribute("data-copy");
+    const delIdx = e.target.getAttribute("data-del");
+    const items = loadHistory();
+    if (copyIdx !== null) {
+      const item = items[Number(copyIdx)];
+      if (item) {
+        try { await navigator.clipboard.writeText(item.url); } catch (err) {}
+        const toast = el("toast");
+        toast.textContent = "복사됨";
+        toast.classList.add("show");
+        setTimeout(() => toast.classList.remove("show"), 1400);
+      }
+    }
+    if (delIdx !== null) {
+      const item = items[Number(delIdx)];
+      items.splice(Number(delIdx), 1);
+      saveHistory(items);
+      renderHistory();
+
+      const toast = el("toast");
+      if (item && item.entryId && item.team && effectiveArchiveUrl()) {
+        archiveToSheet({ action: "delete", entryId: item.entryId, team: item.team });
+        toast.textContent = `삭제됨 · ${item.team} 시트에서도 삭제 요청 전송됨`;
+      } else {
+        toast.textContent = "이 브라우저에서 삭제됨 (시트 연동 정보 없음 — 시트에서 수동 삭제 필요)";
+      }
+      toast.classList.add("show");
+      setTimeout(() => toast.classList.remove("show"), 2400);
+    }
+  });
+
+  el("clearHistory").addEventListener("click", () => {
+    saveHistory([]);
+    renderHistory();
+  });
+
+  // ---- CSV export / import (team sharing) ----
+  function csvEscape(field) {
+    const s = String(field == null ? "" : field);
+    if (/[",\n\r]/.test(s)) return '"' + s.replace(/"/g, '""') + '"';
+    return s;
+  }
+
+  function itemsToCsv(items) {
+    const lines = [["campaign", "url", "saved_at"].join(",")];
+    items.forEach((it) => {
+      lines.push([
+        csvEscape(it.campaign),
+        csvEscape(it.url),
+        csvEscape(new Date(it.savedAt).toISOString()),
+      ].join(","));
+    });
+    return lines.join("\r\n");
+  }
+
+  function parseCsv(text) {
+    const rows = [];
+    let row = [], field = "", inQuotes = false;
+    for (let i = 0; i < text.length; i++) {
+      const c = text[i];
+      if (inQuotes) {
+        if (c === '"') {
+          if (text[i + 1] === '"') { field += '"'; i++; }
+          else { inQuotes = false; }
+        } else {
+          field += c;
+        }
+      } else if (c === '"') {
+        inQuotes = true;
+      } else if (c === ",") {
+        row.push(field); field = "";
+      } else if (c === "\n" || c === "\r") {
+        if (c === "\r" && text[i + 1] === "\n") i++;
+        row.push(field); rows.push(row); row = []; field = "";
+      } else {
+        field += c;
+      }
+    }
+    if (field.length || row.length) { row.push(field); rows.push(row); }
+    return rows.filter((r) => r.some((cell) => cell !== ""));
+  }
+
+  let csvStatusTimer = null;
+  function showCsvStatus(msg, type) {
+    const s = el("csvStatus");
+    s.textContent = msg;
+    s.className = "csv-status show" + (type ? " " + type : "");
+    clearTimeout(csvStatusTimer);
+    csvStatusTimer = setTimeout(() => s.classList.remove("show"), 6000);
+  }
+
+  function downloadViaBlob(filename, text) {
+    const blob = new Blob([text], { type: "text/csv;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  }
+
+  el("exportCsv").addEventListener("click", async () => {
+    const items = loadHistory();
+    if (!items.length) { showCsvStatus("내보낼 기록이 없습니다.", "warn"); return; }
+    const csv = "﻿" + itemsToCsv(items);
+    const stamp = new Date();
+    const datePart = `${stamp.getFullYear()}${String(stamp.getMonth() + 1).padStart(2, "0")}${String(stamp.getDate()).padStart(2, "0")}`;
+    const filename = `eduwill_utm_history_${datePart}.csv`;
+    if (!window.claude || !window.claude.downloads) {
+      // claude.ai 저장 기능이 없는 환경(파일을 직접 열어 쓰는 경우) — 일반 브라우저 다운로드로 대체
+      try {
+        downloadViaBlob(filename, csv);
+        showCsvStatus(`${items.length}건을 CSV로 내보냈습니다.`, "success");
+      } catch (err) {
+        showCsvStatus("파일 저장에 실패했습니다: " + (err && err.message ? err.message : "알 수 없는 오류"), "error");
+      }
+      return;
+    }
+    try {
+      await window.claude.downloads.save({ filename, data: csv });
+      showCsvStatus(`${items.length}건을 CSV로 내보냈습니다.`, "success");
+    } catch (err) {
+      const code = err && err.code;
+      if (code === "extension_not_enabled" || code === "rejected_extension") {
+        try {
+          await window.claude.downloads.save({ filename: filename.replace(/\.csv$/, ".txt"), data: csv });
+          showCsvStatus(`${items.length}건을 텍스트 파일로 내보냈습니다. 저장 후 확장자를 .csv로 바꿔서 사용하세요.`, "success");
+        } catch (err2) {
+          showCsvStatus("파일 저장에 실패했습니다: " + (err2 && err2.message ? err2.message : "알 수 없는 오류"), "error");
+        }
+      } else if (code === "declined") {
+        showCsvStatus("다운로드가 취소되었습니다.", "warn");
+      } else if (code === "rate_limited") {
+        showCsvStatus("잠시 후 다시 시도해주세요.", "warn");
+      } else {
+        showCsvStatus("파일 저장에 실패했습니다: " + (err && err.message ? err.message : "알 수 없는 오류"), "error");
+      }
+    }
+  });
+
+  el("importCsvBtn").addEventListener("click", () => el("importCsvFile").click());
+  el("importCsvFile").addEventListener("change", (e) => {
+    const file = e.target.files && e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      try {
+        const rows = parseCsv(String(reader.result));
+        if (!rows.length) { showCsvStatus("파일에서 읽을 데이터가 없습니다.", "warn"); return; }
+        let dataRows = rows;
+        const first = rows[0].map((c) => c.trim().toLowerCase());
+        if (first[0] === "campaign" && first[1] === "url") dataRows = rows.slice(1);
+        const imported = dataRows
+          .filter((r) => r[0] && r[1])
+          .map((r) => {
+            const t = Date.parse(r[2]);
+            return { campaign: r[0].trim(), url: r[1].trim(), savedAt: isNaN(t) ? Date.now() : t };
+          });
+        if (!imported.length) {
+          showCsvStatus("가져올 수 있는 행이 없습니다. campaign,url,saved_at 형식을 확인하세요.", "warn");
+          return;
+        }
+        const existing = loadHistory();
+        const key = (it) => it.campaign + "|" + it.url;
+        const merged = new Map(existing.map((it) => [key(it), it]));
+        let added = 0;
+        imported.forEach((it) => {
+          const k = key(it);
+          if (!merged.has(k)) { merged.set(k, it); added++; }
+        });
+        const result = Array.from(merged.values()).sort((a, b) => b.savedAt - a.savedAt);
+        saveHistory(result);
+        renderHistory();
+        showCsvStatus(`${imported.length}건 중 ${added}건을 새로 추가했습니다. (중복 ${imported.length - added}건 제외)`, "success");
+      } catch (err) {
+        showCsvStatus("CSV 파일을 읽는 중 오류가 발생했습니다.", "error");
+      } finally {
+        e.target.value = "";
+      }
+    };
+    reader.readAsText(file, "utf-8");
+  });
+
+  const refToggle = el("refToggle");
+  const refPanel = el("refPanel");
+  function renderRefPanel() {
+    refPanel.innerHTML = `
+      <table class="ref-table">
+        <tr><th>구분</th><th>코드</th><th>의미</th></tr>
+        ${DATA.content.map(c => `<tr><td>아이템/브랜드</td><td class="mono">${escapeHtml(c.code)}</td><td>${escapeHtml(c.label)}</td></tr>`).join("")}
+        ${DATA.medium.map(m => `<tr><td>채널</td><td class="mono">${escapeHtml(m.code)}</td><td>${escapeHtml(m.label)}</td></tr>`).join("")}
+        ${DATA.purpose.map(p => `<tr><td>목적</td><td class="mono">${escapeHtml(p.code)}</td><td>${escapeHtml(p.label)}</td></tr>`).join("")}
+      </table>
+      <p class="field-desc" style="margin-top:10px;">규칙: utm_campaign = {아이템/브랜드}_{purpose}_{target}_{YYMMDD} · medium은 utm_medium에 별도로 담기며 campaign에는 포함되지 않음 · 세그먼트 정의는 「04_세그먼트택소노미」 참조</p>
+    `;
+  }
+  refToggle.addEventListener("click", () => {
+    refPanel.classList.toggle("show");
+    refToggle.textContent = refPanel.classList.contains("show") ? "코드표 닫기" : "코드표 보기";
+  });
+
+  // ---- 구글 시트 연동 (독립 HTML 파일에서만 동작 — claude.ai 아티팩트는 CSP로 외부 요청이 막혀 있음) ----
+  const SHEET_KEY = "eduwill_utm_sheet_id_v1";
+  const DEFAULT_SHEET_ID = "1SF6z8bbWAXopPPuoNePX8hEzX92y5LrIS9MetwKDon8";
+
+  function extractSheetId(input) {
+    if (!input) return "";
+    const trimmed = input.trim();
+    const m = trimmed.match(/\/d\/([a-zA-Z0-9-_]+)/);
+    if (m) return m[1];
+    if (/^[a-zA-Z0-9-_]{20,}$/.test(trimmed)) return trimmed;
+    return "";
+  }
+
+  let sheetStatusTimer = null;
+  function showSheetStatus(msg, type) {
+    const s = el("sheetStatus");
+    s.textContent = msg;
+    s.className = "csv-status show" + (type ? " " + type : "");
+    clearTimeout(sheetStatusTimer);
+    sheetStatusTimer = setTimeout(() => s.classList.remove("show"), 9000);
+  }
+
+  // 구글의 gviz 엔드포인트는 CORS 헤더를 내려주지 않아 fetch()로는 브라우저에서 막힌다.
+  // 대신 <script> 태그로 불러와 JSONP 콜백으로 받는 방식(구글이 의도한 사용 방식)을 쓴다.
+  let jsonpCounter = 0;
+  function loadJsonp(urlBuilder, timeoutMs = 12000) {
+    return new Promise((resolve, reject) => {
+      const cbName = `__utmSheetCb_${Date.now()}_${jsonpCounter++}`;
+      const script = document.createElement("script");
+      let settled = false;
+      const timer = setTimeout(() => {
+        if (settled) return;
+        settled = true;
+        cleanup();
+        reject(new Error("응답 시간이 초과되었습니다."));
+      }, timeoutMs);
+      function cleanup() {
+        delete window[cbName];
+        if (script.parentNode) script.parentNode.removeChild(script);
+        clearTimeout(timer);
+      }
+      window[cbName] = (data) => {
+        if (settled) return;
+        settled = true;
+        cleanup();
+        resolve(data);
+      };
+      script.onerror = () => {
+        if (settled) return;
+        settled = true;
+        cleanup();
+        reject(new Error("스크립트 로드 실패 (네트워크 또는 시트 접근 권한을 확인하세요)"));
+      };
+      script.src = urlBuilder(cbName);
+      document.head.appendChild(script);
+    });
+  }
+
+  async function fetchSheetTab(sheetId, tabName) {
+    const json = await loadJsonp((cbName) =>
+      `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json%3BresponseHandler:${cbName}&sheet=${encodeURIComponent(tabName)}`
+    );
+    if (!json || json.status !== "ok" || !json.table || !Array.isArray(json.table.rows)) {
+      const msg = (json && json.errors && json.errors[0] && json.errors[0].detailed_message) || "시트 응답 오류";
+      throw new Error(msg);
+    }
+    const rows = json.table.rows.map(r => (r.c || []).map(cell => (cell && cell.v != null) ? String(cell.v) : ""));
+    if (!rows.length) throw new Error("빈 탭");
+    const header = rows[0].map(h => h.trim().toLowerCase());
+    const codeIdx = header.indexOf("code");
+    const labelIdx = header.indexOf("label");
+    if (codeIdx === -1 || labelIdx === -1) throw new Error("code/label 열 없음");
+    const items = rows.slice(1)
+      .filter(r => r[codeIdx] && r[codeIdx].trim())
+      .map(r => ({ code: r[codeIdx].trim(), label: (r[labelIdx] || r[codeIdx]).trim() }));
+    if (!items.length) throw new Error("데이터 행 없음");
+    return items;
+  }
+
+  async function loadFromSheet(sheetId) {
+    if (!sheetId) return;
+    showSheetStatus("구글 시트에서 불러오는 중…", null);
+    const results = await Promise.allSettled(SHEET_TABS.map(tab => fetchSheetTab(sheetId, tab)));
+    const okCats = [], failedCats = [];
+    results.forEach((r, i) => {
+      const cat = SHEET_TABS[i];
+      if (r.status === "fulfilled") { DATA[cat] = r.value; okCats.push(cat); }
+      else { DATA[cat] = JSON.parse(JSON.stringify(DEFAULTS[cat])); failedCats.push(cat); }
+    });
+    populateSelectsFromData();
+    render();
+    // 시트에 없는 탭 이름을 넣으면 구글이 에러 대신 다른(주로 첫) 탭 데이터를 조용히 돌려주는 경우가 있다.
+    // 성공한 탭들끼리 내용이 완전히 겹치면 탭 이름 오타일 가능성이 높으므로 알려준다.
+    const seen = new Map();
+    const dupPairs = [];
+    okCats.forEach((cat) => {
+      const sig = JSON.stringify(DATA[cat].map((x) => x.code));
+      if (seen.has(sig)) dupPairs.push(`${seen.get(sig)}/${cat}`);
+      else seen.set(sig, cat);
+    });
+    const stamp = new Date().toLocaleString("ko-KR", { hour12: false });
+    if (dupPairs.length) {
+      showSheetStatus(`다음 탭들이 서로 동일한 데이터를 반환했습니다 — 탭 이름을 확인하세요: ${dupPairs.join(", ")} (${stamp})`, "warn");
+      return;
+    }
+    if (!failedCats.length) {
+      showSheetStatus(`구글 시트에서 ${SHEET_TABS.length}개 탭을 모두 불러왔습니다. (${stamp})`, "success");
+    } else if (okCats.length) {
+      showSheetStatus(`일부 탭을 불러오지 못해 기본값으로 대체했습니다: ${failedCats.join(", ")} (${stamp})`, "warn");
+    } else {
+      showSheetStatus("시트를 전혀 불러오지 못해 기본값을 사용합니다. 시트 공유 설정(링크가 있는 모든 사용자 - 뷰어)과 탭 이름(medium/purpose/target/source/content/team), code/label 열을 확인하세요.", "error");
+    }
+  }
+
+  function effectiveSheetId() {
+    return localStorage.getItem(SHEET_KEY) || DEFAULT_SHEET_ID;
+  }
+
+  el("sheetSaveBtn").addEventListener("click", () => {
+    const id = extractSheetId(el("sheetIdInput").value);
+    if (!id) { showSheetStatus("올바른 구글 시트 URL 또는 ID를 입력하세요.", "error"); return; }
+    localStorage.setItem(SHEET_KEY, id);
+    loadFromSheet(id);
+  });
+  el("sheetRefreshBtn").addEventListener("click", () => {
+    loadFromSheet(effectiveSheetId());
+  });
+  el("sheetResetBtn").addEventListener("click", () => {
+    localStorage.removeItem(SHEET_KEY);
+    el("sheetIdInput").value = DEFAULT_SHEET_ID;
+    loadFromSheet(DEFAULT_SHEET_ID);
+  });
+
+  // ---- 팀별 아카이빙 (Apps Script 웹앱 연동) ----
+  const ARCHIVE_KEY = "eduwill_utm_archive_url_v1";
+
+  function effectiveArchiveUrl() {
+    return localStorage.getItem(ARCHIVE_KEY) || "";
+  }
+  function showArchiveStatus(msg, type) {
+    const box = el("archiveStatus");
+    box.textContent = msg;
+    box.className = "csv-status show" + (type ? " " + type : "");
+  }
+
+  el("archiveSaveBtn").addEventListener("click", () => {
+    const url = el("archiveUrlInput").value.trim();
+    if (!url || !url.startsWith("https://script.google.com/")) {
+      showArchiveStatus("올바른 Apps Script 웹앱 URL을 입력하세요 (https://script.google.com/macros/s/…/exec)", "error");
+      return;
+    }
+    localStorage.setItem(ARCHIVE_KEY, url);
+    showArchiveStatus("연결 저장 완료 — 이제 '기록에 저장' 시 팀 시트에도 자동 기록됩니다.", "success");
+  });
+  el("archiveResetBtn").addEventListener("click", () => {
+    localStorage.removeItem(ARCHIVE_KEY);
+    el("archiveUrlInput").value = "";
+    showArchiveStatus("연결이 해제되었습니다. 이제부터는 이 브라우저에만 저장됩니다.", "");
+  });
+
+  // Apps Script 웹앱으로 전송 (CORS 프리플라이트를 피하기 위해 text/plain으로 전송,
+  // 서버(doPost)에서 JSON.parse로 그대로 파싱합니다)
+  async function archiveToSheet(payload) {
+    const url = effectiveArchiveUrl();
+    if (!url) return { skipped: true };
+    try {
+      await fetch(url, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
+        body: JSON.stringify(payload),
+      });
+      return { ok: true };
+    } catch (err) {
+      return { ok: false, error: err };
+    }
+  }
+
+  populateSelectsFromData();
+  render();
+  renderHistory();
+
+  el("sheetIdInput").value = effectiveSheetId();
+  loadFromSheet(effectiveSheetId());
+
+  el("archiveUrlInput").value = effectiveArchiveUrl();
+</script>

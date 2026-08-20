@@ -455,16 +455,16 @@
 
   <div class="card card-pad" id="archiveSettingsCard" style="margin-bottom: 20px;">
     <div style="flex:1; min-width:260px;">
-      <label style="margin-bottom:4px;">팀별 아카이빙 — Apps Script 웹앱 연동 <span class="opt">(선택, 최초 1회 설정)</span></label>
+      <label style="margin-bottom:4px;">팀별 아카이빙 — Apps Script 웹앱 연동 <span class="opt">(기본 연결됨)</span></label>
       <p class="field-desc" style="margin-top:0;">
-        "기록에 저장"을 누를 때마다 생성된 링크가 팀 이름의 시트 탭에 자동으로 쌓입니다. 아직 설정 전이면 이 브라우저에만 저장돼요.
-        설정 방법은 시트의 <b>campaign_정의</b> 탭 하단 또는 가이드 문서를 참고하세요.
+        팀 공용 웹앱이 기본으로 연결되어 있어 별도 설정 없이 "기록에 저장" 시 팀 이름의 시트 탭에 자동으로 쌓입니다.
+        다른 웹앱으로 바꾸려면 URL을 입력하고 저장하세요.
       </p>
     </div>
     <div style="display:flex; gap:8px; margin-top:10px; flex-wrap:wrap;">
       <input type="text" id="archiveUrlInput" placeholder="Apps Script 웹앱 URL (https://script.google.com/macros/s/……/exec)" style="flex:1; min-width:220px;" />
       <button class="primary" id="archiveSaveBtn" type="button">연결 저장</button>
-      <button class="ghost" id="archiveResetBtn" type="button">연결 해제</button>
+      <button class="ghost" id="archiveResetBtn" type="button">기본값으로 되돌리기</button>
     </div>
     <div class="csv-status" id="archiveStatus"></div>
   </div>
@@ -478,7 +478,7 @@
         <input type="url" id="baseUrl" placeholder="https://www.eduwill.net/gov9/basic" />
         <p class="field-desc">고객이 최종적으로 도착할 페이지 주소를 입력합니다.</p>
         <div style="margin-top:12px;">
-          <label for="teamSelect">작성 팀 <span class="opt">(아카이빙용, 선택)</span></label>
+          <label for="teamSelect">작성 팀 <span class="req">*</span> <span class="opt">(아카이빙용)</span></label>
           <select id="teamSelect"></select>
           <div id="customTeamWrap" style="display:none; margin-top:10px;">
             <input type="text" id="customTeam" placeholder="예: 콘텐츠제휴팀 (시트 탭 이름으로 그대로 쓰입니다)" />
@@ -486,12 +486,10 @@
           <p class="field-desc" style="margin-top:6px;">"기록에 저장" 시 이 팀 이름의 시트 탭에 자동으로 쌓입니다. 목록은 연동된 시트의 <b>team 탭</b>에서 관리됩니다 — 조직 개편 시 코드 수정 없이 그 탭만 편집하면 됩니다. 목록에 없으면 직접 입력도 가능합니다.</p>
         </div>
         <div style="margin-top:12px;">
-          <label for="memberSelect">작성 담당자 <span class="opt">(아카이빙용, 선택)</span></label>
-          <select id="memberSelect"></select>
-          <div id="customMemberWrap" style="display:none; margin-top:10px;">
-            <input type="text" id="customMember" placeholder="예: 김에듀" />
-          </div>
-          <p class="field-desc" style="margin-top:6px;">아카이브 시트에 담당자 이름이 함께 기록됩니다. 목록은 연동된 시트의 <b>member 탭</b>에서 관리됩니다. 목록에 없으면 직접 입력도 가능합니다.</p>
+          <label for="memberInput">작성 담당자 <span class="req">*</span> <span class="opt">(아카이빙용)</span></label>
+          <input type="text" id="memberInput" list="memberDatalist" placeholder="이름 입력 (목록에서 자동완성도 됩니다)" autocomplete="off" />
+          <datalist id="memberDatalist"></datalist>
+          <p class="field-desc" style="margin-top:6px;">아카이브 시트에 담당자 이름이 함께 기록됩니다. 목록에 있는 이름이면 입력 중 자동완성되고, 없는 이름도 그냥 입력하시면 됩니다. 목록은 연동된 시트의 <b>member 탭</b>에서 관리됩니다.</p>
         </div>
       </div>
 
@@ -736,70 +734,70 @@
       { code: "skill", label: "직무역량 — 컴퓨터활용능력·한국사능력검정 등" },
     ],
     content_mid: [
-      { code: "_101", label: "국제무역사/무역영어" },
-      { code: "_102", label: "무역영어" },
-      { code: "_103", label: "한식조리기능사" },
-      { code: "_104", label: "소방공무원" },
-      { code: "_105", label: "부동산아카데미" },
-      { code: "_106", label: "건축기사" },
-      { code: "_107", label: "토목기사" },
-      { code: "_108", label: "산업/건설안전기사" },
-      { code: "_109", label: "산업안전보건교육" },
-      { code: "_110", label: "주택취업지원센터" },
-      { code: "_111", label: "위험물산업기사/기능사" },
-      { code: "_113", label: "소방시설관리사" },
-      { code: "_114", label: "세무사·회계사" },
-      { code: "_115", label: "토익" },
-      { code: "_116", label: "편입" },
-      { code: "_117", label: "면접" },
-      { code: "_118", label: "화이트해커" },
-      { code: "_119", label: "글로벌 메인" },
-      { code: "_120", label: "군간부" },
-      { code: "_121", label: "임용" },
-      { code: "_123", label: "편입 게이트" },
-      { code: "_124", label: "감정평가사" },
-      { code: "_125", label: "노무사" },
-      { code: "_126", label: "법무사" },
+      { code: "_101", label: "국제무역사/무역영어", group: "spec" },
+      { code: "_102", label: "무역영어", group: "spec" },
+      { code: "_103", label: "한식조리기능사", group: "license" },
+      { code: "_104", label: "소방공무원", group: "gov" },
+      { code: "_105", label: "부동산아카데미", group: "spec" },
+      { code: "_106", label: "건축기사", group: "license" },
+      { code: "_107", label: "토목기사", group: "license" },
+      { code: "_108", label: "산업/건설안전기사", group: "license" },
+      { code: "_109", label: "산업안전보건교육", group: "license" },
+      { code: "_110", label: "주택취업지원센터", group: "job" },
+      { code: "_111", label: "위험물산업기사/기능사", group: "license" },
+      { code: "_113", label: "소방시설관리사", group: "spec" },
+      { code: "_114", label: "세무사·회계사", group: "spec" },
+      { code: "_115", label: "토익", group: "lang" },
+      { code: "_116", label: "편입", group: "gov" },
+      { code: "_117", label: "면접", group: "job" },
+      { code: "_118", label: "화이트해커", group: "skill" },
+      { code: "_119", label: "글로벌 메인", group: "lang" },
+      { code: "_120", label: "군간부", group: "gov" },
+      { code: "_121", label: "임용", group: "gov" },
+      { code: "_123", label: "편입 게이트", group: "gov" },
+      { code: "_124", label: "감정평가사", group: "spec" },
+      { code: "_125", label: "노무사", group: "spec" },
+      { code: "_126", label: "법무사", group: "spec" },
       { code: "0", label: "공통" },
-      { code: "1", label: "한경TESAT/매경TEST" },
+      { code: "1", label: "한경TESAT/매경TEST", group: "job" },
       { code: "2", label: "책배송비" },
-      { code: "3", label: "전기기능사" },
-      { code: "4", label: "청소년상담사(3급)" },
-      { code: "5", label: "ERP정보관리사" },
-      { code: "6", label: "건축기사/토목기사" },
-      { code: "7", label: "7급 공무원" },
-      { code: "8", label: "KBS한국어/실용글쓰기" },
-      { code: "9", label: "조경기사/기능사" },
-      { code: "A", label: "행정사" },
-      { code: "B", label: "검정고시" },
-      { code: "BC", label: "대입검정(고졸)" },
-      { code: "BH", label: "고입검정(중졸)" },
-      { code: "C", label: "경찰공무원" },
-      { code: "D", label: "도로교통사고감정사" },
-      { code: "E", label: "한자능력검정" },
-      { code: "F", label: "유통관리사" },
-      { code: "G", label: "9급 공무원" },
-      { code: "H", label: "한국사능력검정" },
-      { code: "I", label: "IT자격증" },
-      { code: "IT", label: "IT자격증" },
-      { code: "J", label: "주택관리사" },
-      { code: "K", label: "경비지도사" },
-      { code: "L", label: "공인중개사" },
-      { code: "M", label: "물류관리사" },
+      { code: "3", label: "전기기능사", group: "license" },
+      { code: "4", label: "청소년상담사(3급)", group: "spec" },
+      { code: "5", label: "ERP정보관리사", group: "skill" },
+      { code: "6", label: "건축기사/토목기사", group: "license" },
+      { code: "7", label: "7급 공무원", group: "gov" },
+      { code: "8", label: "KBS한국어/실용글쓰기", group: "skill" },
+      { code: "9", label: "조경기사/기능사", group: "license" },
+      { code: "A", label: "행정사", group: "spec" },
+      { code: "B", label: "검정고시", group: "gov" },
+      { code: "BC", label: "대입검정(고졸)", group: "gov" },
+      { code: "BH", label: "고입검정(중졸)", group: "gov" },
+      { code: "C", label: "경찰공무원", group: "gov" },
+      { code: "D", label: "도로교통사고감정사", group: "spec" },
+      { code: "E", label: "한자능력검정", group: "skill" },
+      { code: "F", label: "유통관리사", group: "job" },
+      { code: "G", label: "9급 공무원", group: "gov" },
+      { code: "H", label: "한국사능력검정", group: "skill" },
+      { code: "I", label: "IT자격증", group: "skill" },
+      { code: "IT", label: "IT자격증", group: "skill" },
+      { code: "J", label: "주택관리사", group: "spec" },
+      { code: "K", label: "경비지도사", group: "spec" },
+      { code: "L", label: "공인중개사", group: "spec" },
+      { code: "M", label: "물류관리사", group: "spec" },
       { code: "N", label: "지식발전소" },
       { code: "NPC", label: "미선택" },
-      { code: "O", label: "AT" },
-      { code: "Q", label: "전기기사" },
-      { code: "R", label: "번역사(종료)" },
-      { code: "S", label: "사회복지사 1급" },
-      { code: "STU", label: "학점은행제" },
-      { code: "T", label: "계리직 공무원" },
-      { code: "U", label: "재경관리사" },
-      { code: "V", label: "직업상담사" },
-      { code: "W", label: "온오프라인학원" },
-      { code: "X", label: "전산세무회계" },
-      { code: "Y", label: "소방설비기사" },
-      { code: "Z", label: "공기업/대기업 취업" },
+      { code: "O", label: "AT", group: "skill" },
+      { code: "Q", label: "전기기사", group: "license" },
+      { code: "R", label: "번역사(종료)", group: "lang" },
+      { code: "S", label: "사회복지사 1급", group: "spec" },
+      { code: "STU", label: "학점은행제", group: "gov" },
+      { code: "T", label: "계리직 공무원", group: "gov" },
+      { code: "U", label: "재경관리사", group: "gov" },
+      { code: "V", label: "직업상담사", group: "gov" },
+      { code: "W", label: "온오프라인학원", group: "license" },
+      { code: "X", label: "전산세무회계", group: "license" },
+      { code: "Y", label: "소방설비기사", group: "license" },
+      { code: "Z", label: "공기업/대기업 취업", group: "license" },
     ],
     content_minor: [
       { code: "basic", label: "기본강의 — 단일 과목 기본 커리큘럼" },
@@ -837,15 +835,32 @@
     if (items.some(i => i.code === prev)) selectEl.value = prev;
   }
 
-  function optionsFor(category) {
-    const items = DATA[category] || [];
+  // 라벨 기준 한글 가나다순(오름차순) 정렬 — 목록이 길수록 훑어보기 쉬움
+  function sortKo(items) {
+    return items.slice().sort((a, b) => a.label.localeCompare(b.label, "ko"));
+  }
+
+  function optionsFor(category, opts) {
+    opts = opts || {};
+    let items = sortKo(DATA[category] || []);
+    if (category === "content_mid" && opts.majorFilter) {
+      // 그룹(대분류)이 지정된 항목은 선택된 대분류와 일치할 때만, 그룹이 없는 공통 항목은 항상 표시
+      items = items.filter(i => !i.group || i.group === opts.majorFilter);
+    }
     if (category === "content_major") return [...items, { code: "__custom", label: "직접 입력…" }];
     if (category === "content_mid") return [{ code: "", label: "선택 안 함" }, ...items, { code: "__custom", label: "직접 입력…" }];
     if (category === "content_minor") return [{ code: "", label: "선택 안 함" }, ...items, { code: "__custom", label: "직접 입력…" }];
     if (category === "team") return [...items, { code: "__custom", label: "직접 입력…" }];
-    if (category === "member") return [...items, { code: "__custom", label: "직접 입력…" }];
     if (category === "campaign_slug") return [{ code: "", label: "선택 안 함" }, ...items, { code: "__custom", label: "직접 입력…" }];
     return items;
+  }
+
+  // 대분류 선택이 바뀌면 중분류 목록을 그 대분류에 맞게 다시 채움
+  function refreshContentMid() {
+    const majorVal = contentMajorEl.value === "__custom" ? "" : contentMajorEl.value;
+    fillSelectPreserve(contentMidEl, optionsFor("content_mid", { majorFilter: majorVal }));
+    syncCustomWrap(contentMidEl, "customMidWrap");
+    if (contentMidEl._ssSync) contentMidEl._ssSync();
   }
 
   // 드롭다운에 "직접 입력…"만 있어서 그게 기본 선택값이 되는 경우, change 이벤트가
@@ -923,7 +938,7 @@
 
   function initSearchableSelects() {
     ["medium", "purpose", "target", "source", "contentMajor", "contentMid", "contentMinor",
-     "teamSelect", "memberSelect", "campaignSlugSelect"].forEach(id => {
+     "teamSelect", "campaignSlugSelect"].forEach(id => {
       const el = document.getElementById(id);
       if (el) makeSearchable(el);
     });
@@ -931,10 +946,16 @@
 
   function syncSearchableDisplays() {
     ["medium", "purpose", "target", "source", "contentMajor", "contentMid", "contentMinor",
-     "teamSelect", "memberSelect", "campaignSlugSelect"].forEach(id => {
+     "teamSelect", "campaignSlugSelect"].forEach(id => {
       const el = document.getElementById(id);
       if (el && el._ssSync) el._ssSync();
     });
+  }
+
+  function populateMemberDatalist() {
+    const list = document.getElementById("memberDatalist");
+    if (!list) return;
+    list.innerHTML = sortKo(DATA.member || []).map(m => `<option value="${escapeHtml(m.code)}"></option>`).join("");
   }
 
   function populateSelectsFromData() {
@@ -943,18 +964,17 @@
     fillSelectPreserve(document.getElementById("target"), optionsFor("target"));
     fillSelectPreserve(document.getElementById("source"), optionsFor("source"));
     fillSelectPreserve(document.getElementById("contentMajor"), optionsFor("content_major"));
-    fillSelectPreserve(document.getElementById("contentMid"), optionsFor("content_mid"));
-    fillSelectPreserve(document.getElementById("contentMinor"), optionsFor("content_minor"));
     fillSelectPreserve(document.getElementById("teamSelect"), optionsFor("team"));
-    fillSelectPreserve(document.getElementById("memberSelect"), optionsFor("member"));
     fillSelectPreserve(document.getElementById("campaignSlugSelect"), optionsFor("campaign_slug"));
+    populateMemberDatalist();
 
     syncCustomWrap(document.getElementById("contentMajor"), "customMajorWrap");
-    syncCustomWrap(document.getElementById("contentMid"), "customMidWrap");
-    syncCustomWrap(document.getElementById("contentMinor"), "customMinorWrap");
     syncCustomWrap(document.getElementById("teamSelect"), "customTeamWrap");
-    syncCustomWrap(document.getElementById("memberSelect"), "customMemberWrap");
     syncCustomWrap(document.getElementById("campaignSlugSelect"), "customSlugWrap");
+
+    refreshContentMid(); // 대분류에 맞춰 중분류를 채움 (선택 안 함/소분류는 여기서 같이 처리)
+    fillSelectPreserve(document.getElementById("contentMinor"), optionsFor("content_minor"));
+    syncCustomWrap(document.getElementById("contentMinor"), "customMinorWrap");
 
     initSearchableSelects();
     syncSearchableDisplays();
@@ -973,10 +993,11 @@
         customMajorEl = el("customMajor"), customMidEl = el("customMid"), customMinorEl = el("customMinor"),
         campaignSlugSelectEl = el("campaignSlugSelect"), customSlugEl = el("customSlug"),
         teamSelectEl = el("teamSelect"), customTeamEl = el("customTeam"),
-        memberSelectEl = el("memberSelect"), customMemberEl = el("customMember");
+        memberInputEl = el("memberInput");
 
   contentMajorEl.addEventListener("change", () => {
     el("customMajorWrap").style.display = contentMajorEl.value === "__custom" ? "block" : "none";
+    refreshContentMid();
     render();
   });
   contentMidEl.addEventListener("change", () => {
@@ -994,13 +1015,10 @@
   teamSelectEl.addEventListener("change", () => {
     el("customTeamWrap").style.display = teamSelectEl.value === "__custom" ? "block" : "none";
   });
-  memberSelectEl.addEventListener("change", () => {
-    el("customMemberWrap").style.display = memberSelectEl.value === "__custom" ? "block" : "none";
-  });
 
   [baseUrlEl, mediumEl, purposeEl, targetEl, dateInput, sourceEl,
    contentMajorEl, contentMidEl, contentMinorEl, customMajorEl, customMidEl, customMinorEl,
-   campaignSlugSelectEl, customSlugEl]
+   campaignSlugSelectEl, customSlugEl, memberInputEl]
     .forEach(e => e.addEventListener("input", render));
 
   // 팀명을 시트 탭 이름으로 그대로 쓰므로, 구글시트 탭 이름에 못 쓰는 문자만 제거
@@ -1008,10 +1026,7 @@
     return raw.trim().replace(/[\[\]\*\?:\/\\]/g, "").slice(0, 100);
   }
   function currentMember() {
-    if (memberSelectEl.value === "__custom") {
-      return (customMemberEl.value || "").trim().slice(0, 60);
-    }
-    return memberSelectEl.value;
+    return (memberInputEl.value || "").trim().slice(0, 60);
   }
   function currentTeam() {
     if (teamSelectEl.value === "__custom") {
@@ -1069,6 +1084,8 @@
       source,
 
       content,
+      team: currentTeam(),
+      member: currentMember(),
     };
   }
 
@@ -1167,6 +1184,9 @@
     const sourceMissing = !v.source;
     // 콘텐츠는 utm_campaign 맨 앞에 들어가는 필수값 — 비어 있으면(직접입력 공란 등) 생성 자체를 막음
     const contentMissing = !v.content;
+    // 작성 팀 / 작성 담당자도 필수값 — 아카이빙 시 누가 만들었는지 반드시 남기기 위함
+    const teamMissing = !v.team;
+    const memberMissing = !v.member;
 
     if (valid) {
       if (sourceMissing) {
@@ -1175,10 +1195,16 @@
       } else if (contentMissing) {
         el("warnLine").classList.add("show");
         el("warnLine").textContent = "콘텐츠를 선택하거나 직접 입력해야 캠페인 코드가 완성됩니다.";
+      } else if (teamMissing) {
+        el("warnLine").classList.add("show");
+        el("warnLine").textContent = "작성 팀을 선택해야 링크가 만들어집니다.";
+      } else if (memberMissing) {
+        el("warnLine").classList.add("show");
+        el("warnLine").textContent = "작성 담당자를 입력해야 링크가 만들어집니다.";
       }
     }
 
-    const finalValid = valid && !slugIssue && !contentMissing && !sourceMissing;
+    const finalValid = valid && !slugIssue && !contentMissing && !sourceMissing && !teamMissing && !memberMissing;
     lastUrl = finalValid ? url : null;
     lastCampaign = campaignCode;
     lastValues = finalValid ? v : null;
@@ -1239,10 +1265,10 @@
   }
 
   el("saveBtn").addEventListener("click", () => {
-    if (!lastUrl) return;
+    if (!lastUrl || !lastValues) return;
     const entryId = (crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}-${Math.random().toString(36).slice(2)}`);
-    const team = currentTeam();
-    const member = currentMember();
+    const team = lastValues.team;
+    const member = lastValues.member;
     const items = loadHistory();
     items.unshift({ campaign: lastCampaign, url: lastUrl, savedAt: Date.now(), entryId, team });
     saveHistory(items);
@@ -1549,10 +1575,15 @@
     const header = rows[0].map(h => h.trim().toLowerCase());
     const codeIdx = header.indexOf("code");
     const labelIdx = header.indexOf("label");
+    const groupIdx = header.indexOf("group");
     if (codeIdx === -1 || labelIdx === -1) throw new Error("code/label 열 없음");
     const items = rows.slice(1)
       .filter(r => r[codeIdx] && r[codeIdx].trim())
-      .map(r => ({ code: r[codeIdx].trim(), label: (r[labelIdx] || r[codeIdx]).trim() }));
+      .map(r => {
+        const item = { code: r[codeIdx].trim(), label: (r[labelIdx] || r[codeIdx]).trim() };
+        if (groupIdx !== -1 && r[groupIdx] && r[groupIdx].trim()) item.group = r[groupIdx].trim();
+        return item;
+      });
     // 데이터 행이 0개인 건 실패가 아니라 "아직 안 채운 빈 탭"일 수 있음(member/campaign_slug 등) — 정상 처리
     return items;
   }
@@ -1614,9 +1645,10 @@
 
   // ---- 팀별 아카이빙 (Apps Script 웹앱 연동) ----
   const ARCHIVE_KEY = "eduwill_utm_archive_url_v1";
+  const DEFAULT_ARCHIVE_URL = "https://script.google.com/macros/s/AKfycbyI-EpxHi8-X6xhoVvjQ6C5-cj1gHRFlmsOEqsxatwB-lv0jBEcX6flWAqz79V9TPeESQ/exec";
 
   function effectiveArchiveUrl() {
-    return localStorage.getItem(ARCHIVE_KEY) || "";
+    return localStorage.getItem(ARCHIVE_KEY) || DEFAULT_ARCHIVE_URL;
   }
   function showArchiveStatus(msg, type) {
     const box = el("archiveStatus");
@@ -1635,8 +1667,8 @@
   });
   el("archiveResetBtn").addEventListener("click", () => {
     localStorage.removeItem(ARCHIVE_KEY);
-    el("archiveUrlInput").value = "";
-    showArchiveStatus("연결이 해제되었습니다. 이제부터는 이 브라우저에만 저장됩니다.", "");
+    el("archiveUrlInput").value = DEFAULT_ARCHIVE_URL;
+    showArchiveStatus("팀 공용 웹앱으로 되돌렸습니다.", "success");
   });
 
   // Apps Script 웹앱으로 전송 (CORS 프리플라이트를 피하기 위해 text/plain으로 전송,

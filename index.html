@@ -180,6 +180,46 @@
     border-color: var(--accent);
     box-shadow: 0 0 0 3px var(--accent-soft);
   }
+  /* ---- 검색 가능한 드롭다운 (search-select) ---- */
+  .ss-wrapper { position: relative; }
+  .ss-input {
+    width: 100%;
+    padding: 9px 10px;
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    background: var(--surface-2);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 13.5px;
+    outline: none;
+    cursor: pointer;
+  }
+  .ss-input:focus { border-color: var(--accent); cursor: text; }
+  .ss-panel {
+    display: none;
+    position: absolute;
+    z-index: 40;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    max-height: 240px;
+    overflow-y: auto;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+    padding: 4px;
+  }
+  .ss-item {
+    padding: 8px 10px;
+    border-radius: 6px;
+    font-size: 13px;
+    color: var(--ink);
+    cursor: pointer;
+  }
+  .ss-item:hover, .ss-item.ss-active { background: var(--accent-soft); }
+  .ss-item.ss-current { font-weight: 600; }
+  .ss-empty { padding: 10px; font-size: 12.5px; color: var(--ink-faint); text-align: center; }
   .field-desc {
     font-size: 11.5px;
     color: var(--ink-faint);
@@ -391,7 +431,7 @@
       <p class="eyebrow">에듀윌 마케팅 · UTM 캠페인 생성 도구</p>
       <h1>UTM 링크 생성기</h1>
     </div>
-    <div class="top-meta">캠페인/채널 텍소노미 v1.0 기준<br>{item/브랜드}_{purpose}_{target}_{YYMMDD}</div>
+    <div class="top-meta">캠페인/채널 텍소노미 v1.0 기준<br>{콘텐츠}_{purpose}_{target}_{YYMMDD}</div>
   </header>
 
   <div class="card card-pad" id="sheetSettingsCard" style="margin-bottom: 20px;">
@@ -445,6 +485,14 @@
           </div>
           <p class="field-desc" style="margin-top:6px;">"기록에 저장" 시 이 팀 이름의 시트 탭에 자동으로 쌓입니다. 목록은 연동된 시트의 <b>team 탭</b>에서 관리됩니다 — 조직 개편 시 코드 수정 없이 그 탭만 편집하면 됩니다. 목록에 없으면 직접 입력도 가능합니다.</p>
         </div>
+        <div style="margin-top:12px;">
+          <label for="memberSelect">작성 담당자 <span class="opt">(아카이빙용, 선택)</span></label>
+          <select id="memberSelect"></select>
+          <div id="customMemberWrap" style="display:none; margin-top:10px;">
+            <input type="text" id="customMember" placeholder="예: 김에듀" />
+          </div>
+          <p class="field-desc" style="margin-top:6px;">아카이브 시트에 담당자 이름이 함께 기록됩니다. 목록은 연동된 시트의 <b>member 탭</b>에서 관리됩니다. 목록에 없으면 직접 입력도 가능합니다.</p>
+        </div>
       </div>
 
       <div class="field-group">
@@ -462,19 +510,36 @@
       </div>
 
       <div class="field-group">
-        <p class="section-label">STEP 4 · 캠페인 (아이템 · 목적 · 타겟 · 발송일)</p>
+        <p class="section-label">STEP 4 · 캠페인 (콘텐츠 · 목적 · 타겟 · 발송일)</p>
+        <label style="margin-bottom:4px;">콘텐츠 <span class="req">*</span> <span class="opt">(대분류 필수, 중분류·소분류는 선택)</span></label>
         <div class="field-row">
           <div>
-            <label for="content">아이템/브랜드 <span class="req">*</span></label>
-            <select id="content"></select>
+            <label for="contentMajor" style="font-weight:400;font-size:11.5px;">대분류</label>
+            <select id="contentMajor"></select>
+            <div id="customMajorWrap" style="display:none; margin-top:8px;">
+              <input type="text" id="customMajor" placeholder="직접 입력 (예: gov)" />
+            </div>
           </div>
           <div>
-            <label for="purpose">캠페인 목적 (purpose) <span class="req">*</span></label>
-            <select id="purpose"></select>
+            <label for="contentMid" style="font-weight:400;font-size:11.5px;">중분류 (선택)</label>
+            <select id="contentMid"></select>
+            <div id="customMidWrap" style="display:none; margin-top:8px;">
+              <input type="text" id="customMid" placeholder="직접 입력 (예: G)" />
+            </div>
+          </div>
+          <div>
+            <label for="contentMinor" style="font-weight:400;font-size:11.5px;">소분류 (선택)</label>
+            <select id="contentMinor"></select>
+            <div id="customMinorWrap" style="display:none; margin-top:8px;">
+              <input type="text" id="customMinor" placeholder="직접 입력 (예: basic)" />
+            </div>
           </div>
         </div>
-        <div id="customContentWrap" style="display:none; margin-top:10px;">
-          <input type="text" id="customContent" placeholder="직접 입력할 아이템/브랜드 코드 (예: license_housing_package)" />
+        <p class="field-desc" style="margin-top:6px;">대분류만 선택해도 됩니다. 중분류·소분류를 채우면 <code>대분류_중분류_소분류</code> 형태로 이어붙여 campaign 맨 앞과 아카이브 시트에 반영됩니다.</p>
+
+        <div style="margin-top:16px;">
+          <label for="purpose">캠페인 목적 (purpose) <span class="req">*</span></label>
+          <select id="purpose"></select>
         </div>
         <div class="field-row" style="margin-top:14px;">
           <div>
@@ -487,18 +552,15 @@
           </div>
         </div>
         <div style="margin-top:10px;">
-          <label for="campaignSlug">캠페인 세부명 <span class="opt">(선택 — 같은 날 같은 아이템·목적·타겟으로 캠페인이 여러 개 나갈 때만)</span></label>
-          <input type="text" id="campaignSlug" placeholder="예: bongtoo, blackfriday, d100 (영문 소문자·숫자, 공백 없이)" />
-          <p class="field-desc" style="margin-top:6px;">아이템·목적·타겟·발송일이 같은 캠페인이 이 날 하나뿐이면 비워두세요. campaign에는 medium이 들어가지 않으므로, 같은 프로모션을 여러 채널로 함께 보내도 campaign 값은 하나로 묶입니다(채널별 구분은 utm_medium으로 필터링). 서로 다른 프로모션을 구분하고 싶을 때만 세부명을 짧게 입력하세요.</p>
+          <label for="campaignSlugSelect">캠페인 세부명 <span class="opt">(선택 — 같은 날 같은 콘텐츠·목적·타겟으로 캠페인이 여러 개 나갈 때만)</span></label>
+          <select id="campaignSlugSelect"></select>
+          <div id="customSlugWrap" style="display:none; margin-top:8px;">
+            <input type="text" id="customSlug" placeholder="예: bongtoo, blackfriday, d100 (영문 소문자·숫자, 공백 없이)" />
+          </div>
+          <p class="field-desc" style="margin-top:6px;">콘텐츠·목적·타겟·발송일이 같은 캠페인이 이 날 하나뿐이면 "선택 안 함"으로 두세요. campaign에는 medium이 들어가지 않으므로, 같은 프로모션을 여러 채널로 함께 보내도 campaign 값은 하나로 묶입니다(채널별 구분은 utm_medium으로 필터링). 목록은 연동된 시트의 <b>campaign_세부명 탭</b>에서 관리됩니다. 목록에 없으면 직접 입력도 가능합니다.</p>
           <p id="slugWarning" class="field-warning" style="display:none;"></p>
         </div>
-        <p class="field-desc" style="margin-top:10px;">아이템/브랜드는 utm_campaign 맨 앞에 반영되는 필수값입니다. (utm_content는 중복이라 URL에 별도로 붙지 않습니다.)</p>
-      </div>
-
-      <div class="field-group" style="margin-bottom: 4px;">
-        <p class="section-label">검색 키워드 <span class="opt">(선택, 유료 검색 캠페인용)</span></p>
-        <label for="term">키워드 (utm_term)</label>
-        <input type="text" id="term" placeholder="예: 9급공무원 인강" />
+        <p class="field-desc" style="margin-top:10px;">콘텐츠는 utm_campaign 맨 앞에 반영되는 필수값입니다. (utm_content는 중복이라 URL에 별도로 붙지 않습니다.)</p>
       </div>
     </div>
 
@@ -665,15 +727,85 @@
       { code: "neoclick", label: "네오클릭 (매체사)" },
       { code: "searchnclick", label: "서치N클릭 (매체사, 기존 오탈자 교정)" },
     ],
-    content: [
-      { code: "gov9_admin_basic", label: "gov9_admin_basic — 9급공무원 · 행정법 · 기본강의" },
-      { code: "gov9_admin_advanced", label: "gov9_admin_advanced — 9급공무원 · 행정법 · 심화강의" },
-      { code: "license_realestate_basic", label: "license_realestate_basic — 공인중개사 · 기본강의" },
-      { code: "license_realestate_advanced", label: "license_realestate_advanced — 공인중개사 · 심화강의" },
-      { code: "license_housing_package", label: "license_housing_package — 주택관리사 · 종합반" },
-      { code: "job_public_mockexam", label: "job_public_mockexam — 공기업 취업 · 모의고사" },
-      { code: "job_corp_basic", label: "job_corp_basic — 대기업 취업 · 기본강의" },
-      { code: "lang_toeic_basic", label: "lang_toeic_basic — 토익 · 기본강의" },
+    content_major: [
+      { code: "gov", label: "공무원&입시 — 9급·소방·계리·편입" },
+      { code: "license", label: "기술자격증 — 기사자격증" },
+      { code: "spec", label: "전문자격증 — 공인중개사·주택관리사·회계·사회복지사 등" },
+      { code: "job", label: "취업 — 공기업/대기업 취업·NCS 직무능력·토익" },
+      { code: "lang", label: "어학 — 토익·오픽 등 어학시험 대비" },
+      { code: "skill", label: "직무역량 — 컴퓨터활용능력·한국사능력검정 등" },
+    ],
+    content_mid: [
+      { code: "_101", label: "국제무역사/무역영어" },
+      { code: "_102", label: "무역영어" },
+      { code: "_103", label: "한식조리기능사" },
+      { code: "_104", label: "소방공무원" },
+      { code: "_105", label: "부동산아카데미" },
+      { code: "_106", label: "건축기사" },
+      { code: "_107", label: "토목기사" },
+      { code: "_108", label: "산업/건설안전기사" },
+      { code: "_109", label: "산업안전보건교육" },
+      { code: "_110", label: "주택취업지원센터" },
+      { code: "_111", label: "위험물산업기사/기능사" },
+      { code: "_113", label: "소방시설관리사" },
+      { code: "_114", label: "세무사·회계사" },
+      { code: "_115", label: "토익" },
+      { code: "_116", label: "편입" },
+      { code: "_117", label: "면접" },
+      { code: "_118", label: "화이트해커" },
+      { code: "_119", label: "글로벌 메인" },
+      { code: "_120", label: "군간부" },
+      { code: "_121", label: "임용" },
+      { code: "_123", label: "편입 게이트" },
+      { code: "_124", label: "감정평가사" },
+      { code: "_125", label: "노무사" },
+      { code: "_126", label: "법무사" },
+      { code: "0", label: "공통" },
+      { code: "1", label: "한경TESAT/매경TEST" },
+      { code: "2", label: "책배송비" },
+      { code: "3", label: "전기기능사" },
+      { code: "4", label: "청소년상담사(3급)" },
+      { code: "5", label: "ERP정보관리사" },
+      { code: "6", label: "건축기사/토목기사" },
+      { code: "7", label: "7급 공무원" },
+      { code: "8", label: "KBS한국어/실용글쓰기" },
+      { code: "9", label: "조경기사/기능사" },
+      { code: "A", label: "행정사" },
+      { code: "B", label: "검정고시" },
+      { code: "BC", label: "대입검정(고졸)" },
+      { code: "BH", label: "고입검정(중졸)" },
+      { code: "C", label: "경찰공무원" },
+      { code: "D", label: "도로교통사고감정사" },
+      { code: "E", label: "한자능력검정" },
+      { code: "F", label: "유통관리사" },
+      { code: "G", label: "9급 공무원" },
+      { code: "H", label: "한국사능력검정" },
+      { code: "I", label: "IT자격증" },
+      { code: "IT", label: "IT자격증" },
+      { code: "J", label: "주택관리사" },
+      { code: "K", label: "경비지도사" },
+      { code: "L", label: "공인중개사" },
+      { code: "M", label: "물류관리사" },
+      { code: "N", label: "지식발전소" },
+      { code: "NPC", label: "미선택" },
+      { code: "O", label: "AT" },
+      { code: "Q", label: "전기기사" },
+      { code: "R", label: "번역사(종료)" },
+      { code: "S", label: "사회복지사 1급" },
+      { code: "STU", label: "학점은행제" },
+      { code: "T", label: "계리직 공무원" },
+      { code: "U", label: "재경관리사" },
+      { code: "V", label: "직업상담사" },
+      { code: "W", label: "온오프라인학원" },
+      { code: "X", label: "전산세무회계" },
+      { code: "Y", label: "소방설비기사" },
+      { code: "Z", label: "공기업/대기업 취업" },
+    ],
+    content_minor: [
+      { code: "basic", label: "기본강의 — 단일 과목 기본 커리큘럼" },
+      { code: "advanced", label: "심화강의 — 기본 과정 이후 심화/기출 분석" },
+      { code: "mockexam", label: "모의고사 — 실전 모의고사 상품" },
+      { code: "package", label: "패키지 — 여러 과목을 묶은 종합 패키지" },
     ],
     team: [
       { code: "온라인사업1실", label: "온라인사업1실" },
@@ -681,9 +813,18 @@
       { code: "마케팅실", label: "마케팅실" },
       { code: "고객상담실", label: "고객상담실" },
     ],
+    member: [],
+    campaign_slug: [],
   };
 
-  const SHEET_TABS = ["medium", "purpose", "target", "source", "content", "team"];
+  const SHEET_TABS = ["medium", "purpose", "target", "source", "content_major", "content_mid", "content_minor", "team", "member", "campaign_slug"];
+  // JS 쪽 키(영문)와 실제 구글시트 탭 이름(국문)이 다른 경우의 매핑
+  const TAB_NAME_MAP = {
+    content_major: "content_대분류",
+    content_mid: "content_중분류",
+    content_minor: "content_소분류",
+    campaign_slug: "campaign_세부명",
+  };
   let DATA = JSON.parse(JSON.stringify(DEFAULTS));
 
   function fillSelect(selectEl, items) {
@@ -698,9 +839,102 @@
 
   function optionsFor(category) {
     const items = DATA[category] || [];
-    if (category === "content") return [...items, { code: "__custom", label: "직접 입력…" }];
+    if (category === "content_major") return [...items, { code: "__custom", label: "직접 입력…" }];
+    if (category === "content_mid") return [{ code: "", label: "선택 안 함" }, ...items, { code: "__custom", label: "직접 입력…" }];
+    if (category === "content_minor") return [{ code: "", label: "선택 안 함" }, ...items, { code: "__custom", label: "직접 입력…" }];
     if (category === "team") return [...items, { code: "__custom", label: "직접 입력…" }];
+    if (category === "member") return [...items, { code: "__custom", label: "직접 입력…" }];
+    if (category === "campaign_slug") return [{ code: "", label: "선택 안 함" }, ...items, { code: "__custom", label: "직접 입력…" }];
     return items;
+  }
+
+  // 드롭다운에 "직접 입력…"만 있어서 그게 기본 선택값이 되는 경우, change 이벤트가
+  // 전혀 안 일어나 커스텀 입력창이 계속 숨어있는 문제를 막기 위해 값에 맞춰 강제로 동기화
+  function syncCustomWrap(selectEl, wrapId) {
+    const wrap = document.getElementById(wrapId);
+    if (wrap) wrap.style.display = selectEl.value === "__custom" ? "block" : "none";
+  }
+
+  // ---- 검색 가능한 드롭다운 (search-select) ----
+  // 기존 <select>는 숨겨서 그대로 두고(값 검증·change 이벤트 등 기존 로직 전부 재사용),
+  // 그 위에 타이핑하면 필터링되는 검색 입력창 + 목록 패널을 얹는다.
+  function makeSearchable(selectEl) {
+    if (selectEl._ssWired) return;
+    selectEl._ssWired = true;
+    selectEl.style.display = "none";
+
+    const wrapper = document.createElement("div");
+    wrapper.className = "ss-wrapper";
+    const input = document.createElement("input");
+    input.type = "text";
+    input.className = "ss-input";
+    input.autocomplete = "off";
+    input.placeholder = "검색 또는 선택";
+    const panel = document.createElement("div");
+    panel.className = "ss-panel";
+    wrapper.appendChild(input);
+    wrapper.appendChild(panel);
+    selectEl.insertAdjacentElement("afterend", wrapper);
+
+    function syncInputFromSelect() {
+      const opt = selectEl.options[selectEl.selectedIndex];
+      input.value = opt ? opt.textContent : "";
+    }
+
+    function renderPanel(filterText) {
+      const q = (filterText || "").trim().toLowerCase();
+      const opts = Array.from(selectEl.options);
+      const items = q ? opts.filter(o => o.textContent.toLowerCase().includes(q)) : opts;
+      if (!items.length) {
+        panel.innerHTML = `<div class="ss-empty">검색 결과 없음</div>`;
+      } else {
+        panel.innerHTML = items.map(o => {
+          const cls = "ss-item" + (o.value === selectEl.value ? " ss-current" : "");
+          return `<div class="${cls}" data-value="${escapeHtml(o.value)}">${escapeHtml(o.textContent)}</div>`;
+        }).join("");
+      }
+      panel.style.display = "block";
+    }
+
+    input.addEventListener("focus", () => renderPanel(""));
+    input.addEventListener("input", () => renderPanel(input.value));
+    input.addEventListener("blur", () => {
+      setTimeout(() => { panel.style.display = "none"; syncInputFromSelect(); }, 150);
+    });
+    input.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") { panel.style.display = "none"; input.blur(); }
+    });
+
+    panel.addEventListener("mousedown", (e) => {
+      const item = e.target.closest(".ss-item");
+      if (!item) return;
+      e.preventDefault();
+      selectEl.value = item.getAttribute("data-value");
+      selectEl.dispatchEvent(new Event("change", { bubbles: true }));
+      selectEl.dispatchEvent(new Event("input", { bubbles: true }));
+      syncInputFromSelect();
+      panel.style.display = "none";
+      input.blur();
+    });
+
+    selectEl._ssSync = syncInputFromSelect;
+    syncInputFromSelect();
+  }
+
+  function initSearchableSelects() {
+    ["medium", "purpose", "target", "source", "contentMajor", "contentMid", "contentMinor",
+     "teamSelect", "memberSelect", "campaignSlugSelect"].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) makeSearchable(el);
+    });
+  }
+
+  function syncSearchableDisplays() {
+    ["medium", "purpose", "target", "source", "contentMajor", "contentMid", "contentMinor",
+     "teamSelect", "memberSelect", "campaignSlugSelect"].forEach(id => {
+      const el = document.getElementById(id);
+      if (el && el._ssSync) el._ssSync();
+    });
   }
 
   function populateSelectsFromData() {
@@ -708,8 +942,23 @@
     fillSelectPreserve(document.getElementById("purpose"), optionsFor("purpose"));
     fillSelectPreserve(document.getElementById("target"), optionsFor("target"));
     fillSelectPreserve(document.getElementById("source"), optionsFor("source"));
-    fillSelectPreserve(document.getElementById("content"), optionsFor("content"));
+    fillSelectPreserve(document.getElementById("contentMajor"), optionsFor("content_major"));
+    fillSelectPreserve(document.getElementById("contentMid"), optionsFor("content_mid"));
+    fillSelectPreserve(document.getElementById("contentMinor"), optionsFor("content_minor"));
     fillSelectPreserve(document.getElementById("teamSelect"), optionsFor("team"));
+    fillSelectPreserve(document.getElementById("memberSelect"), optionsFor("member"));
+    fillSelectPreserve(document.getElementById("campaignSlugSelect"), optionsFor("campaign_slug"));
+
+    syncCustomWrap(document.getElementById("contentMajor"), "customMajorWrap");
+    syncCustomWrap(document.getElementById("contentMid"), "customMidWrap");
+    syncCustomWrap(document.getElementById("contentMinor"), "customMinorWrap");
+    syncCustomWrap(document.getElementById("teamSelect"), "customTeamWrap");
+    syncCustomWrap(document.getElementById("memberSelect"), "customMemberWrap");
+    syncCustomWrap(document.getElementById("campaignSlugSelect"), "customSlugWrap");
+
+    initSearchableSelects();
+    syncSearchableDisplays();
+
     renderRefPanel();
   }
 
@@ -719,24 +968,50 @@
 
   const el = (id) => document.getElementById(id);
   const baseUrlEl = el("baseUrl"), mediumEl = el("medium"), purposeEl = el("purpose"),
-        targetEl = el("target"), sourceEl = el("source"), contentEl = el("content"),
-        termEl = el("term"), customContentEl = el("customContent"),
-        campaignSlugEl = el("campaignSlug"), teamSelectEl = el("teamSelect"), customTeamEl = el("customTeam");
+        targetEl = el("target"), sourceEl = el("source"),
+        contentMajorEl = el("contentMajor"), contentMidEl = el("contentMid"), contentMinorEl = el("contentMinor"),
+        customMajorEl = el("customMajor"), customMidEl = el("customMid"), customMinorEl = el("customMinor"),
+        campaignSlugSelectEl = el("campaignSlugSelect"), customSlugEl = el("customSlug"),
+        teamSelectEl = el("teamSelect"), customTeamEl = el("customTeam"),
+        memberSelectEl = el("memberSelect"), customMemberEl = el("customMember");
 
-  contentEl.addEventListener("change", () => {
-    el("customContentWrap").style.display = contentEl.value === "__custom" ? "block" : "none";
+  contentMajorEl.addEventListener("change", () => {
+    el("customMajorWrap").style.display = contentMajorEl.value === "__custom" ? "block" : "none";
+    render();
+  });
+  contentMidEl.addEventListener("change", () => {
+    el("customMidWrap").style.display = contentMidEl.value === "__custom" ? "block" : "none";
+    render();
+  });
+  contentMinorEl.addEventListener("change", () => {
+    el("customMinorWrap").style.display = contentMinorEl.value === "__custom" ? "block" : "none";
+    render();
+  });
+  campaignSlugSelectEl.addEventListener("change", () => {
+    el("customSlugWrap").style.display = campaignSlugSelectEl.value === "__custom" ? "block" : "none";
     render();
   });
   teamSelectEl.addEventListener("change", () => {
     el("customTeamWrap").style.display = teamSelectEl.value === "__custom" ? "block" : "none";
   });
+  memberSelectEl.addEventListener("change", () => {
+    el("customMemberWrap").style.display = memberSelectEl.value === "__custom" ? "block" : "none";
+  });
 
-  [baseUrlEl, mediumEl, purposeEl, targetEl, dateInput, sourceEl, contentEl, termEl, customContentEl, campaignSlugEl]
+  [baseUrlEl, mediumEl, purposeEl, targetEl, dateInput, sourceEl,
+   contentMajorEl, contentMidEl, contentMinorEl, customMajorEl, customMidEl, customMinorEl,
+   campaignSlugSelectEl, customSlugEl]
     .forEach(e => e.addEventListener("input", render));
 
   // 팀명을 시트 탭 이름으로 그대로 쓰므로, 구글시트 탭 이름에 못 쓰는 문자만 제거
   function sanitizeTeamName(raw) {
     return raw.trim().replace(/[\[\]\*\?:\/\\]/g, "").slice(0, 100);
+  }
+  function currentMember() {
+    if (memberSelectEl.value === "__custom") {
+      return (customMemberEl.value || "").trim().slice(0, 60);
+    }
+    return memberSelectEl.value;
   }
   function currentTeam() {
     if (teamSelectEl.value === "__custom") {
@@ -756,13 +1031,14 @@
       .replace(/_{2,}/g, "_");
   }
 
-  // 세부명이 source/medium/아이템 코드북에 이미 있는 값과 겹치면 경고
-  // (겹치면 캠페인 문자열만 보고 "이게 세부명인지 다른 매체/소스/아이템을 가리키는 건지" 헷갈릴 수 있음)
+  // 세부명이 source/medium/콘텐츠(대·중·소분류) 코드북에 이미 있는 값과 겹치면 경고
   function checkSlugCollision(slug) {
     if (!slug) return null;
     if (DATA.source.some(s => s.code === slug)) return `"${slug}"은(는) 이미 source 코드로 쓰이고 있어요. 다른 이름을 써주세요.`;
     if (DATA.medium.some(m => m.code === slug)) return `"${slug}"은(는) 이미 medium 코드로 쓰이고 있어요. 다른 이름을 써주세요.`;
-    if (DATA.content.some(c => c.code === slug)) return `"${slug}"은(는) 이미 아이템/브랜드 코드로 쓰이고 있어요. 다른 이름을 써주세요.`;
+    if (DATA.content_major.some(c => c.code === slug)) return `"${slug}"은(는) 이미 콘텐츠 대분류 코드로 쓰이고 있어요. 다른 이름을 써주세요.`;
+    if (DATA.content_mid.some(c => c.code === slug)) return `"${slug}"은(는) 이미 콘텐츠 중분류 코드로 쓰이고 있어요. 다른 이름을 써주세요.`;
+    if (DATA.content_minor.some(c => c.code === slug)) return `"${slug}"은(는) 이미 콘텐츠 소분류 코드로 쓰이고 있어요. 다른 이름을 써주세요.`;
     return null;
   }
 
@@ -777,8 +1053,12 @@
   function currentValues() {
     const yymmdd = toYYMMDD(dateInput.value);
     const source = sourceEl.value;
-    const content = contentEl.value === "__custom" ? customContentEl.value.trim() : contentEl.value;
-    const campaignSlug = sanitizeSlug(campaignSlugEl.value || "");
+    const major = contentMajorEl.value === "__custom" ? customMajorEl.value.trim() : contentMajorEl.value;
+    const mid = contentMidEl.value === "__custom" ? customMidEl.value.trim() : contentMidEl.value;
+    const minor = contentMinorEl.value === "__custom" ? customMinorEl.value.trim() : contentMinorEl.value;
+    const content = [major, mid, minor].filter(Boolean).join("_");
+    const slugRaw = campaignSlugSelectEl.value === "__custom" ? (customSlugEl.value || "") : campaignSlugSelectEl.value;
+    const campaignSlug = sanitizeSlug(slugRaw || "");
     return {
       baseUrl: baseUrlEl.value.trim(),
       medium: mediumEl.value,
@@ -789,7 +1069,6 @@
       source,
 
       content,
-      term: termEl.value.trim(),
     };
   }
 
@@ -809,16 +1088,15 @@
     if (v.source) params.set("utm_source", v.source);
     params.set("utm_medium", v.medium);
     params.set("utm_campaign", campaignCode);
-    // utm_content는 넣지 않음 — 아이템/브랜드가 이미 campaign 맨 앞 조각으로 들어가 있어 중복.
-    // (아이템 값 자체는 v.content로 계속 보관되어 아카이브 시트의 '아이템/브랜드' 컬럼에는 그대로 기록됨)
-    if (v.term) params.set("utm_term", v.term);
+    // utm_content는 넣지 않음 — 콘텐츠가 이미 campaign 맨 앞 조각으로 들어가 있어 중복.
+    // (콘텐츠 값 자체는 v.content로 계속 보관되어 아카이브 시트의 '콘텐츠' 컬럼에는 그대로 기록됨)
     url.search = params.toString();
     return url.toString();
   }
 
   function renderBreakdown(v, campaignCode) {
     const parts = [
-      { seg: v.content, key: "아이템/브랜드" },
+      { seg: v.content, key: "콘텐츠" },
       { seg: v.purpose, key: "purpose" },
       { seg: v.target, key: "target" },
       { seg: v.yymmdd, key: "yymmdd" },
@@ -831,7 +1109,7 @@
       const sep = i < parts.length - 1 ? `<span class="chip sep">_</span>` : "";
       return chip + sep;
     }).join("");
-    el("codeBreakdown").innerHTML = html || `<span class="field-desc">아이템/브랜드·목적·타겟·발송일을 선택하면 캠페인 코드가 조립됩니다.</span>`;
+    el("codeBreakdown").innerHTML = html || `<span class="field-desc">콘텐츠·목적·타겟·발송일을 선택하면 캠페인 코드가 조립됩니다.</span>`;
   }
 
   function escapeHtml(s) {
@@ -887,7 +1165,7 @@
 
     // 소스는 필수값 — 비어 있으면(직접입력 공란 등) 생성 자체를 막음
     const sourceMissing = !v.source;
-    // 아이템/브랜드는 utm_campaign 맨 앞에 들어가는 필수값 — 비어 있으면(직접입력 공란 등) 생성 자체를 막음
+    // 콘텐츠는 utm_campaign 맨 앞에 들어가는 필수값 — 비어 있으면(직접입력 공란 등) 생성 자체를 막음
     const contentMissing = !v.content;
 
     if (valid) {
@@ -896,7 +1174,7 @@
         el("warnLine").textContent = "소스를 선택해야 링크가 만들어집니다.";
       } else if (contentMissing) {
         el("warnLine").classList.add("show");
-        el("warnLine").textContent = "아이템/브랜드를 선택하거나 직접 입력해야 캠페인 코드가 완성됩니다.";
+        el("warnLine").textContent = "콘텐츠를 선택하거나 직접 입력해야 캠페인 코드가 완성됩니다.";
       }
     }
 
@@ -964,6 +1242,7 @@
     if (!lastUrl) return;
     const entryId = (crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}-${Math.random().toString(36).slice(2)}`);
     const team = currentTeam();
+    const member = currentMember();
     const items = loadHistory();
     items.unshift({ campaign: lastCampaign, url: lastUrl, savedAt: Date.now(), entryId, team });
     saveHistory(items);
@@ -975,6 +1254,7 @@
         action: "save",
         entryId,
         team,
+        member,
         landingUrl: lastValues.baseUrl,
         url: lastUrl,
         campaign: lastCampaign,
@@ -985,7 +1265,6 @@
         campaignSlug: lastValues.campaignSlug,
         source: lastValues.source,
         medium: lastValues.medium,
-        term: lastValues.term,
       });
       toast.textContent = `저장됨 · ${team} 시트로 전송 중`;
     } else {
@@ -1187,11 +1466,11 @@
     refPanel.innerHTML = `
       <table class="ref-table">
         <tr><th>구분</th><th>코드</th><th>의미</th></tr>
-        ${DATA.content.map(c => `<tr><td>아이템/브랜드</td><td class="mono">${escapeHtml(c.code)}</td><td>${escapeHtml(c.label)}</td></tr>`).join("")}
+        ${DATA.content_major.map(c => `<tr><td>콘텐츠(대분류)</td><td class="mono">${escapeHtml(c.code)}</td><td>${escapeHtml(c.label)}</td></tr>`).join("")}
         ${DATA.medium.map(m => `<tr><td>채널</td><td class="mono">${escapeHtml(m.code)}</td><td>${escapeHtml(m.label)}</td></tr>`).join("")}
         ${DATA.purpose.map(p => `<tr><td>목적</td><td class="mono">${escapeHtml(p.code)}</td><td>${escapeHtml(p.label)}</td></tr>`).join("")}
       </table>
-      <p class="field-desc" style="margin-top:10px;">규칙: utm_campaign = {아이템/브랜드}_{purpose}_{target}_{YYMMDD} · medium은 utm_medium에 별도로 담기며 campaign에는 포함되지 않음 · 세그먼트 정의는 「04_세그먼트택소노미」 참조</p>
+      <p class="field-desc" style="margin-top:10px;">규칙: utm_campaign = {콘텐츠대분류_중분류_소분류}_{purpose}_{target}_{YYMMDD} · medium은 utm_medium에 별도로 담기며 campaign에는 포함되지 않음 · 중분류/소분류는 content_중분류/content_소분류 탭 참고 · 세그먼트 정의는 「04_세그먼트택소노미」 참조</p>
     `;
   }
   refToggle.addEventListener("click", () => {
@@ -1274,14 +1553,14 @@
     const items = rows.slice(1)
       .filter(r => r[codeIdx] && r[codeIdx].trim())
       .map(r => ({ code: r[codeIdx].trim(), label: (r[labelIdx] || r[codeIdx]).trim() }));
-    if (!items.length) throw new Error("데이터 행 없음");
+    // 데이터 행이 0개인 건 실패가 아니라 "아직 안 채운 빈 탭"일 수 있음(member/campaign_slug 등) — 정상 처리
     return items;
   }
 
   async function loadFromSheet(sheetId) {
     if (!sheetId) return;
     showSheetStatus("구글 시트에서 불러오는 중…", null);
-    const results = await Promise.allSettled(SHEET_TABS.map(tab => fetchSheetTab(sheetId, tab)));
+    const results = await Promise.allSettled(SHEET_TABS.map(cat => fetchSheetTab(sheetId, TAB_NAME_MAP[cat] || cat)));
     const okCats = [], failedCats = [];
     results.forEach((r, i) => {
       const cat = SHEET_TABS[i];
@@ -1295,6 +1574,7 @@
     const seen = new Map();
     const dupPairs = [];
     okCats.forEach((cat) => {
+      if (!DATA[cat].length) return; // 빈 탭끼리는 "동일 데이터"로 오탐하지 않도록 제외 (member/campaign_slug 등 정상적으로 비어있을 수 있음)
       const sig = JSON.stringify(DATA[cat].map((x) => x.code));
       if (seen.has(sig)) dupPairs.push(`${seen.get(sig)}/${cat}`);
       else seen.set(sig, cat);
@@ -1309,7 +1589,7 @@
     } else if (okCats.length) {
       showSheetStatus(`일부 탭을 불러오지 못해 기본값으로 대체했습니다: ${failedCats.join(", ")} (${stamp})`, "warn");
     } else {
-      showSheetStatus("시트를 전혀 불러오지 못해 기본값을 사용합니다. 시트 공유 설정(링크가 있는 모든 사용자 - 뷰어)과 탭 이름(medium/purpose/target/source/content/team), code/label 열을 확인하세요.", "error");
+      showSheetStatus("시트를 전혀 불러오지 못해 기본값을 사용합니다. 시트 공유 설정(링크가 있는 모든 사용자 - 뷰어)과 탭 이름(medium/purpose/target/source/content_대분류/content_중분류/content_소분류/team/member), code/label 열을 확인하세요.", "error");
     }
   }
 

@@ -1,0 +1,1157 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>누구나 쉽게 배우는 UTM 링크 가이드</title>
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #17242F;
+    --text: #3E4A54;
+    --muted: #7A8590;
+    --paper: #F6F5F0;
+    --card: #FFFFFF;
+    --line: #E4E1D6;
+    --navy: #1F4E6B;
+    --navy-deep: #163A50;
+    --teal: #1E7A6C;
+    --teal-bg: #E9F4F1;
+    --amber: #B4661B;
+    --amber-bg: #FBEFE1;
+    --plum: #6C4E7D;
+    --radius: 12px;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--paper);
+    color: var(--text);
+    line-height: 1.7;
+    font-size: 16px;
+  }
+  code, .mono { font-family: 'JetBrains Mono', monospace; }
+  a { color: var(--navy); }
+
+  .shell {
+    display: grid;
+    grid-template-columns: 230px minmax(0, 860px);
+    justify-content: center;
+    gap: 52px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+  @media (max-width: 900px) {
+    .shell { grid-template-columns: 1fr; }
+    .toc { display: none; }
+  }
+  .toc {
+    position: sticky;
+    top: 28px;
+    align-self: start;
+    padding-top: 60px;
+    height: fit-content;
+  }
+  .toc-title {
+    font-size: 11px;
+    letter-spacing: .08em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 14px;
+    font-weight: 700;
+  }
+  .toc a {
+    display: block;
+    padding: 7px 0;
+    font-size: 13.5px;
+    color: var(--text);
+    text-decoration: none;
+    border-left: 2px solid transparent;
+    padding-left: 12px;
+    margin-left: -13px;
+  }
+  .toc a:hover { color: var(--navy); border-left-color: var(--line); }
+
+  main { padding: 0 0 120px; min-width: 0; }
+
+  .hero { padding: 72px 0 44px; border-bottom: 1px solid var(--line); }
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 12px; font-weight: 700; letter-spacing: .05em;
+    color: var(--navy); background: #EAF1F5;
+    padding: 6px 12px; border-radius: 100px; margin-bottom: 20px;
+  }
+  h1 { font-size: 36px; line-height: 1.35; letter-spacing: -0.02em; margin: 0 0 16px; color: var(--ink); font-weight: 800; }
+  .hero p.lead { font-size: 16.5px; color: var(--text); max-width: 640px; margin: 0 0 30px; }
+  .cta-row { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+  .cta-btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--navy); color: #fff; text-decoration: none;
+    padding: 14px 22px; border-radius: 10px; font-weight: 700; font-size: 15px;
+  }
+  .cta-btn:hover { background: var(--navy-deep); }
+  .cta-sub { font-size: 13px; color: var(--muted); }
+
+  section { padding: 56px 0; border-bottom: 1px solid var(--line); }
+  section:last-of-type { border-bottom: none; }
+  .kicker { font-size: 12px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--navy); margin-bottom: 10px; }
+  h2 { font-size: 25px; font-weight: 800; color: var(--ink); margin: 0 0 14px; letter-spacing: -0.01em; }
+  h3 { font-size: 17px; font-weight: 700; color: var(--ink); margin: 28px 0 10px; }
+  section > p.section-desc { color: var(--text); max-width: 680px; margin: 0 0 28px; font-size: 15.5px; }
+  p { margin: 0 0 14px; }
+
+  /* analogy box */
+  .analogy {
+    background: var(--navy-deep);
+    color: #E7EEF2;
+    border-radius: 16px;
+    padding: 32px 30px;
+    margin: 24px 0;
+  }
+  .analogy .a-label { font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: #8FB4C9; margin-bottom: 14px; }
+  .analogy p { font-size: 15.5px; line-height: 1.8; margin-bottom: 12px; color: #DCE6EC; }
+  .analogy p:last-child { margin-bottom: 0; }
+  .analogy b { color: #fff; }
+
+  /* before/after link compare */
+  .link-compare { display: grid; grid-template-columns: 1fr; gap: 12px; margin: 20px 0; }
+  .link-box {
+    border-radius: 10px; padding: 16px 18px; font-family: 'JetBrains Mono', monospace;
+    font-size: 12.5px; line-height: 1.7; word-break: break-all; border: 1px solid var(--line);
+  }
+  .link-box.plain { background: #F1EFE7; color: var(--muted); }
+  .link-box.tagged { background: var(--teal-bg); border-color: #C7E1DA; }
+  .link-box .tag-label { display: block; font-family: 'Pretendard'; font-size: 11.5px; font-weight: 700; color: var(--muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: .04em; }
+  .link-box.tagged .tag-label { color: var(--teal); }
+  .link-box .hl { color: var(--teal); font-weight: 700; }
+
+  /* 5-item info cards */
+  .info-grid { display: grid; grid-template-columns: 1fr; gap: 12px; margin: 20px 0; }
+  .info-card {
+    display: grid; grid-template-columns: 44px 1fr; gap: 16px;
+    background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 18px 20px;
+  }
+  .info-num {
+    width: 40px; height: 40px; border-radius: 50%; background: var(--navy); color: #fff;
+    display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 16px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .info-card h4 { margin: 2px 0 6px; font-size: 15px; color: var(--ink); }
+  .info-card p { margin: 0; font-size: 13.5px; color: var(--text); }
+  .info-card .ex { margin-top: 6px; font-size: 12.5px; color: var(--muted); }
+  .info-card .ex code { background: #F1EFE7; padding: 1px 6px; border-radius: 4px; }
+
+  /* step walkthrough */
+  .walk-step {
+    border: 1px solid var(--line); border-radius: var(--radius); background: var(--card);
+    padding: 22px 24px; margin-bottom: 16px;
+  }
+  .walk-step .ws-head { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+  .walk-step .ws-num {
+    width: 30px; height: 30px; border-radius: 8px; background: var(--amber-bg); color: var(--amber);
+    display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 13.5px;
+    font-family: 'JetBrains Mono', monospace; flex-shrink: 0;
+  }
+  .walk-step h4 { margin: 0; font-size: 16px; color: var(--ink); }
+  .walk-step p { font-size: 14.5px; color: var(--text); margin: 0 0 8px; }
+  .walk-step .example {
+    margin-top: 10px; background: #F1EFE7; border-radius: 8px; padding: 10px 14px;
+    font-size: 13px; color: var(--navy); font-family: 'JetBrains Mono', monospace;
+  }
+  .walk-step .example b { font-family: 'Pretendard'; color: var(--muted); font-weight: 600; margin-right: 6px; }
+
+  .callout { border-left: 3px solid var(--amber); background: var(--amber-bg); border-radius: 0 8px 8px 0; padding: 14px 18px; font-size: 14px; margin: 20px 0; }
+  .callout.teal { border-left-color: var(--teal); background: var(--teal-bg); }
+  .callout strong { display: block; margin-bottom: 4px; font-size: 13px; }
+
+  /* do/dont */
+  .dd-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 18px 0; }
+  @media (max-width: 640px) { .dd-grid { grid-template-columns: 1fr; } }
+  .dd-card { border-radius: 10px; padding: 18px 20px; border: 1px solid var(--line); }
+  .dd-card.bad { background: var(--amber-bg); border-color: #EBD3B4; }
+  .dd-card.good { background: var(--teal-bg); border-color: #C7E1DA; }
+  .dd-card .dtag { font-size: 11px; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; margin-bottom: 10px; display: block; }
+  .dd-card.bad .dtag { color: var(--amber); }
+  .dd-card.good .dtag { color: var(--teal); }
+  .dd-card code { font-size: 13px; background: rgba(0,0,0,.05); padding: 2px 6px; border-radius: 4px; }
+
+  /* reference tables */
+  .ref-block { margin-bottom: 40px; }
+  .ref-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 10px; flex-wrap: wrap; }
+  .ref-head h3 { margin: 0; }
+  .ref-count { font-size: 12px; color: var(--muted); font-family: 'JetBrains Mono', monospace; }
+  .filter-input {
+    width: 100%; padding: 10px 14px; border: 1px solid var(--line); border-radius: 8px;
+    font-size: 13.5px; margin-bottom: 10px; background: var(--card); color: var(--text);
+  }
+  .filter-input:focus { outline: 2px solid var(--navy); outline-offset: -1px; }
+  .table-wrap { border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; background: var(--card); }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  thead th {
+    background: #F1EFE7; text-align: left; padding: 10px 14px; font-size: 11px; font-weight: 700;
+    letter-spacing: .04em; text-transform: uppercase; color: var(--muted); border-bottom: 1px solid var(--line);
+  }
+  tbody td { padding: 9px 14px; border-bottom: 1px solid #EEEDE6; vertical-align: top; }
+  tbody tr:last-child td { border-bottom: none; }
+  tbody tr:hover { background: #FAFAF6; }
+  td.code { font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 600; color: var(--navy); white-space: nowrap; width: 1%; }
+  td.desc { color: var(--muted); font-size: 12px; }
+  tr.hidden-row { display: none; }
+  details.fold { margin-top: 10px; }
+  details.fold summary { cursor: pointer; font-size: 13px; font-weight: 700; color: var(--navy); padding: 10px 4px; list-style: none; }
+  details.fold summary::-webkit-details-marker { display: none; }
+  details.fold summary::before { content: "▸ "; }
+  details.fold[open] summary::before { content: "▾ "; }
+
+  /* faq */
+  .faq-item { border-bottom: 1px solid var(--line); }
+  .faq-item summary {
+    padding: 18px 4px; cursor: pointer; font-weight: 700; font-size: 15px; color: var(--ink);
+    list-style: none; display: flex; justify-content: space-between; align-items: center;
+  }
+  .faq-item summary::-webkit-details-marker { display: none; }
+  .faq-item summary::after { content: "+"; font-size: 20px; color: var(--muted); font-weight: 400; }
+  .faq-item[open] summary::after { content: "−"; }
+  .faq-item .a { padding: 0 4px 20px; font-size: 14px; color: var(--text); max-width: 640px; }
+
+  footer { padding: 40px 0 0; color: var(--muted); font-size: 12.5px; }
+</style>
+</head>
+<body>
+
+<div class="shell">
+  <nav class="toc">
+    <div class="toc-title">목차</div>
+    <a href="javascript:void(0)" data-scroll-to="why">01. 왜 이 작업을 하나요</a>
+    <a href="javascript:void(0)" data-scroll-to="what">02. UTM이 뭔가요?</a>
+    <a href="javascript:void(0)" data-scroll-to="five">03. 필요한 정보 5가지</a>
+    <a href="javascript:void(0)" data-scroll-to="howto">04. 생성기 사용법</a>
+    <a href="javascript:void(0)" data-scroll-to="custom">05. 직접 입력 가이드</a>
+    <a href="javascript:void(0)" data-scroll-to="archive">06. 저장(아카이빙)이란</a>
+    <a href="javascript:void(0)" data-scroll-to="mistakes">07. 자주 하는 실수</a>
+    <a href="javascript:void(0)" data-scroll-to="faq">08. FAQ</a>
+    <a href="javascript:void(0)" data-scroll-to="reference">09. 전체 코드표 (참고용)</a>
+  </nav>
+
+  <main>
+    <div class="hero">
+      <span class="eyebrow">● 에듀윌 전사 공유 · UTM 링크 만들기 첫걸음</span>
+      <h1>데이터 거버넌스를 위한<br>UTM 생성 가이드</h1>
+      <p class="lead">
+        마케팅을 몰라도 UTM 링크는 만들 수 있어요. "UTM이 뭔지도 잘 모르겠다" 싶으셔도 괜찮아요.
+        이 페이지를 위에서부터 순서대로 읽고 그대로 따라 하면, 누구나 5분 안에 정확한 링크를 만들 수 있도록 만들었습니다.
+      </p>
+      <div class="cta-row">
+        <a class="cta-btn" href="https://hajung1-arch.github.io/eduwill_utm_generator/" target="_blank" rel="noopener">지금 바로 생성기 열어보기 →</a>
+        <span class="cta-sub">읽으면서 같이 눌러보시면 더 빨리 이해돼요</span>
+      </div>
+    </div>
+
+    <section id="why">
+      <div class="kicker">01</div>
+      <h2>왜 이 작업을 하나요 — 데이터 거버넌스 관점</h2>
+      <p class="section-desc">
+        "링크 하나 만드는데 이렇게까지 규칙이 필요한가" 싶으실 수 있어요. 근데 이건 단순히 링크를 예쁘게 정리하자는 게 아니라,
+        <b>회사가 어디서 성장하고 있는지를 정확히 아는 것</b>과 직접 연결된 문제예요.
+      </p>
+
+      <div class="analogy">
+        <div class="a-label">데이터 거버넌스란</div>
+        <p>
+          <b>데이터 거버넌스</b>는 어려운 말 같지만 뜻은 간단해요 — "우리 조직의 데이터를 같은 기준으로 관리해서,
+          누가 봐도 같은 결론을 낼 수 있게 만드는 것"이에요.
+        </p>
+        <p>
+          예를 들어 "이번 달 매출이 어디서 가장 많이 나왔나요?"라는 질문에 답하려면, 모든 팀이 <b>같은 방식으로</b>
+          "이 트래픽이 어디서 왔는지"를 기록해뒀어야 해요. 팀마다, 담당자마다 제각각 기록했다면 아무리 데이터를
+          모아봐도 정확한 답을 낼 수 없어요.
+        </p>
+      </div>
+
+      <h3>이게 왜 성장과 연결되나요</h3>
+      <p>
+        마케팅 예산과 리소스는 한정돼 있어요. "어떤 채널에 더 투자해야 매출이 느는지"를 판단하려면,
+        <b>채널별 성과를 정확히 비교할 수 있어야</b> 해요. 지금까지는 이게 불가능했어요 — 실제 데이터를 열어보면
+        이런 상태였거든요.
+      </p>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;">
+        <div style="background:var(--card);padding:20px 18px;">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:24px;font-weight:700;color:var(--amber);">1,284</div>
+          <div style="font-size:12px;color:var(--muted);margin-top:4px;">"누가 보냈나" 값이 제각각 1,284개</div>
+        </div>
+        <div style="background:var(--card);padding:20px 18px;">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:24px;font-weight:700;color:var(--amber);">11,303</div>
+          <div style="font-size:12px;color:var(--muted);margin-top:4px;">캠페인 이름이 제각각 11,303개</div>
+        </div>
+        <div style="background:var(--card);padding:20px 18px;">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:24px;font-weight:700;color:var(--teal);">79</div>
+          <div style="font-size:12px;color:var(--muted);margin-top:4px;">이제부터 쓸 표준 코드 수</div>
+        </div>
+      </div>
+      <p style="margin-top:18px;">
+        같은 "네이버"인데 <code>naver</code>, <code>Naver</code>, <code>naver_ad_pc</code>처럼 다 다르게 적혀 있으면,
+        "네이버에서 얼마나 왔고 얼마나 구매로 이어졌는지" 물어봐도 정확한 답을 낼 수가 없어요. 이 상태로는
+        어디에 예산을 더 써야 할지, 어떤 채널을 줄여야 할지 <b>감으로</b> 판단할 수밖에 없어요.
+      </p>
+
+      <div class="callout teal">
+        <strong>정리하면</strong>
+        UTM 규칙을 통일하는 건 "링크 정리"가 아니라 <b>"우리가 데이터로 정확히 판단할 수 있는 회사가 되기 위한 기본 작업"</b>이에요.
+        이 페이지에서 소개할 생성기는 정해진 값 중에서 고르기만 하면 되도록 만들어서, 마케팅 지식이 없어도
+        이 기준을 그대로 지킬 수 있게 했어요.
+      </div>
+    </section>
+
+    <section id="what">
+      <div class="kicker">02</div>
+      <h2>UTM이 뭔가요?</h2>
+      <p class="section-desc">이름부터 낯설지만, 개념은 아주 간단해요. 하나씩 풀어드릴게요.</p>
+
+      <div class="analogy">
+        <div class="a-label">택배 송장이라고 생각해보세요</div>
+        <p>
+          택배 상자에 <b>보낸 사람, 배송 방법, 무슨 물건인지</b>가 적힌 송장이 붙어있으면,
+          나중에 어떤 상자가 어디서 왜 왔는지 한눈에 알 수 있죠.
+        </p>
+        <p>
+          <b>UTM도 똑같아요.</b> 우리가 카카오톡·문자·카페 게시글 등으로 보내는 링크 끝에 "이 링크는
+          <b>누가</b> 보냈고, <b>어떤 방법으로</b> 보냈고, <b>무슨 목적으로 누구에게</b> 보낸 건지" 적어두는 꼬리표예요.
+        </p>
+        <p>
+          이 꼬리표가 붙어 있어야, 나중에 "이번 카카오 알림톡으로 몇 명이 들어와서 몇 명이 구매했는지"를
+          정확히 확인할 수 있어요. 꼬리표가 없으면 그 링크를 누가 눌렀는지 다 뒤섞여서 알 수가 없어요.
+        </p>
+      </div>
+
+      <h3>실제로 이렇게 생겼어요</h3>
+      <div class="link-compare">
+        <div class="link-box plain">
+          <span class="tag-label">꼬리표가 없는 링크 (지금까지 이렇게 많이 보내셨을 거예요)</span>
+          https://land.eduwill.net/sites/home
+        </div>
+        <div class="link-box tagged">
+          <span class="tag-label">UTM 꼬리표가 붙은 링크 (앞으로 이렇게 만들 거예요)</span>
+          https://land.eduwill.net/sites/home<span class="hl">?utm_source=kakao&amp;utm_medium=alimtalk&amp;utm_campaign=gov9_admin_basic_purchase_cartpending_260820</span>
+        </div>
+      </div>
+      <p style="font-size:14px;color:var(--muted);">
+        뒤에 붙은 <code>?utm_...</code> 부분이 꼬리표예요. 사람이 보기엔 복잡해 보이지만,
+        이 페이지에서 소개할 생성기가 이 부분을 자동으로 만들어줘요. 우리는 몇 가지만 클릭하면 됩니다.
+      </p>
+    </section>
+
+
+    <section id="five">
+      <div class="kicker">03</div>
+      <h2>링크 하나 만드는 데 필요한 정보 5가지</h2>
+      <p class="section-desc">생성기를 열면 이 5가지를 순서대로 물어봐요. 미리 감을 잡아두면 훨씬 쉬워요.</p>
+
+      <div class="info-grid">
+        <div class="info-card">
+          <div class="info-num">1</div>
+          <div>
+            <h4>어디로 보낼 링크인가요?</h4>
+            <p>고객이 최종적으로 도착할 페이지 주소예요. 흔히 "랜딩 페이지"라고 불러요.</p>
+            <div class="ex">예: <code>https://land.eduwill.net/sites/home</code></div>
+          </div>
+        </div>
+        <div class="info-card">
+          <div class="info-num">2</div>
+          <div>
+            <h4>누가 보내는 링크인가요? (소스)</h4>
+            <p>이 링크를 처음 클릭하게 만든 주체예요. "네이버 검색"인지 "카카오"인지 "우리가 직접" 보내는 건지.</p>
+            <div class="ex">예: <code>naver</code>, <code>kakao</code>, <code>eduwill</code></div>
+          </div>
+        </div>
+        <div class="info-card">
+          <div class="info-num">3</div>
+          <div>
+            <h4>어떤 방법으로 보내나요? (매체)</h4>
+            <p>같은 "네이버"라도 검색광고인지 블로그인지에 따라 다르고, 같은 "우리가 직접"이라도 문자인지 알림톡인지에 따라 달라요.</p>
+            <div class="ex">예: <code>alimtalk</code>(알림톡), <code>search</code>(검색광고)</div>
+          </div>
+        </div>
+        <div class="info-card">
+          <div class="info-num">4</div>
+          <div>
+            <h4>무슨 내용을, 왜, 누구에게 보내나요? (캠페인)</h4>
+            <p>강좌/상품이 뭔지, 이 링크의 목적이 뭔지(구매 유도인지 이벤트인지), 어떤 고객군에게 보내는지를 조합해서 자동으로 만들어져요. 우리는 각각 골라주기만 하면 돼요.</p>
+            <div class="ex">예: 9급공무원 강좌 + 구매 유도 + 결제 미완료 고객</div>
+          </div>
+        </div>
+        <div class="info-card">
+          <div class="info-num">5</div>
+          <div>
+            <h4>(선택) 이 캠페인만의 별명</h4>
+            <p>위 4가지 조건이 같은 캠페인을 같은 날 여러 개 보낼 때만 채우면 돼요. 보통은 비워둬도 됩니다.</p>
+            <div class="ex">예: <code>blackfriday</code>, <code>d100</code></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="howto">
+      <div class="kicker">04</div>
+      <h2>생성기 사용법 — 처음부터 끝까지 따라 하기</h2>
+      <p class="section-desc">
+        예시 상황을 하나 정해서, 실제로 처음부터 끝까지 만들어볼게요.<br>
+        <b>예시 상황:</b> "9급공무원 강좌를 장바구니에 담고 결제를 안 한 고객에게, 카카오 알림톡으로 결제 유도 메시지를 보낸다"
+      </p>
+
+      <div class="callout teal">
+        <strong>생성기 주소</strong>
+        <a href="https://hajung1-arch.github.io/eduwill_utm_generator/" target="_blank" rel="noopener">https://hajung1-arch.github.io/eduwill_utm_generator/</a> — 즐겨찾기에 추가해두시면 편해요.
+      </div>
+
+      <h3>시작하기 전에 — 화면 위쪽의 연동 상태 확인</h3>
+      <div class="walk-step">
+        <div class="ws-head"><div class="ws-num">0-1</div><h4>"데이터 소스 — 구글 시트 연동"</h4></div>
+        <p>
+          생성기 맨 위에 이 카드가 있어요. 이건 소스·매체·목적 같은 <b>선택 목록 전체를 구글시트에서 실시간으로 불러오는</b> 연결이에요.
+          <b>팀 공용 시트가 기본으로 이미 연결되어 있어서, 별도로 누르실 건 없어요.</b> 그냥 이런 게 있다는 것만 알아두시면 됩니다.
+        </p>
+        <div class="callout" style="margin:12px 0 0;">
+          <strong>혹시 드롭다운이 텅 비어있거나 이상하면</strong>
+          화면에 "일부 탭을 불러오지 못해 기본값으로 대체했습니다"라는 주황색 문구가 뜨는지 확인하세요.
+          뜬다면 인터넷 연결을 확인하고 <b>"새로고침"</b> 버튼을 한 번 눌러보세요. 그래도 안 되면 담당자(그로스실)에게 알려주세요.
+        </div>
+      </div>
+      <div class="walk-step">
+        <div class="ws-head"><div class="ws-num">0-2</div><h4>"팀별 아카이빙 — Apps Script 웹앱 연동"</h4></div>
+        <p>
+          이건 "기록에 저장"을 눌렀을 때 <b>팀 시트에 자동으로 기록을 남겨주는</b> 연결이에요. 이것도
+          <b>팀 공용 웹앱이 기본으로 이미 연결</b>되어 있어서, 평소엔 신경 쓰지 않으셔도 됩니다.
+          자세한 확인·문제해결 방법은 06번 "저장(아카이빙)이란" 항목에서 다룰게요.
+        </p>
+      </div>
+
+      <h3>STEP 1 · 대상 링크</h3>
+      <div class="walk-step">
+        <div class="ws-head"><div class="ws-num">1</div><h4>랜딩 URL 입력</h4></div>
+        <p>고객이 최종적으로 도착할 페이지 주소를 그대로 붙여넣으세요. <code>?</code>가 있든 없든 신경 안 쓰셔도 돼요 — 생성기가 알아서 처리해요.</p>
+        <div class="example"><b>입력값</b>https://land.eduwill.net/sites/home</div>
+      </div>
+      <div class="walk-step">
+        <div class="ws-head"><div class="ws-num">2</div><h4>작성 팀 / 작성 담당자 (필수)</h4></div>
+        <p>본인 소속 팀을 목록에서 고르고, 이름을 입력하세요. 이 정보는 저장할 때 "누가 언제 이 링크를 만들었는지" 기록에 남아요 — 나중에 담당자를 찾아야 할 때 요긴해요.</p>
+        <div class="example"><b>입력값</b>팀: 그로스실 &nbsp; / &nbsp; 담당자: 정현아</div>
+      </div>
+
+      <h3>STEP 2 · 소스 (누가 보냈나) <span style="color:var(--amber);">필수</span></h3>
+      <div class="walk-step">
+        <div class="ws-head"><div class="ws-num">3</div><h4>소스 선택</h4></div>
+        <p>이 링크를 처음 클릭하게 만든 채널을 목록에서 고르세요. 지금은 "우리가 카카오로 직접 보내는" 상황이니 <code>kakao</code>를 고릅니다.</p>
+        <div class="example"><b>선택값</b>kakao (카카오)</div>
+      </div>
+
+      <h3>STEP 3 · 매체 (어떻게 보냈나) <span style="color:var(--amber);">필수</span></h3>
+      <div class="walk-step">
+        <div class="ws-head"><div class="ws-num">4</div><h4>매체 선택</h4></div>
+        <p>같은 카카오라도 알림톡인지 친구톡인지에 따라 골라요. 여기선 결제 유도 안내라서 알림톡을 고릅니다.</p>
+        <div class="example"><b>선택값</b>alimtalk (카카오 알림톡)</div>
+      </div>
+
+      <h3>STEP 4 · 캠페인 (콘텐츠 · 목적 · 타겟 · 발송일)</h3>
+      <div class="walk-step">
+        <div class="ws-head"><div class="ws-num">5</div><h4>콘텐츠 선택 (필수) — 대분류만 골라도 되고, 더 자세히 골라도 돼요</h4></div>
+        <p>
+          <b>대분류</b>를 먼저 고르면, <b>중분류</b> 목록이 그 대분류에 속한 것들로만 좁혀져요. 소분류까지 고르면 더 구체적으로 표현할 수 있어요.
+          중분류·소분류는 선택 사항이라 건너뛰어도 됩니다.
+        </p>
+        <div class="example">
+          <b>대분류</b>gov (공무원&amp;입시)<br>
+          <b>중분류</b>G (9급 공무원) — "선택 안 함"으로 둬도 무방해요<br>
+          <b>소분류</b>basic (기본강의)
+        </div>
+      </div>
+      <div class="walk-step">
+        <div class="ws-head"><div class="ws-num">6</div><h4>캠페인 목적 선택 (필수)</h4></div>
+        <p>이 링크를 왜 보내는지예요. 결제 유도가 목적이니 "구매"를 고릅니다.</p>
+        <div class="example"><b>선택값</b>purchase (행동_구매)</div>
+      </div>
+      <div class="walk-step">
+        <div class="ws-head"><div class="ws-num">7</div><h4>타겟 세그먼트 선택 (필수)</h4></div>
+        <p>누구에게 보내는지예요. 장바구니 담고 결제 안 한 사람들이니 "구매전환대기"를 고릅니다.</p>
+        <div class="example"><b>선택값</b>cartpending (구매전환대기)</div>
+      </div>
+      <div class="walk-step">
+        <div class="ws-head"><div class="ws-num">8</div><h4>발송일 선택 (필수)</h4></div>
+        <p>오늘 날짜가 기본으로 들어가 있어요. 실제로 발송하는 날짜로 맞춰주세요.</p>
+        <div class="example"><b>선택값</b>2026-08-20</div>
+      </div>
+      <div class="walk-step">
+        <div class="ws-head"><div class="ws-num">9</div><h4>캠페인 세부명 (선택 — 대부분 비워둬도 됨)</h4></div>
+        <p>
+          같은 날, 같은 콘텐츠·목적·타겟으로 캠페인이 <b>두 개 이상</b> 나갈 때만 채우세요.
+          예를 들어 오늘 "구매전환대기" 대상으로 알림톡을 하나 더 보낸다면, 서로 구분하기 위해 여기에 별명을 붙여요.
+          지금 예시는 하나뿐이니 "선택 안 함"으로 둡니다. (자세한 목록은 09. 전체 코드표에서 확인할 수 있어요.)
+        </p>
+      </div>
+      <div class="walk-step">
+        <div class="ws-head"><div class="ws-num">10</div><h4>완성! 오른쪽에서 링크 확인 → 복사</h4></div>
+        <p>여기까지 채우면 오른쪽 "생성된 URL"에 완성된 링크가 자동으로 나타나요. <b>URL 복사</b> 버튼을 누르면 바로 사용할 수 있어요.</p>
+        <div class="example">
+          <b>완성된 링크</b>https://land.eduwill.net/sites/home?utm_source=kakao&amp;utm_medium=alimtalk&amp;utm_campaign=gov_G_basic_purchase_cartpending_260820
+        </div>
+      </div>
+
+      <div class="callout">
+        <strong>"기록에 저장"은 꼭 눌러주세요</strong>
+        링크를 다 썼다고 끝이 아니에요. <b>"기록에 저장"</b>을 눌러야 팀 시트에 자동으로 기록이 남아요.
+        나중에 "저 링크 언제 누가 만들었지?"를 찾을 때 이 기록이 유일한 단서가 돼요. (자세한 내용은 06번 항목 참고)
+      </div>
+    </section>
+
+
+    <section id="custom">
+      <div class="kicker">05</div>
+      <h2>"직접 입력"이 뭔가요?</h2>
+      <p class="section-desc">
+        목록에 원하는 값이 없을 때 쓰는 기능이에요. 언제, 어떻게 쓰는지 정확히 알려드릴게요.
+      </p>
+
+      <div class="analogy">
+        <div class="a-label">언제 쓰나요</div>
+        <p>
+          드롭다운(선택 목록)을 눌렀는데 <b>내가 찾는 값이 안 보일 때만</b> 씁니다.
+          예를 들어 아직 코드북에 등록 안 된 신규 강좌라던가, 아직 목록에 없는 담당자 이름 같은 경우예요.
+        </p>
+        <p>
+          <b>목록에 이미 있는 값이면 절대 직접 입력하지 마세요.</b> 같은 뜻이라도 사람마다 다르게 타이핑하면
+          (예: <code>Naver</code> vs <code>naver</code>) 데이터가 또 흩어져버려서, 지금까지 정리한 게 다시 엉망이 돼요.
+        </p>
+      </div>
+
+      <h3>사용 방법 (아이템/콘텐츠·팀·세부명 공통)</h3>
+      <div class="walk-step">
+        <div class="ws-head"><div class="ws-num">1</div><h4>드롭다운 클릭 → 목록 맨 아래 "직접 입력…" 선택</h4></div>
+        <p>드롭다운을 열면 실제 항목들 아래에 <code>직접 입력…</code>이라는 항목이 있어요. 그걸 클릭하세요.</p>
+      </div>
+      <div class="walk-step">
+        <div class="ws-head"><div class="ws-num">2</div><h4>바로 아래 나타나는 입력창에 타이핑</h4></div>
+        <p>"직접 입력…"을 선택하면 그 아래에 빈 텍스트 칸이 새로 나타나요. 거기에 원하는 값을 입력하면 됩니다.</p>
+      </div>
+
+      <div class="callout teal">
+        <strong>작성 담당자는 조금 달라요</strong>
+        담당자 입력창은 처음부터 그냥 텍스트 칸이에요. "직접 입력" 선택 없이 바로 이름을 타이핑하면 되고,
+        타이핑하는 동안 목록에 있는 이름이면 자동으로 후보가 떠요.
+      </div>
+
+      <h3>직접 입력할 때 지켜야 할 규칙</h3>
+      <div class="dd-grid">
+        <div class="dd-card bad">
+          <span class="dtag">이렇게 쓰지 마세요</span>
+          <p style="margin:0;font-size:13.5px;">
+            <code>2026년 9급공무원 여름 프로모션 특가!!</code><br>
+            <code>Summer Event</code> (대문자·띄어쓰기)<br>
+            <code>여름이벤트</code> (한글, 띄어쓰기)
+          </p>
+        </div>
+        <div class="dd-card good">
+          <span class="dtag">이렇게 쓰세요</span>
+          <p style="margin:0;font-size:13.5px;">
+            <code>summer2026</code><br>
+            영문 소문자 + 숫자만, 공백 없이, 짧고 간단하게
+          </p>
+        </div>
+      </div>
+      <p style="font-size:13.5px;color:var(--muted);">
+        참고로 대분류·중분류·소분류나 세부명은 입력하는 순간 자동으로 소문자로 바뀌고 띄어쓰기는 밑줄(_)로 바뀌니
+        너무 걱정 안 하셔도 돼요. 그래도 처음부터 규칙대로 입력하는 습관을 들이면 좋아요.
+      </p>
+
+      <div class="callout">
+        <strong>자주 쓸 것 같으면 팀에 알려주세요</strong>
+        직접 입력한 값을 앞으로도 계속 쓸 것 같다면, 매번 직접 입력하지 마시고 코드북(구글시트)에
+        정식으로 추가해달라고 요청해주세요. 그래야 다른 팀원도 같은 값을 목록에서 골라 쓸 수 있어요.
+      </div>
+    </section>
+
+    <section id="archive">
+      <div class="kicker">06</div>
+      <h2>저장(아카이빙)이란 무엇인가요</h2>
+      <p class="section-desc">
+        링크를 만들고 나면 꼭 "기록에 저장"을 눌러주세요. 왜 필요한지, 어떻게 동작하는지, 안 될 때는 어떻게 하는지 설명드릴게요.
+      </p>
+
+      <div class="analogy">
+        <div class="a-label">왜 저장해야 하나요</div>
+        <p>
+          링크를 만들어서 바로 복사해 쓰고 끝내면, <b>나중에 그 링크를 누가 언제 왜 만들었는지 아무도 알 수 없어요.</b>
+          "기록에 저장"을 누르면 팀 이름의 구글시트 탭에 자동으로 한 줄씩 기록이 쌓여요 — 저장일시, 담당자,
+          랜딩 URL, 목적, 타겟 등 모든 정보가 함께요.
+        </p>
+      </div>
+
+      <h3>이래서 작성 팀 · 작성 담당자가 필수예요</h3>
+      <p>
+        이 두 정보가 있어야 "이 링크는 그로스실 정현아가 만들었다"는 게 기록에 남아요. 비워두면 나중에
+        문제가 생겼을 때(예: 잘못된 링크가 발견됐을 때) 누구에게 물어봐야 할지조차 알 수 없게 돼요. 그래서 필수값으로
+        막아뒀어요 — 비워두면 링크 생성 버튼이 눌리지 않습니다.
+      </p>
+
+      <h3>"팀별 아카이빙 — Apps Script 웹앱 연동" 자세히 보기</h3>
+      <p>
+        생성기 맨 위에 있는 이 카드가 저장 기능을 담당해요. <b>팀 공용 웹앱이 기본으로 이미 연결되어 있어서</b>,
+        평소엔 이 카드를 건드릴 일이 없어요. "기록에 저장"만 누르면 자동으로 팀 시트에 기록됩니다.
+      </p>
+
+      <div class="walk-step">
+        <div class="ws-head"><div class="ws-num">✓</div><h4>정상 작동 확인하는 법</h4></div>
+        <p>
+          "기록에 저장"을 눌렀을 때 화면에 <code>저장됨 · [팀 이름] 시트로 전송 중</code>이라는 문구가 뜨면 정상이에요.
+          <code>이 브라우저에 저장됨 (팀 시트 연동 안 됨)</code>이라는 문구가 뜬다면 아래 해결 방법을 확인해주세요.
+        </p>
+      </div>
+
+      <div class="callout">
+        <strong>연결이 안 되어 있을 때 해결 방법</strong>
+        <div style="margin-top:10px;font-size:13.5px;line-height:1.8;">
+          <b>1단계.</b> 상단 "팀별 아카이빙" 입력창에 URL이 채워져 있는지 확인하세요. 비어있다면 담당자(그로스실)에게
+          연결 URL을 다시 받아서 붙여넣고 <b>"연결 저장"</b>을 눌러주세요.<br>
+          <b>2단계.</b> URL은 있는데도 안 된다면, "기본값으로 되돌리기"를 눌러 팀 공용 웹앱으로 재연결해보세요.<br>
+          <b>3단계.</b> 그래도 안 되면 이건 담당자가 확인해야 하는 문제예요(구글시트 쪽 권한 설정 문제일 가능성이 높아요) —
+          "기록에 저장을 눌렀는데 시트에 안 쌓여요"라고 담당자(그로스실)에게 알려주세요.
+        </div>
+      </div>
+
+      <p style="font-size:13px;color:var(--muted);">
+        참고로 이 연결이 안 되어 있어도 링크 생성 자체는 정상적으로 됩니다 — 다만 "기록에 저장"을 눌렀을 때
+        내 브라우저에만 기록이 남고, 팀 공용 시트에는 안 쌓인다는 차이만 있어요. 그래도 팀 전체 기록을 위해서는
+        꼭 연결된 상태로 사용해주세요.
+      </p>
+    </section>
+
+
+    <section id="mistakes">
+      <div class="kicker">07</div>
+      <h2>자주 하는 실수</h2>
+      <p class="section-desc">아래처럼만 안 해도 대부분의 문제가 안 생겨요.</p>
+
+      <div class="dd-grid">
+        <div class="dd-card bad">
+          <span class="dtag">DON'T</span>
+          <p style="margin:0;font-size:13.5px;">목록에 있는 값을 직접 입력으로 다시 타이핑<br><code>Naver</code>, <code>naver </code>(공백 포함) 등</p>
+        </div>
+        <div class="dd-card good">
+          <span class="dtag">DO</span>
+          <p style="margin:0;font-size:13.5px;">목록에서 그대로 선택<br><code>naver</code></p>
+        </div>
+      </div>
+      <div class="dd-grid">
+        <div class="dd-card bad">
+          <span class="dtag">DON'T</span>
+          <p style="margin:0;font-size:13.5px;">"기록에 저장" 안 누르고 링크만 복사해서 사용</p>
+        </div>
+        <div class="dd-card good">
+          <span class="dtag">DO</span>
+          <p style="margin:0;font-size:13.5px;">링크 복사 후 반드시 "기록에 저장"까지 클릭</p>
+        </div>
+      </div>
+      <div class="dd-grid">
+        <div class="dd-card bad">
+          <span class="dtag">DON'T</span>
+          <p style="margin:0;font-size:13.5px;">작성 팀·담당자를 대충 아무거나 선택/입력</p>
+        </div>
+        <div class="dd-card good">
+          <span class="dtag">DO</span>
+          <p style="margin:0;font-size:13.5px;">실제 본인 소속과 이름을 정확히 입력</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="faq">
+      <div class="kicker">08</div>
+      <h2>자주 묻는 질문</h2>
+
+      <details class="faq-item" open>
+        <summary>UTM을 안 붙이면 어떻게 되나요?</summary>
+        <div class="a">링크는 정상적으로 작동해서 페이지 이동에는 문제없어요. 다만 GA4(구글 애널리틱스)에서 "이 방문자가 어디서 왔는지"를 알 수 없게 돼요. 이 캠페인의 성과(몇 명이 클릭해서 몇 명이 구매했는지)를 전혀 확인할 수 없다는 뜻이에요.</div>
+      </details>
+      <details class="faq-item">
+        <summary>목록에 필요한 값이 없으면 어떻게 하나요?</summary>
+        <div class="a">"직접 입력…"으로 일단 사용하시고, 앞으로도 계속 쓸 값이면 팀에 코드북(구글시트) 추가를 요청해주세요.</div>
+      </details>
+      <details class="faq-item">
+        <summary>실수로 잘못된 값을 저장했어요. 지울 수 있나요?</summary>
+        <div class="a">생성기 화면 아래 "생성 기록"에서 해당 항목의 "삭제"를 누르면 이 브라우저 기록뿐 아니라 팀 시트의 해당 행도 함께 지워져요.</div>
+      </details>
+      <details class="faq-item">
+        <summary>대분류만 고르고 중분류·소분류는 안 골라도 되나요?</summary>
+        <div class="a">네, 됩니다. 대분류만 필수이고 중분류·소분류는 선택 사항이에요. 더 구체적으로 구분하고 싶을 때만 채우면 돼요.</div>
+      </details>
+      <details class="faq-item">
+        <summary>같은 링크를 여러 번 만들면 안 되나요?</summary>
+        <div class="a">조건(콘텐츠·목적·타겟·발송일)이 같은 캠페인을 정말 여러 개 보내야 한다면, "캠페인 세부명"으로 구분해주세요. 그렇지 않다면 이미 만든 링크를 재사용하시면 됩니다.</div>
+      </details>
+    </section>
+
+    <section id="reference">
+      <div class="kicker">09</div>
+      <h2>전체 코드표 <span style="font-weight:400;color:var(--muted);font-size:16px;">(참고용)</span></h2>
+      <p class="section-desc">
+        여기까지 안 읽으셔도 생성기 사용에는 지장 없어요. 다만 "이 코드가 무슨 뜻이었지?" 싶을 때 찾아보시라고
+        전체 목록을 참고용으로 남겨둡니다. <b>구글시트와 실시간으로 연동</b>되어 있어서, 시트가 바뀌면
+        이 페이지도 새로고침할 때마다 최신 내용으로 자동 반영돼요.
+      </p>
+      <p id="refSyncStatus" style="font-size:12.5px;color:var(--muted);margin:-10px 0 22px;">불러오는 중…</p>
+
+      <div class="ref-block">
+        <div class="ref-head"><h3>소스 — 누가 보냈나 <span style="color:var(--amber);font-weight:700;">필수</span></h3><span class="ref-count" id="cnt-source">28개</span></div>
+        <input class="filter-input" type="text" placeholder="예: 네이버, google, 매체사..." data-filter-target="tbl-source">
+        <div class="table-wrap">
+          <table id="tbl-source">
+            <thead><tr><th>code</th><th>설명</th></tr></thead>
+            <tbody>
+<tr><td class="code">eduwill</td><td>에듀윌 웹/자사 채널 (CRM 자체발송 발신주체, 전사표준)</td></tr>
+<tr><td class="code">eduwill_app</td><td>에듀윌 앱 (앱 푸시 등 앱 발신)</td></tr>
+<tr><td class="code">naver</td><td>네이버</td></tr>
+<tr><td class="code">google</td><td>구글</td></tr>
+<tr><td class="code">daum</td><td>다음</td></tr>
+<tr><td class="code">bing</td><td>빙</td></tr>
+<tr><td class="code">msn</td><td>MSN (포털/엣지 새탭)</td></tr>
+<tr><td class="code">yahoo</td><td>야후</td></tr>
+<tr><td class="code">chatgpt</td><td>챗GPT (AI 레퍼럴)</td></tr>
+<tr><td class="code">youtube</td><td>유튜브</td></tr>
+<tr><td class="code">instagram</td><td>인스타그램_콘텐츠</td></tr>
+<tr><td class="code">facebook</td><td>페이스북</td></tr>
+<tr><td class="code">meta</td><td>메타_인스타 (유료광고 소재, medium=paid_social)</td></tr>
+<tr><td class="code">threads</td><td>스레드</td></tr>
+<tr><td class="code">x</td><td>X(트위터)</td></tr>
+<tr><td class="code">tiktok</td><td>틱톡</td></tr>
+<tr><td class="code">kakao</td><td>카카오</td></tr>
+<tr><td class="code">message</td><td>문자 발송 주체 (SMS/LMS/MMS)</td></tr>
+<tr><td class="code">dcinside</td><td>디시인사이드</td></tr>
+<tr><td class="code">tg</td><td>TG (매체사)</td></tr>
+<tr><td class="code">realclick</td><td>리얼클릭 (매체사)</td></tr>
+<tr><td class="code">mobon</td><td>모비온 (매체사)</td></tr>
+<tr><td class="code">nscreen</td><td>스크린뷰 (매체사)</td></tr>
+<tr><td class="code">criteo</td><td>크리테오 (매체사)</td></tr>
+<tr><td class="code">dable</td><td>데이블 (매체사)</td></tr>
+<tr><td class="code">taboola</td><td>타불라 (매체사)</td></tr>
+<tr><td class="code">neoclick</td><td>네오클릭 (매체사)</td></tr>
+<tr><td class="code">searchnclick</td><td>서치N클릭 (매체사, 기존 오탈자 교정)</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="ref-block">
+        <div class="ref-head"><h3>매체 — 어떻게 보냈나 <span style="color:var(--amber);font-weight:700;">필수</span></h3><span class="ref-count" id="cnt-medium">51개</span></div>
+        <input class="filter-input" type="text" placeholder="예: 광고, 카카오, 문자..." data-filter-target="tbl-medium">
+        <div class="table-wrap">
+          <table id="tbl-medium">
+            <thead><tr><th>code</th><th>설명</th></tr></thead>
+            <tbody>
+<tr><td class="code">search</td><td>검색광고</td></tr>
+<tr><td class="code">brandsearch</td><td>브랜드검색</td></tr>
+<tr><td class="code">shopping_search</td><td>쇼핑검색</td></tr>
+<tr><td class="code">display</td><td>디스플레이광고</td></tr>
+<tr><td class="code">paid_video</td><td>유료 영상광고</td></tr>
+<tr><td class="code">blog</td><td>블로그</td></tr>
+<tr><td class="code">cafe</td><td>네이버 카페 (외부/비공식)</td></tr>
+<tr><td class="code">cafe1</td><td>공식카페_공무원</td></tr>
+<tr><td class="code">cafe2</td><td>공식카페_공인중개사</td></tr>
+<tr><td class="code">cafe3</td><td>공식카페_기사</td></tr>
+<tr><td class="code">cafe4</td><td>공식카페_주택관리사</td></tr>
+<tr><td class="code">cafe5</td><td>공식카페_취업</td></tr>
+<tr><td class="code">cafe6</td><td>공식카페_한국사</td></tr>
+<tr><td class="code">cafe7</td><td>공식카페_경찰 (중지)</td></tr>
+<tr><td class="code">cafe8</td><td>공식카페_소방</td></tr>
+<tr><td class="code">cafe9</td><td>공식카페_행정</td></tr>
+<tr><td class="code">cafe10</td><td>공식카페_군무원 (중지)</td></tr>
+<tr><td class="code">cafe11</td><td>공식카페_기술 (중지)</td></tr>
+<tr><td class="code">cafe12</td><td>공식카페_계리</td></tr>
+<tr><td class="code">cafe13</td><td>공식카페_경비</td></tr>
+<tr><td class="code">cafe14</td><td>공식카페_검정</td></tr>
+<tr><td class="code">cafe15</td><td>공식카페_금융</td></tr>
+<tr><td class="code">cafe16</td><td>공식카페_무역</td></tr>
+<tr><td class="code">cafe17</td><td>공식카페_직상</td></tr>
+<tr><td class="code">cafe18</td><td>공식카페_IT (중지)</td></tr>
+<tr><td class="code">cafe19</td><td>공식카페_산안기</td></tr>
+<tr><td class="code">cafe20</td><td>공식카페_운전 (중지)</td></tr>
+<tr><td class="code">cafe21</td><td>공식카페_토익</td></tr>
+<tr><td class="code">cafe22</td><td>공식카페_CPTA (중지)</td></tr>
+<tr><td class="code">cafe23</td><td>공식카페_편입</td></tr>
+<tr><td class="code">community</td><td>커뮤니티 게시물</td></tr>
+<tr><td class="code">channel</td><td>카카오 채널</td></tr>
+<tr><td class="code">openchat</td><td>카카오 오픈채팅방</td></tr>
+<tr><td class="code">profile</td><td>프로필 링크</td></tr>
+<tr><td class="code">litt</td><td>리틀리</td></tr>
+<tr><td class="code">owned_text</td><td>텍스트형 자사 콘텐츠</td></tr>
+<tr><td class="code">owned_image</td><td>이미지형 자사 콘텐츠</td></tr>
+<tr><td class="code">owned_video</td><td>영상형 자사 콘텐츠</td></tr>
+<tr><td class="code">viral</td><td>바이럴 광고/게시</td></tr>
+<tr><td class="code">unpaid_seeding</td><td>무가시딩</td></tr>
+<tr><td class="code">paid_seeding</td><td>유가시딩</td></tr>
+<tr><td class="code">groupbuy</td><td>공동구매</td></tr>
+<tr><td class="code">brand_message</td><td>카카오 브랜드메시지</td></tr>
+<tr><td class="code">alimtalk</td><td>카카오 알림톡</td></tr>
+<tr><td class="code">email</td><td>이메일</td></tr>
+<tr><td class="code">lms</td><td>문자</td></tr>
+<tr><td class="code">push</td><td>앱 푸시</td></tr>
+<tr><td class="code">in_app</td><td>인앱 메시지</td></tr>
+<tr><td class="code">qr</td><td>QR코드</td></tr>
+<tr><td class="code">refer</td><td>외부 추천/제휴 링크</td></tr>
+<tr><td class="code">paid_native</td><td>유료 콘텐츠</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="ref-block">
+        <div class="ref-head"><h3>캠페인 목적</h3><span class="ref-count" id="cnt-purpose">11개</span></div>
+        <div class="table-wrap">
+          <table id="tbl-purpose">
+            <thead><tr><th>code</th><th>설명</th><th>선택 기준</th></tr></thead>
+            <tbody>
+<tr><td class="code">awareness</td><td>노출_인지도/브랜딩</td><td class="desc">브랜드·상품 인지도, 영상조회·노출 중심 캠페인</td></tr>
+<tr><td class="code">maintraffic</td><td>유입_자사</td><td class="desc">특정 자사 페이지 방문/클릭 유도가 핵심</td></tr>
+<tr><td class="code">lead</td><td>신청_상담/리드</td><td class="desc">전화·카카오·폼 등 상담/문의 신청</td></tr>
+<tr><td class="code">signup</td><td>행동_회원가입</td><td class="desc">회원가입 완료가 목표</td></tr>
+<tr><td class="code">activation</td><td>행동_그외</td><td class="desc">가입 후 진단·샘플강의·첫 학습 등 초기 행동 유도</td></tr>
+<tr><td class="code">event</td><td>행동_이벤트</td><td class="desc">이벤트 참여·응모·신청이 목표</td></tr>
+<tr><td class="code">winback</td><td>활성화_이탈고개</td><td class="desc">휴면·장기 미접속·이탈 고객 복귀</td></tr>
+<tr><td class="code">purchase</td><td>행동_구매</td><td class="desc">최초 또는 일반 상품 구매</td></tr>
+<tr><td class="code">upsell</td><td>행동_추가구매</td><td class="desc">기존 구매자의 특강·추가 상품·교차구매</td></tr>
+<tr><td class="code">transactional</td><td>노출_안내</td><td class="desc">결제·신청·배송·수강 등 마케팅 목적이 아닌 필수 안내</td></tr>
+<tr><td class="code">ondtraffic</td><td>유입_자사외</td><td class="desc">자사 외 페이지 방문/클릭 유도가 핵심</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="ref-block">
+        <div class="ref-head"><h3>타겟 세그먼트</h3><span class="ref-count" id="cnt-target">13개</span></div>
+        <div class="table-wrap">
+          <table id="tbl-target">
+            <thead><tr><th>code</th><th>설명</th><th>의미</th></tr></thead>
+            <tbody>
+<tr><td class="code">prospect</td><td>신규고객_유입</td><td class="desc">비회원 포함 신규 잠재 고객</td></tr>
+<tr><td class="code">visitor_nopurchase</td><td>기존고객_미구매</td><td class="desc">사이트 방문 이력 있으나 미구매</td></tr>
+<tr><td class="code">new_nopurchase</td><td>신규고객_미구매</td><td class="desc">가입 후 7일 이내 미구매</td></tr>
+<tr><td class="code">lead_nopurchase</td><td>상담/리드_미구매</td><td class="desc">상담·문의·진단 등 리드 발생 후 미구매</td></tr>
+<tr><td class="code">cartpending</td><td>구매전환대기</td><td class="desc">장바구니/결제 진입 후 미결제</td></tr>
+<tr><td class="code">buyer</td><td>기존고객_구매</td><td class="desc">구매 이력이 있는 고객</td></tr>
+<tr><td class="code">active7d</td><td>기존고객_활성수강생</td><td class="desc">최근 7일 학습 활동 발생</td></tr>
+<tr><td class="code">dormant30d</td><td>기존고객_비활성수강생_30D</td><td class="desc">30일 이상 미접속/미학습</td></tr>
+<tr><td class="code">aboutcomplete</td><td>기존고객_수료예정군</td><td class="desc">진도율 90% 이상</td></tr>
+<tr><td class="code">repeat</td><td>기존고객_재구매후보</td><td class="desc">기존 구매/수료 후 추가 구매 가능 고객</td></tr>
+<tr><td class="code">vip</td><td>기존고객_VIP고객</td><td class="desc">LTV 상위 고객군</td></tr>
+<tr><td class="code">examd30</td><td>기존고객_시험임박군_D30</td><td class="desc">목표 시험 D-30 이내</td></tr>
+<tr><td class="code">all</td><td>전체</td><td class="desc">특정 세그먼트 미적용</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="ref-block">
+        <div class="ref-head"><h3>콘텐츠 — 대분류 <span style="color:var(--amber);font-weight:700;">필수</span></h3><span class="ref-count" id="cnt-content_대분류">6개</span></div>
+        <div class="table-wrap">
+          <table id="tbl-content_대분류">
+            <thead><tr><th>code</th><th>설명</th><th>포함 범위</th></tr></thead>
+            <tbody>
+<tr><td class="code">gov</td><td>공무원&amp;입시</td><td class="desc">9급·소방·계리·편입</td></tr>
+<tr><td class="code">license</td><td>기술자격증</td><td class="desc">기사자격증</td></tr>
+<tr><td class="code">spec</td><td>전문자격증</td><td class="desc">공인중개사·주택관리사·회계·사회복지사 등</td></tr>
+<tr><td class="code">job</td><td>취업</td><td class="desc">공기업/대기업 취업·NCS 직무능력·토익</td></tr>
+<tr><td class="code">lang</td><td>어학</td><td class="desc">토익·오픽 등 어학시험 대비</td></tr>
+<tr><td class="code">skill</td><td>직무역량</td><td class="desc">컴퓨터활용능력·한국사능력검정 등</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <details class="fold">
+        <summary>콘텐츠 — 중분류 <span id="cnt-content_중분류">64개</span> 보기 (선택 항목, 대분류 고르면 자동으로 좁혀져요)</summary>
+        <input class="filter-input" type="text" placeholder="예: 공무원, 소방, 검정고시..." data-filter-target="tbl-mid" style="margin-top:8px;">
+        <div class="table-wrap">
+          <table id="tbl-mid">
+            <thead><tr><th>code</th><th>설명</th></tr></thead>
+            <tbody>
+<tr><td class="code">_101</td><td>국제무역사/무역영어</td></tr>
+<tr><td class="code">_102</td><td>무역영어</td></tr>
+<tr><td class="code">_103</td><td>한식조리기능사</td></tr>
+<tr><td class="code">_104</td><td>소방공무원</td></tr>
+<tr><td class="code">_105</td><td>부동산아카데미</td></tr>
+<tr><td class="code">_106</td><td>건축기사</td></tr>
+<tr><td class="code">_107</td><td>토목기사</td></tr>
+<tr><td class="code">_108</td><td>산업/건설안전기사</td></tr>
+<tr><td class="code">_109</td><td>산업안전보건교육</td></tr>
+<tr><td class="code">_110</td><td>주택취업지원센터</td></tr>
+<tr><td class="code">_111</td><td>위험물산업기사/기능사</td></tr>
+<tr><td class="code">_113</td><td>소방시설관리사</td></tr>
+<tr><td class="code">_114</td><td>세무사·회계사</td></tr>
+<tr><td class="code">_115</td><td>토익</td></tr>
+<tr><td class="code">_116</td><td>편입</td></tr>
+<tr><td class="code">_117</td><td>면접</td></tr>
+<tr><td class="code">_118</td><td>화이트해커</td></tr>
+<tr><td class="code">_119</td><td>글로벌 메인</td></tr>
+<tr><td class="code">_120</td><td>군간부</td></tr>
+<tr><td class="code">_121</td><td>임용</td></tr>
+<tr><td class="code">_123</td><td>편입 게이트</td></tr>
+<tr><td class="code">_124</td><td>감정평가사</td></tr>
+<tr><td class="code">_125</td><td>노무사</td></tr>
+<tr><td class="code">_126</td><td>법무사</td></tr>
+<tr><td class="code">0</td><td>공통</td></tr>
+<tr><td class="code">1</td><td>한경TESAT/매경TEST</td></tr>
+<tr><td class="code">2</td><td>책배송비</td></tr>
+<tr><td class="code">3</td><td>전기기능사</td></tr>
+<tr><td class="code">4</td><td>청소년상담사(3급)</td></tr>
+<tr><td class="code">5</td><td>ERP정보관리사</td></tr>
+<tr><td class="code">6</td><td>건축기사/토목기사</td></tr>
+<tr><td class="code">7</td><td>7급 공무원</td></tr>
+<tr><td class="code">8</td><td>KBS한국어/실용글쓰기</td></tr>
+<tr><td class="code">9</td><td>조경기사/기능사</td></tr>
+<tr><td class="code">A</td><td>행정사</td></tr>
+<tr><td class="code">B</td><td>검정고시</td></tr>
+<tr><td class="code">BC</td><td>대입검정(고졸)</td></tr>
+<tr><td class="code">BH</td><td>고입검정(중졸)</td></tr>
+<tr><td class="code">C</td><td>경찰공무원</td></tr>
+<tr><td class="code">D</td><td>도로교통사고감정사</td></tr>
+<tr><td class="code">E</td><td>한자능력검정</td></tr>
+<tr><td class="code">F</td><td>유통관리사</td></tr>
+<tr><td class="code">G</td><td>9급 공무원</td></tr>
+<tr><td class="code">H</td><td>한국사능력검정</td></tr>
+<tr><td class="code">I</td><td>IT자격증</td></tr>
+<tr><td class="code">IT</td><td>IT자격증</td></tr>
+<tr><td class="code">J</td><td>주택관리사</td></tr>
+<tr><td class="code">K</td><td>경비지도사</td></tr>
+<tr><td class="code">L</td><td>공인중개사</td></tr>
+<tr><td class="code">M</td><td>물류관리사</td></tr>
+<tr><td class="code">N</td><td>지식발전소</td></tr>
+<tr><td class="code">NPC</td><td>미선택</td></tr>
+<tr><td class="code">O</td><td>AT</td></tr>
+<tr><td class="code">Q</td><td>전기기사</td></tr>
+<tr><td class="code">R</td><td>번역사(종료)</td></tr>
+<tr><td class="code">S</td><td>사회복지사 1급</td></tr>
+<tr><td class="code">STU</td><td>학점은행제</td></tr>
+<tr><td class="code">T</td><td>계리직 공무원</td></tr>
+<tr><td class="code">U</td><td>재경관리사</td></tr>
+<tr><td class="code">V</td><td>직업상담사</td></tr>
+<tr><td class="code">W</td><td>온오프라인학원</td></tr>
+<tr><td class="code">X</td><td>전산세무회계</td></tr>
+<tr><td class="code">Y</td><td>소방설비기사</td></tr>
+<tr><td class="code">Z</td><td>공기업/대기업 취업</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </details>
+
+      <div class="ref-block" style="margin-top:28px;">
+        <div class="ref-head"><h3>콘텐츠 — 소분류 <span style="font-weight:400;color:var(--muted);">(선택)</span></h3><span class="ref-count" id="cnt-content_소분류">4개</span></div>
+        <div class="table-wrap">
+          <table id="tbl-content_소분류">
+            <thead><tr><th>code</th><th>설명</th><th>의미</th></tr></thead>
+            <tbody>
+<tr><td class="code">basic</td><td>기본강의</td><td class="desc">단일 과목 기본 커리큘럼</td></tr>
+<tr><td class="code">advanced</td><td>심화강의</td><td class="desc">기본 과정 이후 심화/기출 분석</td></tr>
+<tr><td class="code">mockexam</td><td>모의고사</td><td class="desc">실전 모의고사 상품</td></tr>
+<tr><td class="code">package</td><td>패키지</td><td class="desc">여러 과목을 묶은 종합 패키지</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <details class="fold">
+        <summary>캠페인 세부명 <span id="cnt-campaign_세부명">21개</span> 보기 (선택 항목, 같은 조건 캠페인이 여러 개일 때만)</summary>
+        <div class="table-wrap" style="margin-top:8px;">
+          <table id="tbl-campaign_세부명">
+            <thead><tr><th>code</th><th>설명</th><th>사용 상황</th></tr></thead>
+            <tbody>
+<tr><td class="code">MOCK_EXAM</td><td>모의고사/가답안·가채점</td><td class="desc">모의고사 응시 안내, 가답안/가채점 서비스 안내</td></tr>
+<tr><td class="code">PURCHASE_FUNNEL</td><td>구매전환(첫구매·장바구니)</td><td class="desc">장바구니 이탈, 첫구매 유도, 골든타임 리마인드</td></tr>
+<tr><td class="code">EXAM_DEADLINE</td><td>원서접수/마감임박</td><td class="desc">시험 원서접수 안내, 각종 마감 임박 알림</td></tr>
+<tr><td class="code">INFO_SESSION</td><td>설명회</td><td class="desc">오프라인/온라인 설명회 홍보 및 리마인드</td></tr>
+<tr><td class="code">COURSE_OPEN</td><td>개강안내</td><td class="desc">개강 일정 및 선행반 안내</td></tr>
+<tr><td class="code">SPECIAL_LECTURE</td><td>특강</td><td class="desc">무료/유료 특강 홍보</td></tr>
+<tr><td class="code">PROMOTION</td><td>프로모션/할인/쿠폰</td><td class="desc">할인, 쿠폰, 프로모션, 리패키징, 얼리버드 등 가격 프로모션</td></tr>
+<tr><td class="code">PASS_UPSELL</td><td>패스 상품 업셀</td><td class="desc">패스 상품(구독형) 가입/업그레이드 유도</td></tr>
+<tr><td class="code">NEW_PRODUCT</td><td>신규상품/오픈/런칭</td><td class="desc">신규 강의/상품 출시 및 오픈 안내</td></tr>
+<tr><td class="code">FREE_TRIAL</td><td>무료회원/무료체험</td><td class="desc">무료 회원가입, 무료 체험 유도</td></tr>
+<tr><td class="code">EXAM_RESULT</td><td>합격/결과 관련</td><td class="desc">합격 전략, 합격자 발표/후기 관련</td></tr>
+<tr><td class="code">CRM_RETENTION</td><td>CRM/학습독려</td><td class="desc">수강생 학습 독려, 재등록/연장 유도</td></tr>
+<tr><td class="code">SURVEY</td><td>설문/만족도조사</td><td class="desc">만족도 조사, 서베이, 진단 요청</td></tr>
+<tr><td class="code">REFUND</td><td>환급/환불</td><td class="desc">환급형 상품 안내, 환불 절차 안내</td></tr>
+<tr><td class="code">JOB_SUPPORT</td><td>취업/면접 지원</td><td class="desc">취업 연계, 면접/자소서 지원</td></tr>
+<tr><td class="code">CONSULT</td><td>상담/입학·모객안내</td><td class="desc">1:1 상담 유도, 학원 모객, 입학 안내</td></tr>
+<tr><td class="code">AS_NOTICE</td><td>AS/리마인드/안내(CS성)</td><td class="desc">배송/주소 확인, 두낫콜, 환불방어 등 CS 운영성 알림</td></tr>
+<tr><td class="code">PARTNER_EVENT</td><td>제휴 이벤트</td><td class="desc">제휴사 공동 이벤트, 카페/블로그 서포터즈</td></tr>
+<tr><td class="code">EVENT_GENERAL</td><td>일반 이벤트/모집</td><td class="desc">경품 이벤트, 참가자/체험단 모집</td></tr>
+<tr><td class="code">PROMO_GENERAL</td><td>일반 홍보/안내</td><td class="desc">위 유형에 명확히 속하지 않는 일반 홍보·안내 문구</td></tr>
+<tr><td class="code">OTHER</td><td>기타(자동분류 불가)</td><td class="desc">키워드 매칭에 실패한 건 (수동 확인 필요)</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </details>
+
+      <div class="ref-block" style="margin-top:28px;">
+        <div class="ref-head"><h3>작성 팀 <span style="color:var(--amber);font-weight:700;">필수</span></h3><span class="ref-count" id="cnt-team">4개</span></div>
+        <div class="table-wrap">
+          <table id="tbl-team">
+            <thead><tr><th>code</th><th>설명</th></tr></thead>
+            <tbody>
+<tr><td class="code">온라인사업1실</td><td>온라인사업1실</td></tr>
+<tr><td class="code">온라인사업2실</td><td>온라인사업2실</td></tr>
+<tr><td class="code">고객상담실</td><td>고객상담실</td></tr>
+<tr><td class="code">그로스실</td><td>그로스실</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      에듀윌 UTM 링크 가이드 · 초보자용 · 문의: 그로스실
+    </footer>
+  </main>
+</div>
+
+<script>
+  document.querySelectorAll('.toc a[data-scroll-to]').forEach(function(a) {
+    a.addEventListener('click', function(e) {
+      e.preventDefault();
+      var target = document.getElementById(a.getAttribute('data-scroll-to'));
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+
+  document.querySelectorAll('.filter-input').forEach(function(input) {
+    input.addEventListener('input', function() {
+      var targetId = input.getAttribute('data-filter-target');
+      var table = document.getElementById(targetId);
+      if (!table) return;
+      var q = input.value.trim().toLowerCase();
+      table.querySelectorAll('tbody tr').forEach(function(tr) {
+        var text = tr.textContent.toLowerCase();
+        tr.classList.toggle('hidden-row', q.length > 0 && text.indexOf(q) === -1);
+      });
+    });
+  });
+
+  // ---- 전체 코드표 실시간 연동 (생성기와 같은 구글시트, 같은 gviz 방식) ----
+  // 페이지에 이미 렌더링된 표는 "마지막으로 확인한 스냅샷"이고, 아래 스크립트가 성공하면
+  // 그 시점의 최신 시트 내용으로 표를 다시 그려서 덮어씁니다. 실패해도 스냅샷이 그대로 남아있어
+  // 페이지가 비어 보이는 일은 없습니다.
+  const REF_SHEET_ID = "1SF6z8bbWAXopPPuoNePX8hEzX92y5LrIS9MetwKDon8";
+  const REF_TABS = ["source", "medium", "purpose", "target", "content_대분류", "content_중분류", "content_소분류", "campaign_세부명", "team"];
+  let refJsonpCounter = 0;
+
+  function refLoadJsonp(urlBuilder, timeoutMs) {
+    timeoutMs = timeoutMs || 12000;
+    return new Promise(function(resolve, reject) {
+      const cbName = "__utmRefCb_" + Date.now() + "_" + (refJsonpCounter++);
+      const script = document.createElement("script");
+      let settled = false;
+      const timer = setTimeout(function() {
+        if (settled) return;
+        settled = true;
+        cleanup();
+        reject(new Error("응답 시간 초과"));
+      }, timeoutMs);
+      function cleanup() {
+        delete window[cbName];
+        if (script.parentNode) script.parentNode.removeChild(script);
+        clearTimeout(timer);
+      }
+      window[cbName] = function(data) {
+        if (settled) return;
+        settled = true;
+        cleanup();
+        resolve(data);
+      };
+      script.onerror = function() {
+        if (settled) return;
+        settled = true;
+        cleanup();
+        reject(new Error("스크립트 로드 실패"));
+      };
+      script.src = urlBuilder(cbName);
+      document.head.appendChild(script);
+    });
+  }
+
+  function refFetchTab(sheetId, tabName) {
+    return refLoadJsonp(function(cbName) {
+      return "https://docs.google.com/spreadsheets/d/" + sheetId + "/gviz/tq?tqx=out:json%3BresponseHandler:" + cbName + "&sheet=" + encodeURIComponent(tabName);
+    }).then(function(json) {
+      if (!json || json.status !== "ok" || !json.table || !Array.isArray(json.table.rows)) {
+        throw new Error("시트 응답 오류");
+      }
+      const rows = json.table.rows.map(function(r) {
+        return (r.c || []).map(function(cell) { return (cell && cell.v != null) ? String(cell.v) : ""; });
+      });
+      if (!rows.length) return [];
+      const header = rows[0].map(function(h) { return (h || "").trim().toLowerCase(); });
+      const codeIdx = header.indexOf("code");
+      const labelIdx = header.indexOf("label");
+      if (codeIdx === -1 || labelIdx === -1) throw new Error("code/label 열 없음");
+      // 3번째 열은 탭마다 이름이 달라서(의미/선택기준/포함범위 등) 이름 상관없이 "3번째 실제 열"을 참고용 설명으로 사용
+      const extraIdx = header.length > 2 ? 2 : -1;
+      return rows.slice(1)
+        .filter(function(r) { return r[codeIdx] && r[codeIdx].trim(); })
+        .map(function(r) {
+          const item = { code: r[codeIdx].trim(), label: (r[labelIdx] || r[codeIdx]).trim() };
+          if (extraIdx !== -1 && r[extraIdx] && r[extraIdx].trim()) item.extra = r[extraIdx].trim();
+          return item;
+        });
+    });
+  }
+
+  function escapeHtmlRef(s) {
+    return String(s == null ? "" : s)
+      .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+  }
+
+  function renderRefTable(tabKey, items) {
+    const table = document.getElementById("tbl-" + tabKey);
+    const countEl = document.getElementById("cnt-" + tabKey);
+    if (!table) return;
+    const hasExtraCol = table.querySelectorAll("thead th").length > 2;
+    const tbody = table.querySelector("tbody");
+    tbody.innerHTML = items.map(function(i) {
+      const codeCell = '<td class="code">' + escapeHtmlRef(i.code) + '</td>';
+      const labelCell = '<td>' + escapeHtmlRef(i.label) + '</td>';
+      const extraCell = hasExtraCol ? '<td class="desc">' + escapeHtmlRef(i.extra || "") + '</td>' : '';
+      return '<tr>' + codeCell + labelCell + extraCell + '</tr>';
+    }).join("");
+    if (countEl) countEl.textContent = items.length + "개";
+  }
+
+  function syncReferenceTables() {
+    const statusEl = document.getElementById("refSyncStatus");
+    Promise.allSettled(REF_TABS.map(function(t) { return refFetchTab(REF_SHEET_ID, t); }))
+      .then(function(results) {
+        let okCount = 0, failCount = 0;
+        results.forEach(function(r, i) {
+          const tabKey = REF_TABS[i];
+          if (r.status === "fulfilled") {
+            renderRefTable(tabKey, r.value);
+            okCount++;
+          } else {
+            failCount++;
+          }
+        });
+        if (!statusEl) return;
+        const stamp = new Date().toLocaleString("ko-KR", { hour12: false });
+        if (failCount === 0) {
+          statusEl.textContent = "✓ 구글시트와 실시간 연동됨 · 최신 업데이트 확인 (" + stamp + ")";
+        } else if (okCount > 0) {
+          statusEl.textContent = "일부 탭은 최신 정보를 못 불러와 기존 내용을 유지합니다 (" + stamp + ")";
+        } else {
+          statusEl.textContent = "지금 보이는 표는 마지막으로 저장된 스냅샷입니다 (실시간 연동 실패)";
+        }
+      });
+  }
+
+  syncReferenceTables();
+</script>
+
+</body>
+</html>

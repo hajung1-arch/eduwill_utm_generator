@@ -1,1700 +1,1181 @@
-<title>에듀윌 CRM UTM 생성기</title>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>누구나 쉽게 배우는 UTM 링크 가이드</title>
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #f5f3ee;
-    --surface: #ffffff;
-    --surface-2: #faf8f4;
-    --border: #e2ddd2;
-    --ink: #201f1c;
-    --ink-soft: #6b6459;
-    --ink-faint: #9b9488;
-    --accent: #2a4b6e;
-    --accent-ink: #ffffff;
-    --accent-soft: #e7edf3;
-    --success: #2e7d5b;
-    --success-soft: #e5f2ec;
-    --warn: #b3691d;
-    --warn-soft: #f7ecdd;
-    --danger: #b23b3b;
-    --chip-0: #2a4b6e;
-    --chip-1: #4c6b8a;
-    --chip-2: #6d5a2a;
-    --chip-3: #5a6b3a;
-    --chip-4: #8a5a1f;
-    --chip-5: #5a4a6e;
-    --chip-6: #3f6b4e;
-    --chip-7: #7a3f52;
-    --mono: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
-    --sans: "Pretendard", -apple-system, BlinkMacSystemFont, "Malgun Gothic", "Apple SD Gothic Neo", sans-serif;
-    --shadow: 0 1px 2px rgba(32,31,28,0.04), 0 6px 16px -8px rgba(32,31,28,0.10);
+    --ink: #17242F;
+    --text: #3E4A54;
+    --muted: #7A8590;
+    --paper: #F6F5F0;
+    --card: #FFFFFF;
+    --line: #E4E1D6;
+    --navy: #1F4E6B;
+    --navy-deep: #163A50;
+    --teal: #1E7A6C;
+    --teal-bg: #E9F4F1;
+    --amber: #B4661B;
+    --amber-bg: #FBEFE1;
+    --plum: #6C4E7D;
+    --radius: 12px;
   }
-
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --bg: #16181a;
-      --surface: #1f2225;
-      --surface-2: #26292d;
-      --border: #363a3e;
-      --ink: #eceae6;
-      --ink-soft: #a8a39a;
-      --ink-faint: #7a766e;
-      --accent: #7fa8d6;
-      --accent-ink: #101418;
-      --accent-soft: #253242;
-      --success: #6ec9a0;
-      --success-soft: #1e2f27;
-      --warn: #e0a85c;
-      --warn-soft: #33291a;
-      --danger: #e08080;
-      --chip-0: #7fa8d6;
-      --chip-1: #8fb0c9;
-      --chip-2: #c9b273;
-      --chip-3: #a3c17f;
-      --chip-4: #d6a566;
-      --chip-5: #b39fd6;
-      --chip-6: #8fc9a3;
-      --chip-7: #d68fa6;
-      --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 20px -8px rgba(0,0,0,0.5);
-    }
-  }
-  :root[data-theme="dark"] {
-    --bg: #16181a; --surface: #1f2225; --surface-2: #26292d; --border: #363a3e;
-    --ink: #eceae6; --ink-soft: #a8a39a; --ink-faint: #7a766e;
-    --accent: #7fa8d6; --accent-ink: #101418; --accent-soft: #253242;
-    --success: #6ec9a0; --success-soft: #1e2f27; --warn: #e0a85c; --warn-soft: #33291a; --danger: #e08080;
-    --chip-0: #7fa8d6; --chip-1: #8fb0c9; --chip-2: #c9b273; --chip-3: #a3c17f; --chip-4: #d6a566; --chip-5: #b39fd6; --chip-6: #8fc9a3; --chip-7: #d68fa6;
-    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 20px -8px rgba(0,0,0,0.5);
-  }
-  :root[data-theme="light"] {
-    --bg: #f5f3ee; --surface: #ffffff; --surface-2: #faf8f4; --border: #e2ddd2;
-    --ink: #201f1c; --ink-soft: #6b6459; --ink-faint: #9b9488;
-    --accent: #2a4b6e; --accent-ink: #ffffff; --accent-soft: #e7edf3;
-    --success: #2e7d5b; --success-soft: #e5f2ec; --warn: #b3691d; --warn-soft: #f7ecdd; --danger: #b23b3b;
-    --chip-0: #2a4b6e; --chip-1: #4c6b8a; --chip-2: #6d5a2a; --chip-3: #5a6b3a; --chip-4: #8a5a1f; --chip-5: #5a4a6e; --chip-6: #3f6b4e; --chip-7: #7a3f52;
-    --shadow: 0 1px 2px rgba(32,31,28,0.04), 0 6px 16px -8px rgba(32,31,28,0.10);
-  }
-
   * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
   body {
     margin: 0;
-    font-family: var(--sans);
-    color: var(--ink);
-    background: var(--bg);
-    font-size: 14px;
-    line-height: 1.55;
+    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--paper);
+    color: var(--text);
+    line-height: 1.7;
+    font-size: 16px;
   }
-  .wrap {
-    max-width: 1180px;
-    margin: 0 auto;
-    padding: 28px 20px 60px;
-  }
-  header.top {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: 16px;
-    margin-bottom: 22px;
-    flex-wrap: wrap;
-  }
-  .eyebrow {
-    text-transform: uppercase;
-    letter-spacing: 0.09em;
-    font-size: 11px;
-    font-weight: 600;
-    color: var(--accent);
-    margin: 0 0 4px;
-  }
-  h1 {
-    font-size: 22px;
-    font-weight: 700;
-    margin: 0;
-    letter-spacing: -0.01em;
-    text-wrap: balance;
-  }
-  .top-meta {
-    font-size: 12px;
-    color: var(--ink-faint);
-    text-align: right;
-  }
-  .grid {
+  code, .mono { font-family: 'JetBrains Mono', monospace; }
+  a { color: var(--navy); }
+
+  .shell {
     display: grid;
-    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
-    gap: 20px;
-    align-items: start;
+    grid-template-columns: 230px minmax(0, 860px);
+    justify-content: center;
+    gap: 52px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
   }
   @media (max-width: 900px) {
-    .grid { grid-template-columns: 1fr; }
+    .shell { grid-template-columns: 1fr; }
+    .toc { display: none; }
   }
-  .card {
-    background: var(--surface);
-    border: 1px solid var(--border);
+  .toc {
+    position: sticky;
+    top: 28px;
+    align-self: start;
+    padding-top: 60px;
+    height: fit-content;
+  }
+  .toc-title {
+    font-size: 11px;
+    letter-spacing: .08em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 14px;
+    font-weight: 700;
+  }
+  .toc a {
+    display: block;
+    padding: 7px 0;
+    font-size: 13.5px;
+    color: var(--text);
+    text-decoration: none;
+    border-left: 2px solid transparent;
+    padding-left: 12px;
+    margin-left: -13px;
+  }
+  .toc a:hover { color: var(--navy); border-left-color: var(--line); }
+
+  main { padding: 0 0 120px; min-width: 0; }
+
+  .hero { padding: 72px 0 44px; border-bottom: 1px solid var(--line); }
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 12px; font-weight: 700; letter-spacing: .05em;
+    color: var(--navy); background: #EAF1F5;
+    padding: 6px 12px; border-radius: 100px; margin-bottom: 20px;
+  }
+  h1 { font-size: 36px; line-height: 1.35; letter-spacing: -0.02em; margin: 0 0 16px; color: var(--ink); font-weight: 800; }
+  .hero p.lead { font-size: 16.5px; color: var(--text); max-width: 640px; margin: 0 0 30px; }
+  .cta-row { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+  .cta-btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--navy); color: #fff; text-decoration: none;
+    padding: 14px 22px; border-radius: 10px; font-weight: 700; font-size: 15px;
+  }
+  .cta-btn:hover { background: var(--navy-deep); }
+  .cta-sub { font-size: 13px; color: var(--muted); }
+
+  section { padding: 56px 0; border-bottom: 1px solid var(--line); }
+  section:last-of-type { border-bottom: none; }
+  .kicker { font-size: 12px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--navy); margin-bottom: 10px; }
+  h2 { font-size: 25px; font-weight: 800; color: var(--ink); margin: 0 0 14px; letter-spacing: -0.01em; }
+  h3 { font-size: 17px; font-weight: 700; color: var(--ink); margin: 28px 0 10px; }
+  section > p.section-desc { color: var(--text); max-width: 680px; margin: 0 0 28px; font-size: 15.5px; }
+  p { margin: 0 0 14px; }
+
+  /* analogy box */
+  .analogy {
+    background: var(--navy-deep);
+    color: #E7EEF2;
+    border-radius: 16px;
+    padding: 32px 30px;
+    margin: 24px 0;
+  }
+  .analogy .a-label { font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: #8FB4C9; margin-bottom: 14px; }
+  .analogy p { font-size: 15.5px; line-height: 1.8; margin-bottom: 12px; color: #DCE6EC; }
+  .analogy p:last-child { margin-bottom: 0; }
+  .analogy b { color: #fff; }
+
+  /* before/after link compare */
+  .link-compare { display: grid; grid-template-columns: 1fr; gap: 12px; margin: 20px 0; }
+  .link-box {
+    border-radius: 10px; padding: 16px 18px; font-family: 'JetBrains Mono', monospace;
+    font-size: 12.5px; line-height: 1.7; word-break: break-all; border: 1px solid var(--line);
+  }
+  .link-box.plain { background: #F1EFE7; color: var(--muted); }
+  .link-box.tagged { background: var(--teal-bg); border-color: #C7E1DA; }
+  .link-box .tag-label { display: block; font-family: 'Pretendard'; font-size: 11.5px; font-weight: 700; color: var(--muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: .04em; }
+  .link-box.tagged .tag-label { color: var(--teal); }
+  .link-box .hl { color: var(--teal); font-weight: 700; }
+
+  /* 5-item info cards */
+  .info-grid { display: grid; grid-template-columns: 1fr; gap: 12px; margin: 20px 0; }
+  .info-card {
+    display: grid; grid-template-columns: 44px 1fr; gap: 16px;
+    background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 18px 20px;
+  }
+  .info-num {
+    width: 40px; height: 40px; border-radius: 50%; background: var(--navy); color: #fff;
+    display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 16px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .info-card h4 { margin: 2px 0 6px; font-size: 15px; color: var(--ink); }
+  .info-card p { margin: 0; font-size: 13.5px; color: var(--text); }
+  .info-card .ex { margin-top: 6px; font-size: 12.5px; color: var(--muted); }
+  .info-card .ex code { background: #F1EFE7; padding: 1px 6px; border-radius: 4px; }
+
+  /* step walkthrough */
+  .walk-step {
+    border: 1px solid var(--line); border-radius: var(--radius); background: var(--card);
+    padding: 22px 24px; margin-bottom: 16px;
+  }
+  .walk-step .ws-head { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+  .walk-step .ws-num {
+    width: 30px; height: 30px; border-radius: 8px; background: var(--amber-bg); color: var(--amber);
+    display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 13.5px;
+    font-family: 'JetBrains Mono', monospace; flex-shrink: 0;
+  }
+  .walk-step h4 { margin: 0; font-size: 16px; color: var(--ink); }
+  .walk-step p { font-size: 14.5px; color: var(--text); margin: 0 0 8px; }
+  .walk-step .example {
+    margin-top: 10px; background: #F1EFE7; border-radius: 8px; padding: 10px 14px;
+    font-size: 13px; color: var(--navy); font-family: 'JetBrains Mono', monospace;
+  }
+  .walk-step .example b { font-family: 'Pretendard'; color: var(--muted); font-weight: 600; margin-right: 6px; }
+  .shot {
+    margin-top: 14px;
+    border: 1px solid var(--line);
     border-radius: 10px;
-    box-shadow: var(--shadow);
-  }
-  .card-pad { padding: 20px; }
-  .card-head {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 14px 20px;
-    border-bottom: 1px solid var(--border);
-  }
-  .card-head h2 {
-    font-size: 13px;
-    font-weight: 700;
-    margin: 0;
-    letter-spacing: -0.01em;
-  }
-  .card-head .hint {
-    font-size: 11.5px;
-    color: var(--ink-faint);
-  }
-  .field-group { margin-bottom: 18px; }
-  .field-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-  }
-  label {
-    display: block;
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--ink-soft);
-    margin-bottom: 6px;
-  }
-  label .req { color: var(--danger); margin-left: 2px; }
-  label .opt { color: var(--ink-faint); font-weight: 500; margin-left: 4px; }
-  select, input[type="text"], input[type="month"], input[type="url"] {
-    width: 100%;
-    padding: 9px 10px;
-    border: 1px solid var(--border);
-    border-radius: 7px;
-    background: var(--surface-2);
-    color: var(--ink);
-    font-family: var(--sans);
-    font-size: 13.5px;
-    outline: none;
-    transition: border-color 0.12s;
-  }
-  select:focus, input:focus {
-    border-color: var(--accent);
-    box-shadow: 0 0 0 3px var(--accent-soft);
-  }
-  /* ---- 검색 가능한 드롭다운 (search-select) ---- */
-  .ss-wrapper { position: relative; }
-  .ss-input {
-    width: 100%;
-    padding: 9px 10px;
-    border: 1px solid var(--border);
-    border-radius: 7px;
-    background: var(--surface-2);
-    color: var(--ink);
-    font-family: var(--sans);
-    font-size: 13.5px;
-    outline: none;
-    cursor: pointer;
-  }
-  .ss-input:focus { border-color: var(--accent); cursor: text; }
-  .ss-panel {
-    display: none;
-    position: absolute;
-    z-index: 40;
-    top: calc(100% + 4px);
-    left: 0;
-    right: 0;
-    max-height: 240px;
-    overflow-y: auto;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    box-shadow: var(--shadow);
-    padding: 4px;
-  }
-  .ss-item {
-    padding: 8px 10px;
-    border-radius: 6px;
-    font-size: 13px;
-    color: var(--ink);
-    cursor: pointer;
-  }
-  .ss-item:hover, .ss-item.ss-active { background: var(--accent-soft); }
-  .ss-item.ss-current { font-weight: 600; }
-  .ss-empty { padding: 10px; font-size: 12.5px; color: var(--ink-faint); text-align: center; }
-  .field-desc {
-    font-size: 11.5px;
-    color: var(--ink-faint);
-    margin-top: 5px;
-  }
-  .field-warning {
-    font-size: 11.5px;
-    color: #B23B3B;
-    background: #FBEFE1;
-    border-left: 2px solid #B23B3B;
-    padding: 6px 10px;
-    margin-top: 6px;
-    border-radius: 0 4px 4px 0;
-  }
-  .section-label {
-    font-size: 11px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: var(--ink-faint);
-    margin: 0 0 12px;
-    padding-top: 4px;
-    border-top: 1px solid var(--border);
-  }
-  .field-group:first-child .section-label { border-top: none; padding-top: 0; }
-
-  /* preview */
-  .sticky { position: sticky; top: 20px; display: flex; flex-direction: column; gap: 16px; }
-  .code-breakdown {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    padding: 16px 20px;
-    background: var(--surface-2);
-  }
-  .chip {
-    font-family: var(--mono);
-    font-size: 12.5px;
-    font-weight: 600;
-    padding: 5px 9px;
-    border-radius: 6px;
-    color: var(--accent-ink);
-    white-space: nowrap;
-  }
-  .chip.sep { background: none; color: var(--ink-faint); padding: 5px 2px; font-weight: 400; }
-  .chip-label {
-    display: block;
-    font-size: 9.5px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    opacity: 0.75;
-    margin-bottom: 1px;
-  }
-  .url-block { padding: 16px 20px; }
-  .url-box {
-    font-family: var(--mono);
-    font-size: 12.5px;
-    line-height: 1.6;
-    background: var(--surface-2);
-    border: 1px solid var(--border);
-    border-radius: 7px;
-    padding: 12px 14px;
-    word-break: break-all;
-    color: var(--ink);
-    min-height: 44px;
-  }
-  .url-box .qs { color: var(--ink-soft); }
-  .url-box .param-key { color: var(--accent); }
-  .btn-row { display: flex; gap: 8px; margin-top: 10px; }
-  button {
-    font-family: var(--sans);
-    font-size: 12.5px;
-    font-weight: 600;
-    border-radius: 7px;
-    padding: 8px 14px;
-    cursor: pointer;
-    border: 1px solid var(--border);
-    background: var(--surface);
-    color: var(--ink);
-    transition: transform 0.08s, background 0.12s;
-  }
-  button:active { transform: scale(0.97); }
-  button.primary {
-    background: var(--accent);
-    color: var(--accent-ink);
-    border-color: var(--accent);
-  }
-  button.ghost { background: transparent; }
-  button:disabled { opacity: 0.45; cursor: not-allowed; }
-  .toast {
-    font-size: 12px;
-    color: var(--success);
-    font-weight: 600;
-    opacity: 0;
-    transition: opacity 0.2s;
-    align-self: center;
-  }
-  .toast.show { opacity: 1; }
-  .warning-line {
-    font-size: 12px;
-    color: var(--warn);
-    background: var(--warn-soft);
-    border-radius: 7px;
-    padding: 8px 12px;
-    margin-top: 10px;
-    display: none;
-  }
-  .warning-line.show { display: block; }
-
-  /* history */
-  .history-list {
-    display: flex;
-    flex-direction: column;
-    max-height: 320px;
-    overflow-y: auto;
-  }
-  .history-item {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 10px 20px;
-    border-bottom: 1px solid var(--border);
-  }
-  .history-item:last-child { border-bottom: none; }
-  .history-main { flex: 1; min-width: 0; }
-  .history-campaign {
-    font-family: var(--mono);
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--ink);
-    white-space: nowrap;
     overflow: hidden;
-    text-overflow: ellipsis;
+    box-shadow: 0 2px 10px rgba(23,36,47,.06);
   }
-  .history-url {
-    font-size: 11px;
-    color: var(--ink-faint);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+  .shot img { display: block; width: 100%; height: auto; }
+  .shot-caption {
+    font-size: 12px; color: var(--muted); margin-top: 8px; text-align: center;
   }
-  .history-actions { display: flex; gap: 6px; flex-shrink: 0; }
-  .icon-btn {
-    padding: 5px 8px;
-    font-size: 11px;
-  }
-  .empty-state {
-    padding: 28px 20px;
-    text-align: center;
-    color: var(--ink-faint);
-    font-size: 12.5px;
-  }
-  .ref-toggle {
-    font-size: 11.5px;
-    color: var(--accent);
-    background: none;
-    border: none;
-    padding: 0;
-    font-weight: 600;
-    cursor: pointer;
-    text-decoration: underline;
-  }
-  .ref-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 12px;
-    margin-top: 10px;
-  }
-  .ref-table th, .ref-table td {
-    text-align: left;
-    padding: 6px 8px;
-    border-bottom: 1px solid var(--border);
-  }
-  .ref-table th {
-    color: var(--ink-faint);
-    font-weight: 700;
-    text-transform: uppercase;
-    font-size: 10px;
-    letter-spacing: 0.04em;
-  }
-  .ref-table td.mono { font-family: var(--mono); }
-  #refPanel { display: none; padding: 0 20px 18px; }
-  #refPanel.show { display: block; }
 
-  .head-actions { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
-  .hint-line {
-    font-size: 11.5px;
-    color: var(--ink-faint);
-    padding: 12px 20px 0;
-  }
-  .csv-status {
-    font-size: 11.5px;
-    padding: 6px 20px 0;
-    display: none;
-    font-weight: 600;
-  }
-  .csv-status.show { display: block; }
-  .csv-status.success { color: var(--success); }
-  .csv-status.warn { color: var(--warn); }
-  .csv-status.error { color: var(--danger); }
+  .callout { border-left: 3px solid var(--amber); background: var(--amber-bg); border-radius: 0 8px 8px 0; padding: 14px 18px; font-size: 14px; margin: 20px 0; }
+  .callout.teal { border-left-color: var(--teal); background: var(--teal-bg); }
+  .callout strong { display: block; margin-bottom: 4px; font-size: 13px; }
 
-  input[type="text"]::placeholder { color: var(--ink-faint); }
+  /* do/dont */
+  .dd-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 18px 0; }
+  @media (max-width: 640px) { .dd-grid { grid-template-columns: 1fr; } }
+  .dd-card { border-radius: 10px; padding: 18px 20px; border: 1px solid var(--line); }
+  .dd-card.bad { background: var(--amber-bg); border-color: #EBD3B4; }
+  .dd-card.good { background: var(--teal-bg); border-color: #C7E1DA; }
+  .dd-card .dtag { font-size: 11px; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; margin-bottom: 10px; display: block; }
+  .dd-card.bad .dtag { color: var(--amber); }
+  .dd-card.good .dtag { color: var(--teal); }
+  .dd-card code { font-size: 13px; background: rgba(0,0,0,.05); padding: 2px 6px; border-radius: 4px; }
+
+  /* reference tables */
+  .ref-block { margin-bottom: 40px; }
+  .ref-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 10px; flex-wrap: wrap; }
+  .ref-head h3 { margin: 0; }
+  .ref-count { font-size: 12px; color: var(--muted); font-family: 'JetBrains Mono', monospace; }
+  .filter-input {
+    width: 100%; padding: 10px 14px; border: 1px solid var(--line); border-radius: 8px;
+    font-size: 13.5px; margin-bottom: 10px; background: var(--card); color: var(--text);
+  }
+  .filter-input:focus { outline: 2px solid var(--navy); outline-offset: -1px; }
+  .table-wrap { border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; background: var(--card); }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  thead th {
+    background: #F1EFE7; text-align: left; padding: 10px 14px; font-size: 11px; font-weight: 700;
+    letter-spacing: .04em; text-transform: uppercase; color: var(--muted); border-bottom: 1px solid var(--line);
+  }
+  tbody td { padding: 9px 14px; border-bottom: 1px solid #EEEDE6; vertical-align: top; }
+  tbody tr:last-child td { border-bottom: none; }
+  tbody tr:hover { background: #FAFAF6; }
+  td.code { font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 600; color: var(--navy); white-space: nowrap; width: 1%; }
+  td.desc { color: var(--muted); font-size: 12px; }
+  tr.hidden-row { display: none; }
+  details.fold { margin-top: 10px; }
+  details.fold summary { cursor: pointer; font-size: 13px; font-weight: 700; color: var(--navy); padding: 10px 4px; list-style: none; }
+  details.fold summary::-webkit-details-marker { display: none; }
+  details.fold summary::before { content: "▸ "; }
+  details.fold[open] summary::before { content: "▾ "; }
+
+  /* faq */
+  .faq-item { border-bottom: 1px solid var(--line); }
+  .faq-item summary {
+    padding: 18px 4px; cursor: pointer; font-weight: 700; font-size: 15px; color: var(--ink);
+    list-style: none; display: flex; justify-content: space-between; align-items: center;
+  }
+  .faq-item summary::-webkit-details-marker { display: none; }
+  .faq-item summary::after { content: "+"; font-size: 20px; color: var(--muted); font-weight: 400; }
+  .faq-item[open] summary::after { content: "−"; }
+  .faq-item .a { padding: 0 4px 20px; font-size: 14px; color: var(--text); max-width: 640px; }
+
+  footer { padding: 40px 0 0; color: var(--muted); font-size: 12.5px; }
 </style>
+</head>
+<body>
 
-<div class="wrap">
-  <header class="top">
-    <div>
-      <p class="eyebrow">에듀윌 마케팅 · UTM 캠페인 생성 도구</p>
-      <h1>UTM 링크 생성기</h1>
+<div class="shell">
+  <nav class="toc">
+    <div class="toc-title">목차</div>
+    <a href="javascript:void(0)" data-scroll-to="why">01. 왜 이 작업을 하나요</a>
+    <a href="javascript:void(0)" data-scroll-to="what">02. UTM이 뭔가요?</a>
+    <a href="javascript:void(0)" data-scroll-to="five">03. 필요한 정보 5가지</a>
+    <a href="javascript:void(0)" data-scroll-to="howto">04. 생성기 사용법</a>
+    <a href="javascript:void(0)" data-scroll-to="custom">05. 직접 입력 가이드</a>
+    <a href="javascript:void(0)" data-scroll-to="archive">06. 저장(아카이빙)이란</a>
+    <a href="javascript:void(0)" data-scroll-to="mistakes">07. 자주 하는 실수</a>
+    <a href="javascript:void(0)" data-scroll-to="faq">08. FAQ</a>
+    <a href="javascript:void(0)" data-scroll-to="reference">09. 전체 코드표 (참고용)</a>
+  </nav>
+
+  <main>
+    <div class="hero">
+      <span class="eyebrow">● 에듀윌 전사 공유 · UTM 링크 만들기 첫걸음</span>
+      <h1>데이터 거버넌스를 위한<br>UTM 생성 가이드</h1>
+      <p class="lead">
+        마케팅을 몰라도 UTM 링크는 만들 수 있어요. "UTM이 뭔지도 잘 모르겠다" 싶으셔도 괜찮아요.
+        이 페이지를 위에서부터 순서대로 읽고 그대로 따라 하면, 누구나 5분 안에 정확한 링크를 만들 수 있도록 만들었습니다.
+      </p>
+      <div class="cta-row">
+        <a class="cta-btn" href="https://hajung1-arch.github.io/eduwill_utm_generator/" target="_blank" rel="noopener">지금 바로 생성기 열어보기 →</a>
+        <span class="cta-sub">읽으면서 같이 눌러보시면 더 빨리 이해돼요</span>
+      </div>
     </div>
-    <div class="top-meta">캠페인/채널 텍소노미 v1.0 기준<br>{콘텐츠}_{purpose}_{target}_{YYMMDD}</div>
-  </header>
 
-  <div class="card card-pad" id="sheetSettingsCard" style="margin-bottom: 20px;">
-    <div style="display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap; align-items:flex-start;">
-      <div style="flex:1; min-width:260px;">
-        <label style="margin-bottom:4px;">데이터 소스 — 구글 시트 연동 <span class="opt">(기본 연결됨)</span></label>
-        <p class="field-desc" style="margin-top:0;">
-          팀 공용 시트가 기본으로 연결되어 있어 별도 설정 없이 바로 사용할 수 있습니다. 시트의 <b>medium / purpose / target / source / content</b> 탭 내용을 수정하면 "새로고침"만 눌러 반영하세요.
-          다른 시트로 바꾸려면 URL/ID를 입력하고 저장하세요.
+    <section id="why">
+      <div class="kicker">01</div>
+      <h2>왜 이 작업을 하나요 — 데이터 거버넌스 관점</h2>
+      <p class="section-desc">
+        "링크 하나 만드는데 이렇게까지 규칙이 필요한가" 싶으실 수 있어요. 근데 이건 단순히 링크를 예쁘게 정리하자는 게 아니라,
+        <b>회사가 어디서 성장하고 있는지를 정확히 아는 것</b>과 직접 연결된 문제예요.
+      </p>
+
+      <div class="analogy">
+        <div class="a-label">데이터 거버넌스란</div>
+        <p>
+          <b>데이터 거버넌스</b>는 어려운 말 같지만 뜻은 간단해요 — "우리 조직의 데이터를 같은 기준으로 관리해서,
+          누가 봐도 같은 결론을 낼 수 있게 만드는 것"이에요.
+        </p>
+        <p>
+          예를 들어 "이번 달 매출이 어디서 가장 많이 나왔나요?"라는 질문에 답하려면, 모든 팀이 <b>같은 방식으로</b>
+          "이 트래픽이 어디서 왔는지"를 기록해뒀어야 해요. 팀마다, 담당자마다 제각각 기록했다면 아무리 데이터를
+          모아봐도 정확한 답을 낼 수 없어요.
         </p>
       </div>
-    </div>
-    <div style="display:flex; gap:8px; margin-top:10px; flex-wrap:wrap;">
-      <input type="text" id="sheetIdInput" placeholder="https://docs.google.com/spreadsheets/d/……/edit  또는  시트 ID" style="flex:1; min-width:220px;" />
-      <button class="primary" id="sheetSaveBtn" type="button">저장 후 불러오기</button>
-      <button class="ghost" id="sheetRefreshBtn" type="button">새로고침</button>
-      <button class="ghost" id="sheetResetBtn" type="button">기본 시트로 되돌리기</button>
-    </div>
-    <div class="csv-status" id="sheetStatus"></div>
-  </div>
 
-  <div class="card card-pad" id="archiveSettingsCard" style="margin-bottom: 20px;">
-    <div style="flex:1; min-width:260px;">
-      <label style="margin-bottom:4px;">팀별 아카이빙 — Apps Script 웹앱 연동 <span class="opt">(기본 연결됨)</span></label>
-      <p class="field-desc" style="margin-top:0;">
-        팀 공용 웹앱이 기본으로 연결되어 있어 별도 설정 없이 "기록에 저장" 시 팀 이름의 시트 탭에 자동으로 쌓입니다.
-        다른 웹앱으로 바꾸려면 URL을 입력하고 저장하세요.
+      <h3>이게 왜 성장과 연결되나요</h3>
+      <p>
+        마케팅 예산과 리소스는 한정돼 있어요. "어떤 채널에 더 투자해야 매출이 느는지"를 판단하려면,
+        <b>채널별 성과를 정확히 비교할 수 있어야</b> 해요. 지금까지는 이게 불가능했어요 — 실제 데이터를 열어보면
+        이런 상태였거든요.
       </p>
-    </div>
-    <div style="display:flex; gap:8px; margin-top:10px; flex-wrap:wrap;">
-      <input type="text" id="archiveUrlInput" placeholder="Apps Script 웹앱 URL (https://script.google.com/macros/s/……/exec)" style="flex:1; min-width:220px;" />
-      <button class="primary" id="archiveSaveBtn" type="button">연결 저장</button>
-      <button class="ghost" id="archiveResetBtn" type="button">기본값으로 되돌리기</button>
-    </div>
-    <div class="csv-status" id="archiveStatus"></div>
-  </div>
-
-  <div class="grid">
-    <!-- LEFT: FORM -->
-    <div class="card card-pad">
-      <div class="field-group">
-        <p class="section-label">STEP 1 · 대상 링크</p>
-        <label for="baseUrl">랜딩 URL <span class="req">*</span></label>
-        <input type="url" id="baseUrl" placeholder="https://www.eduwill.net/gov9/basic" />
-        <p class="field-desc">고객이 최종적으로 도착할 페이지 주소를 입력합니다.</p>
-        <div style="margin-top:12px;">
-          <label for="teamSelect">작성 팀 <span class="req">*</span> <span class="opt">(아카이빙용)</span></label>
-          <select id="teamSelect"></select>
-          <div id="customTeamWrap" style="display:none; margin-top:10px;">
-            <input type="text" id="customTeam" placeholder="예: 콘텐츠제휴팀 (시트 탭 이름으로 그대로 쓰입니다)" />
-          </div>
-          <p class="field-desc" style="margin-top:6px;">"기록에 저장" 시 이 팀 이름의 시트 탭에 자동으로 쌓입니다. 목록은 연동된 시트의 <b>team 탭</b>에서 관리됩니다 — 조직 개편 시 코드 수정 없이 그 탭만 편집하면 됩니다. 목록에 없으면 직접 입력도 가능합니다.</p>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;">
+        <div style="background:var(--card);padding:20px 18px;">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:24px;font-weight:700;color:var(--amber);">1,284</div>
+          <div style="font-size:12px;color:var(--muted);margin-top:4px;">"누가 보냈나" 값이 제각각 1,284개</div>
         </div>
-        <div style="margin-top:12px;">
-          <label for="memberInput">작성 담당자 <span class="req">*</span> <span class="opt">(아카이빙용)</span></label>
-          <input type="text" id="memberInput" list="memberDatalist" placeholder="이름 입력 (목록에서 자동완성도 됩니다)" autocomplete="off" />
-          <datalist id="memberDatalist"></datalist>
-          <p class="field-desc" style="margin-top:6px;">아카이브 시트에 담당자 이름이 함께 기록됩니다. 목록에 있는 이름이면 입력 중 자동완성되고, 없는 이름도 그냥 입력하시면 됩니다. 목록은 연동된 시트의 <b>member 탭</b>에서 관리됩니다.</p>
+        <div style="background:var(--card);padding:20px 18px;">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:24px;font-weight:700;color:var(--amber);">11,303</div>
+          <div style="font-size:12px;color:var(--muted);margin-top:4px;">캠페인 이름이 제각각 11,303개</div>
+        </div>
+        <div style="background:var(--card);padding:20px 18px;">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:24px;font-weight:700;color:var(--teal);">79</div>
+          <div style="font-size:12px;color:var(--muted);margin-top:4px;">이제부터 쓸 표준 코드 수</div>
         </div>
       </div>
+      <p style="margin-top:18px;">
+        같은 "네이버"인데 <code>naver</code>, <code>Naver</code>, <code>naver_ad_pc</code>처럼 다 다르게 적혀 있으면,
+        "네이버에서 얼마나 왔고 얼마나 구매로 이어졌는지" 물어봐도 정확한 답을 낼 수가 없어요. 이 상태로는
+        어디에 예산을 더 써야 할지, 어떤 채널을 줄여야 할지 <b>감으로</b> 판단할 수밖에 없어요.
+      </p>
 
-      <div class="field-group">
-        <p class="section-label">STEP 2 · 소스 (누가 보냈나) <span class="req">*</span></p>
-        <label for="source">소스 (utm_source)</label>
-        <select id="source"></select>
-        <p class="field-desc" style="margin-top:6px;">이 트래픽을 발생시킨 발신 주체·플랫폼입니다. 목록에 없는 소스가 필요하면 팀에 코드 추가를 요청하세요 (직접 입력은 지원하지 않습니다).</p>
+      <div class="callout teal">
+        <strong>정리하면</strong>
+        UTM 규칙을 통일하는 건 "링크 정리"가 아니라 <b>"우리가 데이터로 정확히 판단할 수 있는 회사가 되기 위한 기본 작업"</b>이에요.
+        이 페이지에서 소개할 생성기는 정해진 값 중에서 고르기만 하면 되도록 만들어서, 마케팅 지식이 없어도
+        이 기준을 그대로 지킬 수 있게 했어요.
+      </div>
+    </section>
+
+    <section id="what">
+      <div class="kicker">02</div>
+      <h2>UTM이 뭔가요?</h2>
+      <p class="section-desc">이름부터 낯설지만, 개념은 아주 간단해요. 하나씩 풀어드릴게요.</p>
+
+      <div class="analogy">
+        <div class="a-label">택배 송장이라고 생각해보세요</div>
+        <p>
+          택배 상자에 <b>보낸 사람, 배송 방법, 무슨 물건인지</b>가 적힌 송장이 붙어있으면,
+          나중에 어떤 상자가 어디서 왜 왔는지 한눈에 알 수 있죠.
+        </p>
+        <p>
+          <b>UTM도 똑같아요.</b> 우리가 카카오톡·문자·카페 게시글 등으로 보내는 링크 끝에 "이 링크는
+          <b>누가</b> 보냈고, <b>어떤 방법으로</b> 보냈고, <b>무슨 목적으로 누구에게</b> 보낸 건지" 적어두는 꼬리표예요.
+        </p>
+        <p>
+          이 꼬리표가 붙어 있어야, 나중에 "이번 카카오 알림톡으로 몇 명이 들어와서 몇 명이 구매했는지"를
+          정확히 확인할 수 있어요. 꼬리표가 없으면 그 링크를 누가 눌렀는지 다 뒤섞여서 알 수가 없어요.
+        </p>
       </div>
 
-      <div class="field-group">
-        <p class="section-label">STEP 3 · 매체 (어떻게 보냈나) <span class="req">*</span></p>
-        <label for="medium">매체 (utm_medium)</label>
-        <select id="medium"></select>
-        <p class="field-desc" style="margin-top:6px;">전달 방식·채널 유형입니다. campaign 문자열에는 포함되지 않고 utm_medium에 별도로 담깁니다.</p>
+      <h3>실제로 이렇게 생겼어요</h3>
+      <div class="link-compare">
+        <div class="link-box plain">
+          <span class="tag-label">꼬리표가 없는 링크 (지금까지 이렇게 많이 보내셨을 거예요)</span>
+          https://land.eduwill.net/sites/home
+        </div>
+        <div class="link-box tagged">
+          <span class="tag-label">UTM 꼬리표가 붙은 링크 (앞으로 이렇게 만들 거예요)</span>
+          https://land.eduwill.net/sites/home<span class="hl">?utm_source=kakao&amp;utm_medium=alimtalk&amp;utm_campaign=gov9_admin_basic_purchase_cartpending_260820</span>
+        </div>
       </div>
+      <p style="font-size:14px;color:var(--muted);">
+        뒤에 붙은 <code>?utm_...</code> 부분이 꼬리표예요. 사람이 보기엔 복잡해 보이지만,
+        이 페이지에서 소개할 생성기가 이 부분을 자동으로 만들어줘요. 우리는 몇 가지만 클릭하면 됩니다.
+      </p>
+    </section>
 
-      <div class="field-group">
-        <p class="section-label">STEP 4 · 캠페인 (콘텐츠 · 목적 · 타겟 · 발송일)</p>
-        <label style="margin-bottom:4px;">콘텐츠 <span class="req">*</span> <span class="opt">(대분류 필수, 중분류·소분류는 선택)</span></label>
-        <div class="field-row">
+
+    <section id="five">
+      <div class="kicker">03</div>
+      <h2>링크 하나 만드는 데 필요한 정보 5가지</h2>
+      <p class="section-desc">생성기를 열면 이 5가지를 순서대로 물어봐요. 미리 감을 잡아두면 훨씬 쉬워요.</p>
+
+      <div class="info-grid">
+        <div class="info-card">
+          <div class="info-num">1</div>
           <div>
-            <label for="contentMajor" style="font-weight:400;font-size:11.5px;">대분류</label>
-            <select id="contentMajor"></select>
-            <div id="customMajorWrap" style="display:none; margin-top:8px;">
-              <input type="text" id="customMajor" placeholder="직접 입력 (예: gov)" />
-            </div>
+            <h4>어디로 보낼 링크인가요?</h4>
+            <p>고객이 최종적으로 도착할 페이지 주소예요. 흔히 "랜딩 페이지"라고 불러요.</p>
+            <div class="ex">예: <code>https://land.eduwill.net/sites/home</code></div>
           </div>
+        </div>
+        <div class="info-card">
+          <div class="info-num">2</div>
           <div>
-            <label for="contentMid" style="font-weight:400;font-size:11.5px;">중분류 (선택)</label>
-            <select id="contentMid"></select>
-            <div id="customMidWrap" style="display:none; margin-top:8px;">
-              <input type="text" id="customMid" placeholder="직접 입력 (예: G)" />
-            </div>
+            <h4>누가 보내는 링크인가요? (소스)</h4>
+            <p>이 링크를 처음 클릭하게 만든 주체예요. "네이버 검색"인지 "카카오"인지 "우리가 직접" 보내는 건지.</p>
+            <div class="ex">예: <code>naver</code>, <code>kakao</code>, <code>eduwill</code></div>
           </div>
+        </div>
+        <div class="info-card">
+          <div class="info-num">3</div>
           <div>
-            <label for="contentMinor" style="font-weight:400;font-size:11.5px;">소분류 (선택)</label>
-            <select id="contentMinor"></select>
-            <div id="customMinorWrap" style="display:none; margin-top:8px;">
-              <input type="text" id="customMinor" placeholder="직접 입력 (예: basic)" />
-            </div>
+            <h4>어떤 방법으로 보내나요? (매체)</h4>
+            <p>같은 "네이버"라도 검색광고인지 블로그인지에 따라 다르고, 같은 "우리가 직접"이라도 문자인지 알림톡인지에 따라 달라요.</p>
+            <div class="ex">예: <code>alimtalk</code>(알림톡), <code>search</code>(검색광고)</div>
           </div>
         </div>
-        <p class="field-desc" style="margin-top:6px;">대분류만 선택해도 됩니다. 중분류·소분류를 채우면 <code>대분류_중분류_소분류</code> 형태로 이어붙여 campaign 맨 앞과 아카이브 시트에 반영됩니다.</p>
-
-        <div style="margin-top:16px;">
-          <label for="purpose">캠페인 목적 (purpose) <span class="req">*</span></label>
-          <select id="purpose"></select>
-        </div>
-        <div class="field-row" style="margin-top:14px;">
+        <div class="info-card">
+          <div class="info-num">4</div>
           <div>
-            <label for="target">타겟 세그먼트 (target) <span class="req">*</span></label>
-            <select id="target"></select>
+            <h4>무슨 내용을, 왜, 누구에게 보내나요? (캠페인)</h4>
+            <p>강좌/상품이 뭔지, 이 링크의 목적이 뭔지(구매 유도인지 이벤트인지), 어떤 고객군에게 보내는지를 조합해서 자동으로 만들어져요. 우리는 각각 골라주기만 하면 돼요.</p>
+            <div class="ex">예: 9급공무원 강좌 + 구매 유도 + 결제 미완료 고객</div>
           </div>
+        </div>
+        <div class="info-card">
+          <div class="info-num">5</div>
           <div>
-            <label for="sendDate">발송일 (YYMMDD) <span class="req">*</span></label>
-            <input type="date" id="sendDate" />
-          </div>
-        </div>
-        <div style="margin-top:10px;">
-          <label for="campaignSlugSelect">캠페인 세부명 <span class="opt">(선택)</span></label>
-          <select id="campaignSlugSelect"></select>
-          <div id="customSlugWrap" style="display:none; margin-top:8px;">
-            <input type="text" id="customSlug" placeholder="예: bongtoo, blackfriday, d100 (영문 소문자·숫자, 공백 없이)" />
-          </div>
-          <p class="field-desc" style="margin-top:6px;">콘텐츠·목적·타겟·발송일이 같은 캠페인이 이 날 하나뿐이면 "선택 안 함"으로 두세요. campaign에는 medium이 들어가지 않으므로, 같은 프로모션을 여러 채널로 함께 보내도 campaign 값은 하나로 묶입니다(채널별 구분은 utm_medium으로 필터링). 목록은 연동된 시트의 <b>campaign_세부명 탭</b>에서 관리됩니다. 목록에 없으면 직접 입력도 가능합니다.</p>
-          <p id="slugWarning" class="field-warning" style="display:none;"></p>
-        </div>
-        <p class="field-desc" style="margin-top:10px;">콘텐츠는 utm_campaign 맨 앞에 반영되는 필수값입니다. (utm_content는 중복이라 URL에 별도로 붙지 않습니다.)</p>
-      </div>
-    </div>
-
-    <!-- RIGHT: PREVIEW + HISTORY -->
-    <div class="sticky">
-      <div class="card">
-        <div class="card-head">
-          <h2>캠페인 코드 미리보기</h2>
-          <span class="hint">utm_campaign</span>
-        </div>
-        <div class="code-breakdown" id="codeBreakdown"></div>
-      </div>
-
-      <div class="card">
-        <div class="card-head">
-          <h2>생성된 URL</h2>
-          <button class="ref-toggle" id="refToggle" type="button">코드표 보기</button>
-        </div>
-        <div id="refPanel"></div>
-        <div class="url-block">
-          <div class="url-box" id="urlBox">—</div>
-          <div class="warning-line" id="warnLine">랜딩 URL을 입력하면 전체 UTM 링크가 완성됩니다.</div>
-          <div class="btn-row">
-            <button class="primary" id="copyBtn" type="button">URL 복사</button>
-            <button class="ghost" id="saveBtn" type="button">기록에 저장</button>
-            <span class="toast" id="toast">복사됨</span>
+            <h4>(선택) 이 캠페인만의 별명</h4>
+            <p>위 4가지 조건이 같은 캠페인을 같은 날 여러 개 보낼 때만 채우면 돼요. 보통은 비워둬도 됩니다.</p>
+            <div class="ex">예: <code>blackfriday</code>, <code>d100</code></div>
           </div>
         </div>
       </div>
+    </section>
 
-      <div class="card">
-        <div class="card-head">
-          <h2>생성 기록</h2>
-          <div class="head-actions">
-            <button class="ref-toggle" id="exportCsv" type="button">CSV 내보내기</button>
-            <button class="ref-toggle" id="importCsvBtn" type="button">CSV 가져오기</button>
-            <button class="ref-toggle" id="clearHistory" type="button">전체 삭제</button>
-          </div>
-        </div>
-        <p class="hint-line">CSV로 내보내 Slack·이메일로 팀원과 공유하고, 팀원이 보낸 CSV를 가져와 기록을 합칠 수 있습니다.</p>
-        <div class="csv-status" id="csvStatus"></div>
-        <input type="file" id="importCsvFile" accept=".csv,text/csv" style="display:none" />
-        <div class="history-list" id="historyList"></div>
+    <section id="howto">
+      <div class="kicker">04</div>
+      <h2>생성기 사용법 — 처음부터 끝까지 따라 하기</h2>
+      <p class="section-desc">
+        예시 상황을 하나 정해서, 실제로 처음부터 끝까지 만들어볼게요.<br>
+        <b>예시 상황:</b> "9급공무원 강좌를 장바구니에 담고 결제를 안 한 고객에게, 카카오 알림톡으로 결제 유도 메시지를 보낸다"
+      </p>
+
+      <div class="callout teal">
+        <strong>생성기 주소</strong>
+        <a href="https://hajung1-arch.github.io/eduwill_utm_generator/" target="_blank" rel="noopener">https://hajung1-arch.github.io/eduwill_utm_generator/</a> — 즐겨찾기에 추가해두시면 편해요.
       </div>
-    </div>
-  </div>
+
+      <h3>시작하기 전에 — 화면 위쪽의 연동 상태 확인</h3>
+      <div class="walk-step">
+        <div class="ws-head"><div class="ws-num">0-1</div><h4>"데이터 소스 — 구글 시트 연동"</h4></div>
+        <p>
+          생성기 맨 위에 이 카드가 있어요. 이건 소스·매체·목적 같은 <b>선택 목록 전체를 구글시트에서 실시간으로 불러오는</b> 연결이에요.
+          <b>팀 공용 시트가 기본으로 이미 연결되어 있어서, 별도로 누르실 건 없어요.</b> 그냥 이런 게 있다는 것만 알아두시면 됩니다.
+        </p>
+        <div class="callout" style="margin:12px 0 0;">
+          <strong>혹시 드롭다운이 텅 비어있거나 이상하면</strong>
+          화면에 "일부 탭을 불러오지 못해 기본값으로 대체했습니다"라는 주황색 문구가 뜨는지 확인하세요.
+          뜬다면 인터넷 연결을 확인하고 <b>"새로고침"</b> 버튼을 한 번 눌러보세요. 그래도 안 되면 담당자(그로스실)에게 알려주세요.
+        </div>
+      </div>
+      <div class="walk-step">
+        <div class="ws-head"><div class="ws-num">0-2</div><h4>"팀별 아카이빙 — Apps Script 웹앱 연동"</h4></div>
+        <p>
+          이건 "기록에 저장"을 눌렀을 때 <b>팀 시트에 자동으로 기록을 남겨주는</b> 연결이에요. 이것도
+          <b>팀 공용 웹앱이 기본으로 이미 연결</b>되어 있어서, 평소엔 신경 쓰지 않으셔도 됩니다.
+          자세한 확인·문제해결 방법은 06번 "저장(아카이빙)이란" 항목에서 다룰게요.
+        </p>
+      </div>
+
+      <h3>STEP 1 · 대상 링크</h3>
+      <div class="walk-step">
+        <div class="ws-head"><div class="ws-num">1</div><h4>랜딩 URL 입력</h4></div>
+        <p>고객이 최종적으로 도착할 페이지 주소를 그대로 붙여넣으세요. <code>?</code>가 있든 없든 신경 안 쓰셔도 돼요 — 생성기가 알아서 처리해요.</p>
+        <div class="example"><b>입력값</b>https://land.eduwill.net/sites/home</div>
+      </div>
+      <div class="walk-step">
+        <div class="ws-head"><div class="ws-num">2</div><h4>작성 팀 / 작성 담당자 (필수)</h4></div>
+        <p>본인 소속 팀을 목록에서 고르고, 이름을 입력하세요. 이 정보는 저장할 때 "누가 언제 이 링크를 만들었는지" 기록에 남아요 — 나중에 담당자를 찾아야 할 때 요긴해요.</p>
+        <div class="example"><b>입력값</b>팀: 그로스실 &nbsp; / &nbsp; 담당자: 정현아</div>
+      </div>
+      <div class="shot"><img src="img/step1.png" alt="STEP 1 화면 — 랜딩 URL, 작성 팀, 작성 담당자 입력 예시"></div>
+      <div class="shot-caption">실제 화면 — STEP 1을 다 채운 모습</div>
+
+      <h3>STEP 2 · 소스 (누가 보냈나) <span style="color:var(--amber);">필수</span></h3>
+      <div class="walk-step">
+        <div class="ws-head"><div class="ws-num">3</div><h4>소스 선택</h4></div>
+        <p>이 링크를 처음 클릭하게 만든 채널을 목록에서 고르세요. 지금은 "우리가 카카오로 직접 보내는" 상황이니 <code>kakao</code>를 고릅니다.</p>
+        <div class="example"><b>선택값</b>kakao (카카오)</div>
+      </div>
+      <div class="shot"><img src="img/step2.png" alt="STEP 2 화면 — 소스 선택 예시"></div>
+
+      <h3>STEP 3 · 매체 (어떻게 보냈나) <span style="color:var(--amber);">필수</span></h3>
+      <div class="walk-step">
+        <div class="ws-head"><div class="ws-num">4</div><h4>매체 선택</h4></div>
+        <p>같은 카카오라도 알림톡인지 친구톡인지에 따라 골라요. 여기선 결제 유도 안내라서 알림톡을 고릅니다.</p>
+        <div class="example"><b>선택값</b>alimtalk (카카오 알림톡)</div>
+      </div>
+      <div class="shot"><img src="img/step3.png" alt="STEP 3 화면 — 매체 선택 예시"></div>
+
+      <h3>STEP 4 · 캠페인 (콘텐츠 · 목적 · 타겟 · 발송일)</h3>
+      <div class="walk-step">
+        <div class="ws-head"><div class="ws-num">5</div><h4>콘텐츠 선택 (필수) — 대분류만 골라도 되고, 더 자세히 골라도 돼요</h4></div>
+        <p>
+          <b>대분류</b>를 먼저 고르면, <b>중분류</b> 목록이 그 대분류에 속한 것들로만 좁혀져요. 소분류까지 고르면 더 구체적으로 표현할 수 있어요.
+          중분류·소분류는 선택 사항이라 건너뛰어도 됩니다.
+        </p>
+        <div class="example">
+          <b>대분류</b>gov (공무원&amp;입시)<br>
+          <b>중분류</b>선택 안 함 — 더 구체적으로 표현하고 싶을 때만 채우면 돼요<br>
+          <b>소분류</b>선택 안 함
+        </div>
+      </div>
+      <div class="shot"><img src="img/step4.png" alt="STEP 4 화면 — 콘텐츠, 목적, 타겟, 발송일 입력 예시"></div>
+      <div class="shot-caption">실제 화면 — STEP 4를 다 채운 모습 (중분류·소분류는 선택 안 함으로 남겨둔 예시)</div>
+      <div class="walk-step">
+        <div class="ws-head"><div class="ws-num">6</div><h4>캠페인 목적 선택 (필수)</h4></div>
+        <p>이 링크를 왜 보내는지예요. 결제 유도가 목적이니 "구매"를 고릅니다.</p>
+        <div class="example"><b>선택값</b>purchase (행동_구매)</div>
+      </div>
+      <div class="walk-step">
+        <div class="ws-head"><div class="ws-num">7</div><h4>타겟 세그먼트 선택 (필수)</h4></div>
+        <p>누구에게 보내는지예요. 장바구니 담고 결제 안 한 사람들이니 "구매전환대기"를 고릅니다.</p>
+        <div class="example"><b>선택값</b>cartpending (구매전환대기)</div>
+      </div>
+      <div class="walk-step">
+        <div class="ws-head"><div class="ws-num">8</div><h4>발송일 선택 (필수)</h4></div>
+        <p>오늘 날짜가 기본으로 들어가 있어요. 실제로 발송하는 날짜로 맞춰주세요.</p>
+        <div class="example"><b>선택값</b>2026-08-20</div>
+      </div>
+      <div class="walk-step">
+        <div class="ws-head"><div class="ws-num">9</div><h4>캠페인 세부명 (선택 — 대부분 비워둬도 됨)</h4></div>
+        <p>
+          같은 날, 같은 콘텐츠·목적·타겟으로 캠페인이 <b>두 개 이상</b> 나갈 때만 채우세요.
+          예를 들어 오늘 "구매전환대기" 대상으로 알림톡을 하나 더 보낸다면, 서로 구분하기 위해 여기에 별명을 붙여요.
+          지금 예시는 하나뿐이니 "선택 안 함"으로 둡니다. (자세한 목록은 09. 전체 코드표에서 확인할 수 있어요.)
+        </p>
+      </div>
+      <div class="walk-step">
+        <div class="ws-head"><div class="ws-num">10</div><h4>완성! 오른쪽에서 링크 확인 → 복사</h4></div>
+        <p>여기까지 채우면 오른쪽 "캠페인 코드 미리보기"에 조각들이 조립되는 게 보이고, 그 아래 "생성된 URL"에 완성된 링크가 자동으로 나타나요.</p>
+        <div class="shot"><img src="img/preview.png" alt="캠페인 코드 미리보기 — 콘텐츠·목적·타겟·발송일이 칩 형태로 조립된 모습"></div>
+        <div class="shot-caption">화면 오른쪽 위 — 캠페인 코드가 조각조각 조립되는 모습이 바로 보여요</div>
+        <div class="shot" style="margin-top:16px;"><img src="img/url_card.png" alt="생성된 URL — 완성된 링크와 URL 복사·기록에 저장 버튼"></div>
+        <div class="shot-caption">화면 오른쪽 아래 — 완성된 링크와 "URL 복사" · "기록에 저장" 버튼</div>
+        <p style="margin-top:14px;"><b>URL 복사</b> 버튼을 누르면 바로 사용할 수 있어요.</p>
+        <div class="example">
+          <b>완성된 링크</b>https://land.eduwill.net/sites/home?utm_source=kakao&amp;utm_medium=alimtalk&amp;utm_campaign=gov_purchase_cartpending_260820
+        </div>
+      </div>
+
+      <div class="callout">
+        <strong>"기록에 저장"은 꼭 눌러주세요</strong>
+        링크를 다 썼다고 끝이 아니에요. <b>"기록에 저장"</b>을 눌러야 팀 시트에 자동으로 기록이 남아요.
+        나중에 "저 링크 언제 누가 만들었지?"를 찾을 때 이 기록이 유일한 단서가 돼요. (자세한 내용은 06번 항목 참고)
+      </div>
+    </section>
+
+
+    <section id="custom">
+      <div class="kicker">05</div>
+      <h2>"직접 입력"이 뭔가요?</h2>
+      <p class="section-desc">
+        목록에 원하는 값이 없을 때 쓰는 기능이에요. 언제, 어떻게 쓰는지 정확히 알려드릴게요.
+      </p>
+
+      <div class="analogy">
+        <div class="a-label">언제 쓰나요</div>
+        <p>
+          드롭다운(선택 목록)을 눌렀는데 <b>내가 찾는 값이 안 보일 때만</b> 씁니다.
+          예를 들어 아직 코드북에 등록 안 된 신규 강좌라던가, 아직 목록에 없는 담당자 이름 같은 경우예요.
+        </p>
+        <p>
+          <b>목록에 이미 있는 값이면 절대 직접 입력하지 마세요.</b> 같은 뜻이라도 사람마다 다르게 타이핑하면
+          (예: <code>Naver</code> vs <code>naver</code>) 데이터가 또 흩어져버려서, 지금까지 정리한 게 다시 엉망이 돼요.
+        </p>
+      </div>
+
+      <h3>사용 방법 (아이템/콘텐츠·팀·세부명 공통)</h3>
+      <div class="walk-step">
+        <div class="ws-head"><div class="ws-num">1</div><h4>드롭다운 클릭 → 목록 맨 아래 "직접 입력…" 선택</h4></div>
+        <p>드롭다운을 열면 실제 항목들 아래에 <code>직접 입력…</code>이라는 항목이 있어요. 그걸 클릭하세요.</p>
+      </div>
+      <div class="walk-step">
+        <div class="ws-head"><div class="ws-num">2</div><h4>바로 아래 나타나는 입력창에 타이핑</h4></div>
+        <p>"직접 입력…"을 선택하면 그 아래에 빈 텍스트 칸이 새로 나타나요. 거기에 원하는 값을 입력하면 됩니다.</p>
+      </div>
+      <div class="shot"><img src="img/custom_input.png" alt="직접 입력 예시 — 대분류에서 직접 입력을 선택하면 바로 아래 텍스트 칸이 나타난 모습"></div>
+      <div class="shot-caption">"직접 입력…"을 고르면 바로 아래에 텍스트 칸이 나타나요 (여기선 "spec"이라고 입력한 예시)</div>
+
+      <div class="callout teal">
+        <strong>작성 담당자는 조금 달라요</strong>
+        담당자 입력창은 처음부터 그냥 텍스트 칸이에요. "직접 입력" 선택 없이 바로 이름을 타이핑하면 되고,
+        타이핑하는 동안 목록에 있는 이름이면 자동으로 후보가 떠요.
+      </div>
+
+      <h3>직접 입력할 때 지켜야 할 규칙</h3>
+      <div class="dd-grid">
+        <div class="dd-card bad">
+          <span class="dtag">이렇게 쓰지 마세요</span>
+          <p style="margin:0;font-size:13.5px;">
+            <code>2026년 9급공무원 여름 프로모션 특가!!</code><br>
+            <code>Summer Event</code> (대문자·띄어쓰기)<br>
+            <code>여름이벤트</code> (한글, 띄어쓰기)
+          </p>
+        </div>
+        <div class="dd-card good">
+          <span class="dtag">이렇게 쓰세요</span>
+          <p style="margin:0;font-size:13.5px;">
+            <code>summer2026</code><br>
+            영문 소문자 + 숫자만, 공백 없이, 짧고 간단하게
+          </p>
+        </div>
+      </div>
+      <p style="font-size:13.5px;color:var(--muted);">
+        참고로 대분류·중분류·소분류나 세부명은 입력하는 순간 자동으로 소문자로 바뀌고 띄어쓰기는 밑줄(_)로 바뀌니
+        너무 걱정 안 하셔도 돼요. 그래도 처음부터 규칙대로 입력하는 습관을 들이면 좋아요.
+      </p>
+
+      <div class="callout">
+        <strong>자주 쓸 것 같으면 팀에 알려주세요</strong>
+        직접 입력한 값을 앞으로도 계속 쓸 것 같다면, 매번 직접 입력하지 마시고 코드북(구글시트)에
+        정식으로 추가해달라고 요청해주세요. 그래야 다른 팀원도 같은 값을 목록에서 골라 쓸 수 있어요.
+      </div>
+    </section>
+
+    <section id="archive">
+      <div class="kicker">06</div>
+      <h2>저장(아카이빙)이란 무엇인가요</h2>
+      <p class="section-desc">
+        링크를 만들고 나면 꼭 "기록에 저장"을 눌러주세요. 왜 필요한지, 어떻게 동작하는지, 안 될 때는 어떻게 하는지 설명드릴게요.
+      </p>
+
+      <div class="analogy">
+        <div class="a-label">왜 저장해야 하나요</div>
+        <p>
+          링크를 만들어서 바로 복사해 쓰고 끝내면, <b>나중에 그 링크를 누가 언제 왜 만들었는지 아무도 알 수 없어요.</b>
+          "기록에 저장"을 누르면 팀 이름의 구글시트 탭에 자동으로 한 줄씩 기록이 쌓여요 — 저장일시, 담당자,
+          랜딩 URL, 목적, 타겟 등 모든 정보가 함께요.
+        </p>
+      </div>
+
+      <h3>이래서 작성 팀 · 작성 담당자가 필수예요</h3>
+      <p>
+        이 두 정보가 있어야 "이 링크는 그로스실 정현아가 만들었다"는 게 기록에 남아요. 비워두면 나중에
+        문제가 생겼을 때(예: 잘못된 링크가 발견됐을 때) 누구에게 물어봐야 할지조차 알 수 없게 돼요. 그래서 필수값으로
+        막아뒀어요 — 비워두면 링크 생성 버튼이 눌리지 않습니다.
+      </p>
+
+      <h3>"팀별 아카이빙 — Apps Script 웹앱 연동" 자세히 보기</h3>
+      <p>
+        생성기 맨 위에 있는 이 카드가 저장 기능을 담당해요. <b>팀 공용 웹앱이 기본으로 이미 연결되어 있어서</b>,
+        평소엔 이 카드를 건드릴 일이 없어요. "기록에 저장"만 누르면 자동으로 팀 시트에 기록됩니다.
+      </p>
+
+      <div class="walk-step">
+        <div class="ws-head"><div class="ws-num">✓</div><h4>정상 작동 확인하는 법</h4></div>
+        <p>
+          "기록에 저장"을 눌렀을 때 화면에 <code>저장됨 · [팀 이름] 시트로 전송 중</code>이라는 문구가 뜨면 정상이에요.
+          <code>이 브라우저에 저장됨 (팀 시트 연동 안 됨)</code>이라는 문구가 뜬다면 아래 해결 방법을 확인해주세요.
+        </p>
+      </div>
+
+      <div class="callout">
+        <strong>연결이 안 되어 있을 때 해결 방법</strong>
+        <div style="margin-top:10px;font-size:13.5px;line-height:1.8;">
+          <b>1단계.</b> 상단 "팀별 아카이빙" 입력창에 URL이 채워져 있는지 확인하세요. 비어있다면 담당자(그로스실)에게
+          연결 URL을 다시 받아서 붙여넣고 <b>"연결 저장"</b>을 눌러주세요.<br>
+          <b>2단계.</b> URL은 있는데도 안 된다면, "기본값으로 되돌리기"를 눌러 팀 공용 웹앱으로 재연결해보세요.<br>
+          <b>3단계.</b> 그래도 안 되면 이건 담당자가 확인해야 하는 문제예요(구글시트 쪽 권한 설정 문제일 가능성이 높아요) —
+          "기록에 저장을 눌렀는데 시트에 안 쌓여요"라고 담당자(그로스실)에게 알려주세요.
+        </div>
+      </div>
+
+      <p style="font-size:13px;color:var(--muted);">
+        참고로 이 연결이 안 되어 있어도 링크 생성 자체는 정상적으로 됩니다 — 다만 "기록에 저장"을 눌렀을 때
+        내 브라우저에만 기록이 남고, 팀 공용 시트에는 안 쌓인다는 차이만 있어요. 그래도 팀 전체 기록을 위해서는
+        꼭 연결된 상태로 사용해주세요.
+      </p>
+    </section>
+
+
+    <section id="mistakes">
+      <div class="kicker">07</div>
+      <h2>자주 하는 실수</h2>
+      <p class="section-desc">아래처럼만 안 해도 대부분의 문제가 안 생겨요.</p>
+
+      <div class="dd-grid">
+        <div class="dd-card bad">
+          <span class="dtag">DON'T</span>
+          <p style="margin:0;font-size:13.5px;">목록에 있는 값을 직접 입력으로 다시 타이핑<br><code>Naver</code>, <code>naver </code>(공백 포함) 등</p>
+        </div>
+        <div class="dd-card good">
+          <span class="dtag">DO</span>
+          <p style="margin:0;font-size:13.5px;">목록에서 그대로 선택<br><code>naver</code></p>
+        </div>
+      </div>
+      <div class="dd-grid">
+        <div class="dd-card bad">
+          <span class="dtag">DON'T</span>
+          <p style="margin:0;font-size:13.5px;">"기록에 저장" 안 누르고 링크만 복사해서 사용</p>
+        </div>
+        <div class="dd-card good">
+          <span class="dtag">DO</span>
+          <p style="margin:0;font-size:13.5px;">링크 복사 후 반드시 "기록에 저장"까지 클릭</p>
+        </div>
+      </div>
+      <div class="dd-grid">
+        <div class="dd-card bad">
+          <span class="dtag">DON'T</span>
+          <p style="margin:0;font-size:13.5px;">작성 팀·담당자를 대충 아무거나 선택/입력</p>
+        </div>
+        <div class="dd-card good">
+          <span class="dtag">DO</span>
+          <p style="margin:0;font-size:13.5px;">실제 본인 소속과 이름을 정확히 입력</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="faq">
+      <div class="kicker">08</div>
+      <h2>자주 묻는 질문</h2>
+
+      <details class="faq-item" open>
+        <summary>UTM을 안 붙이면 어떻게 되나요?</summary>
+        <div class="a">링크는 정상적으로 작동해서 페이지 이동에는 문제없어요. 다만 GA4(구글 애널리틱스)에서 "이 방문자가 어디서 왔는지"를 알 수 없게 돼요. 이 캠페인의 성과(몇 명이 클릭해서 몇 명이 구매했는지)를 전혀 확인할 수 없다는 뜻이에요.</div>
+      </details>
+      <details class="faq-item">
+        <summary>목록에 필요한 값이 없으면 어떻게 하나요?</summary>
+        <div class="a">"직접 입력…"으로 일단 사용하시고, 앞으로도 계속 쓸 값이면 팀에 코드북(구글시트) 추가를 요청해주세요.</div>
+      </details>
+      <details class="faq-item">
+        <summary>실수로 잘못된 값을 저장했어요. 지울 수 있나요?</summary>
+        <div class="a">생성기 화면 아래 "생성 기록"에서 해당 항목의 "삭제"를 누르면 이 브라우저 기록뿐 아니라 팀 시트의 해당 행도 함께 지워져요.</div>
+      </details>
+      <details class="faq-item">
+        <summary>대분류만 고르고 중분류·소분류는 안 골라도 되나요?</summary>
+        <div class="a">네, 됩니다. 대분류만 필수이고 중분류·소분류는 선택 사항이에요. 더 구체적으로 구분하고 싶을 때만 채우면 돼요.</div>
+      </details>
+      <details class="faq-item">
+        <summary>같은 링크를 여러 번 만들면 안 되나요?</summary>
+        <div class="a">조건(콘텐츠·목적·타겟·발송일)이 같은 캠페인을 정말 여러 개 보내야 한다면, "캠페인 세부명"으로 구분해주세요. 그렇지 않다면 이미 만든 링크를 재사용하시면 됩니다.</div>
+      </details>
+    </section>
+
+    <section id="reference">
+      <div class="kicker">09</div>
+      <h2>전체 코드표 <span style="font-weight:400;color:var(--muted);font-size:16px;">(참고용)</span></h2>
+      <p class="section-desc">
+        여기까지 안 읽으셔도 생성기 사용에는 지장 없어요. 다만 "이 코드가 무슨 뜻이었지?" 싶을 때 찾아보시라고
+        전체 목록을 참고용으로 남겨둡니다. <b>구글시트와 실시간으로 연동</b>되어 있어서, 시트가 바뀌면
+        이 페이지도 새로고침할 때마다 최신 내용으로 자동 반영돼요.
+      </p>
+      <p id="refSyncStatus" style="font-size:12.5px;color:var(--muted);margin:-10px 0 22px;">불러오는 중…</p>
+
+      <div class="ref-block">
+        <div class="ref-head"><h3>소스 — 누가 보냈나 <span style="color:var(--amber);font-weight:700;">필수</span></h3><span class="ref-count" id="cnt-source">28개</span></div>
+        <input class="filter-input" type="text" placeholder="예: 네이버, google, 매체사..." data-filter-target="tbl-source">
+        <div class="table-wrap">
+          <table id="tbl-source">
+            <thead><tr><th>code</th><th>설명</th></tr></thead>
+            <tbody>
+<tr><td class="code">eduwill</td><td>에듀윌 웹/자사 채널 (CRM 자체발송 발신주체, 전사표준)</td></tr>
+<tr><td class="code">eduwill_app</td><td>에듀윌 앱 (앱 푸시 등 앱 발신)</td></tr>
+<tr><td class="code">naver</td><td>네이버</td></tr>
+<tr><td class="code">google</td><td>구글</td></tr>
+<tr><td class="code">daum</td><td>다음</td></tr>
+<tr><td class="code">bing</td><td>빙</td></tr>
+<tr><td class="code">msn</td><td>MSN (포털/엣지 새탭)</td></tr>
+<tr><td class="code">yahoo</td><td>야후</td></tr>
+<tr><td class="code">chatgpt</td><td>챗GPT (AI 레퍼럴)</td></tr>
+<tr><td class="code">youtube</td><td>유튜브</td></tr>
+<tr><td class="code">instagram</td><td>인스타그램_콘텐츠</td></tr>
+<tr><td class="code">facebook</td><td>페이스북</td></tr>
+<tr><td class="code">meta</td><td>메타_인스타 (유료광고 소재, medium=paid_social)</td></tr>
+<tr><td class="code">threads</td><td>스레드</td></tr>
+<tr><td class="code">x</td><td>X(트위터)</td></tr>
+<tr><td class="code">tiktok</td><td>틱톡</td></tr>
+<tr><td class="code">kakao</td><td>카카오</td></tr>
+<tr><td class="code">message</td><td>문자 발송 주체 (SMS/LMS/MMS)</td></tr>
+<tr><td class="code">dcinside</td><td>디시인사이드</td></tr>
+<tr><td class="code">tg</td><td>TG (매체사)</td></tr>
+<tr><td class="code">realclick</td><td>리얼클릭 (매체사)</td></tr>
+<tr><td class="code">mobon</td><td>모비온 (매체사)</td></tr>
+<tr><td class="code">nscreen</td><td>스크린뷰 (매체사)</td></tr>
+<tr><td class="code">criteo</td><td>크리테오 (매체사)</td></tr>
+<tr><td class="code">dable</td><td>데이블 (매체사)</td></tr>
+<tr><td class="code">taboola</td><td>타불라 (매체사)</td></tr>
+<tr><td class="code">neoclick</td><td>네오클릭 (매체사)</td></tr>
+<tr><td class="code">searchnclick</td><td>서치N클릭 (매체사, 기존 오탈자 교정)</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="ref-block">
+        <div class="ref-head"><h3>매체 — 어떻게 보냈나 <span style="color:var(--amber);font-weight:700;">필수</span></h3><span class="ref-count" id="cnt-medium">51개</span></div>
+        <input class="filter-input" type="text" placeholder="예: 광고, 카카오, 문자..." data-filter-target="tbl-medium">
+        <div class="table-wrap">
+          <table id="tbl-medium">
+            <thead><tr><th>code</th><th>설명</th></tr></thead>
+            <tbody>
+<tr><td class="code">search</td><td>검색광고</td></tr>
+<tr><td class="code">brandsearch</td><td>브랜드검색</td></tr>
+<tr><td class="code">shopping_search</td><td>쇼핑검색</td></tr>
+<tr><td class="code">display</td><td>디스플레이광고</td></tr>
+<tr><td class="code">paid_video</td><td>유료 영상광고</td></tr>
+<tr><td class="code">blog</td><td>블로그</td></tr>
+<tr><td class="code">cafe</td><td>네이버 카페 (외부/비공식)</td></tr>
+<tr><td class="code">cafe1</td><td>공식카페_공무원</td></tr>
+<tr><td class="code">cafe2</td><td>공식카페_공인중개사</td></tr>
+<tr><td class="code">cafe3</td><td>공식카페_기사</td></tr>
+<tr><td class="code">cafe4</td><td>공식카페_주택관리사</td></tr>
+<tr><td class="code">cafe5</td><td>공식카페_취업</td></tr>
+<tr><td class="code">cafe6</td><td>공식카페_한국사</td></tr>
+<tr><td class="code">cafe7</td><td>공식카페_경찰 (중지)</td></tr>
+<tr><td class="code">cafe8</td><td>공식카페_소방</td></tr>
+<tr><td class="code">cafe9</td><td>공식카페_행정</td></tr>
+<tr><td class="code">cafe10</td><td>공식카페_군무원 (중지)</td></tr>
+<tr><td class="code">cafe11</td><td>공식카페_기술 (중지)</td></tr>
+<tr><td class="code">cafe12</td><td>공식카페_계리</td></tr>
+<tr><td class="code">cafe13</td><td>공식카페_경비</td></tr>
+<tr><td class="code">cafe14</td><td>공식카페_검정</td></tr>
+<tr><td class="code">cafe15</td><td>공식카페_금융</td></tr>
+<tr><td class="code">cafe16</td><td>공식카페_무역</td></tr>
+<tr><td class="code">cafe17</td><td>공식카페_직상</td></tr>
+<tr><td class="code">cafe18</td><td>공식카페_IT (중지)</td></tr>
+<tr><td class="code">cafe19</td><td>공식카페_산안기</td></tr>
+<tr><td class="code">cafe20</td><td>공식카페_운전 (중지)</td></tr>
+<tr><td class="code">cafe21</td><td>공식카페_토익</td></tr>
+<tr><td class="code">cafe22</td><td>공식카페_CPTA (중지)</td></tr>
+<tr><td class="code">cafe23</td><td>공식카페_편입</td></tr>
+<tr><td class="code">community</td><td>커뮤니티 게시물</td></tr>
+<tr><td class="code">channel</td><td>카카오 채널</td></tr>
+<tr><td class="code">openchat</td><td>카카오 오픈채팅방</td></tr>
+<tr><td class="code">profile</td><td>프로필 링크</td></tr>
+<tr><td class="code">litt</td><td>리틀리</td></tr>
+<tr><td class="code">owned_text</td><td>텍스트형 자사 콘텐츠</td></tr>
+<tr><td class="code">owned_image</td><td>이미지형 자사 콘텐츠</td></tr>
+<tr><td class="code">owned_video</td><td>영상형 자사 콘텐츠</td></tr>
+<tr><td class="code">viral</td><td>바이럴 광고/게시</td></tr>
+<tr><td class="code">unpaid_seeding</td><td>무가시딩</td></tr>
+<tr><td class="code">paid_seeding</td><td>유가시딩</td></tr>
+<tr><td class="code">groupbuy</td><td>공동구매</td></tr>
+<tr><td class="code">brand_message</td><td>카카오 브랜드메시지</td></tr>
+<tr><td class="code">alimtalk</td><td>카카오 알림톡</td></tr>
+<tr><td class="code">email</td><td>이메일</td></tr>
+<tr><td class="code">lms</td><td>문자</td></tr>
+<tr><td class="code">push</td><td>앱 푸시</td></tr>
+<tr><td class="code">in_app</td><td>인앱 메시지</td></tr>
+<tr><td class="code">qr</td><td>QR코드</td></tr>
+<tr><td class="code">refer</td><td>외부 추천/제휴 링크</td></tr>
+<tr><td class="code">paid_native</td><td>유료 콘텐츠</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="ref-block">
+        <div class="ref-head"><h3>캠페인 목적</h3><span class="ref-count" id="cnt-purpose">11개</span></div>
+        <div class="table-wrap">
+          <table id="tbl-purpose">
+            <thead><tr><th>code</th><th>설명</th><th>선택 기준</th></tr></thead>
+            <tbody>
+<tr><td class="code">awareness</td><td>노출_인지도/브랜딩</td><td class="desc">브랜드·상품 인지도, 영상조회·노출 중심 캠페인</td></tr>
+<tr><td class="code">maintraffic</td><td>유입_자사</td><td class="desc">특정 자사 페이지 방문/클릭 유도가 핵심</td></tr>
+<tr><td class="code">lead</td><td>신청_상담/리드</td><td class="desc">전화·카카오·폼 등 상담/문의 신청</td></tr>
+<tr><td class="code">signup</td><td>행동_회원가입</td><td class="desc">회원가입 완료가 목표</td></tr>
+<tr><td class="code">activation</td><td>행동_그외</td><td class="desc">가입 후 진단·샘플강의·첫 학습 등 초기 행동 유도</td></tr>
+<tr><td class="code">event</td><td>행동_이벤트</td><td class="desc">이벤트 참여·응모·신청이 목표</td></tr>
+<tr><td class="code">winback</td><td>활성화_이탈고개</td><td class="desc">휴면·장기 미접속·이탈 고객 복귀</td></tr>
+<tr><td class="code">purchase</td><td>행동_구매</td><td class="desc">최초 또는 일반 상품 구매</td></tr>
+<tr><td class="code">upsell</td><td>행동_추가구매</td><td class="desc">기존 구매자의 특강·추가 상품·교차구매</td></tr>
+<tr><td class="code">transactional</td><td>노출_안내</td><td class="desc">결제·신청·배송·수강 등 마케팅 목적이 아닌 필수 안내</td></tr>
+<tr><td class="code">ondtraffic</td><td>유입_자사외</td><td class="desc">자사 외 페이지 방문/클릭 유도가 핵심</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="ref-block">
+        <div class="ref-head"><h3>타겟 세그먼트</h3><span class="ref-count" id="cnt-target">13개</span></div>
+        <div class="table-wrap">
+          <table id="tbl-target">
+            <thead><tr><th>code</th><th>설명</th><th>의미</th></tr></thead>
+            <tbody>
+<tr><td class="code">prospect</td><td>신규고객_유입</td><td class="desc">비회원 포함 신규 잠재 고객</td></tr>
+<tr><td class="code">visitor_nopurchase</td><td>기존고객_미구매</td><td class="desc">사이트 방문 이력 있으나 미구매</td></tr>
+<tr><td class="code">new_nopurchase</td><td>신규고객_미구매</td><td class="desc">가입 후 7일 이내 미구매</td></tr>
+<tr><td class="code">lead_nopurchase</td><td>상담/리드_미구매</td><td class="desc">상담·문의·진단 등 리드 발생 후 미구매</td></tr>
+<tr><td class="code">cartpending</td><td>구매전환대기</td><td class="desc">장바구니/결제 진입 후 미결제</td></tr>
+<tr><td class="code">buyer</td><td>기존고객_구매</td><td class="desc">구매 이력이 있는 고객</td></tr>
+<tr><td class="code">active7d</td><td>기존고객_활성수강생</td><td class="desc">최근 7일 학습 활동 발생</td></tr>
+<tr><td class="code">dormant30d</td><td>기존고객_비활성수강생_30D</td><td class="desc">30일 이상 미접속/미학습</td></tr>
+<tr><td class="code">aboutcomplete</td><td>기존고객_수료예정군</td><td class="desc">진도율 90% 이상</td></tr>
+<tr><td class="code">repeat</td><td>기존고객_재구매후보</td><td class="desc">기존 구매/수료 후 추가 구매 가능 고객</td></tr>
+<tr><td class="code">vip</td><td>기존고객_VIP고객</td><td class="desc">LTV 상위 고객군</td></tr>
+<tr><td class="code">examd30</td><td>기존고객_시험임박군_D30</td><td class="desc">목표 시험 D-30 이내</td></tr>
+<tr><td class="code">all</td><td>전체</td><td class="desc">특정 세그먼트 미적용</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="ref-block">
+        <div class="ref-head"><h3>콘텐츠 — 대분류 <span style="color:var(--amber);font-weight:700;">필수</span></h3><span class="ref-count" id="cnt-content_대분류">6개</span></div>
+        <div class="table-wrap">
+          <table id="tbl-content_대분류">
+            <thead><tr><th>code</th><th>설명</th><th>포함 범위</th></tr></thead>
+            <tbody>
+<tr><td class="code">gov</td><td>공무원&amp;입시</td><td class="desc">9급·소방·계리·편입</td></tr>
+<tr><td class="code">license</td><td>기술자격증</td><td class="desc">기사자격증</td></tr>
+<tr><td class="code">spec</td><td>전문자격증</td><td class="desc">공인중개사·주택관리사·회계·사회복지사 등</td></tr>
+<tr><td class="code">job</td><td>취업</td><td class="desc">공기업/대기업 취업·NCS 직무능력·토익</td></tr>
+<tr><td class="code">lang</td><td>어학</td><td class="desc">토익·오픽 등 어학시험 대비</td></tr>
+<tr><td class="code">skill</td><td>직무역량</td><td class="desc">컴퓨터활용능력·한국사능력검정 등</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <details class="fold">
+        <summary>콘텐츠 — 중분류 <span id="cnt-content_중분류">64개</span> 보기 (선택 항목, 대분류 고르면 자동으로 좁혀져요)</summary>
+        <input class="filter-input" type="text" placeholder="예: 공무원, 소방, 검정고시..." data-filter-target="tbl-mid" style="margin-top:8px;">
+        <div class="table-wrap">
+          <table id="tbl-mid">
+            <thead><tr><th>code</th><th>설명</th></tr></thead>
+            <tbody>
+<tr><td class="code">_101</td><td>국제무역사/무역영어</td></tr>
+<tr><td class="code">_102</td><td>무역영어</td></tr>
+<tr><td class="code">_103</td><td>한식조리기능사</td></tr>
+<tr><td class="code">_104</td><td>소방공무원</td></tr>
+<tr><td class="code">_105</td><td>부동산아카데미</td></tr>
+<tr><td class="code">_106</td><td>건축기사</td></tr>
+<tr><td class="code">_107</td><td>토목기사</td></tr>
+<tr><td class="code">_108</td><td>산업/건설안전기사</td></tr>
+<tr><td class="code">_109</td><td>산업안전보건교육</td></tr>
+<tr><td class="code">_110</td><td>주택취업지원센터</td></tr>
+<tr><td class="code">_111</td><td>위험물산업기사/기능사</td></tr>
+<tr><td class="code">_113</td><td>소방시설관리사</td></tr>
+<tr><td class="code">_114</td><td>세무사·회계사</td></tr>
+<tr><td class="code">_115</td><td>토익</td></tr>
+<tr><td class="code">_116</td><td>편입</td></tr>
+<tr><td class="code">_117</td><td>면접</td></tr>
+<tr><td class="code">_118</td><td>화이트해커</td></tr>
+<tr><td class="code">_119</td><td>글로벌 메인</td></tr>
+<tr><td class="code">_120</td><td>군간부</td></tr>
+<tr><td class="code">_121</td><td>임용</td></tr>
+<tr><td class="code">_123</td><td>편입 게이트</td></tr>
+<tr><td class="code">_124</td><td>감정평가사</td></tr>
+<tr><td class="code">_125</td><td>노무사</td></tr>
+<tr><td class="code">_126</td><td>법무사</td></tr>
+<tr><td class="code">0</td><td>공통</td></tr>
+<tr><td class="code">1</td><td>한경TESAT/매경TEST</td></tr>
+<tr><td class="code">2</td><td>책배송비</td></tr>
+<tr><td class="code">3</td><td>전기기능사</td></tr>
+<tr><td class="code">4</td><td>청소년상담사(3급)</td></tr>
+<tr><td class="code">5</td><td>ERP정보관리사</td></tr>
+<tr><td class="code">6</td><td>건축기사/토목기사</td></tr>
+<tr><td class="code">7</td><td>7급 공무원</td></tr>
+<tr><td class="code">8</td><td>KBS한국어/실용글쓰기</td></tr>
+<tr><td class="code">9</td><td>조경기사/기능사</td></tr>
+<tr><td class="code">A</td><td>행정사</td></tr>
+<tr><td class="code">B</td><td>검정고시</td></tr>
+<tr><td class="code">BC</td><td>대입검정(고졸)</td></tr>
+<tr><td class="code">BH</td><td>고입검정(중졸)</td></tr>
+<tr><td class="code">C</td><td>경찰공무원</td></tr>
+<tr><td class="code">D</td><td>도로교통사고감정사</td></tr>
+<tr><td class="code">E</td><td>한자능력검정</td></tr>
+<tr><td class="code">F</td><td>유통관리사</td></tr>
+<tr><td class="code">G</td><td>9급 공무원</td></tr>
+<tr><td class="code">H</td><td>한국사능력검정</td></tr>
+<tr><td class="code">I</td><td>IT자격증</td></tr>
+<tr><td class="code">IT</td><td>IT자격증</td></tr>
+<tr><td class="code">J</td><td>주택관리사</td></tr>
+<tr><td class="code">K</td><td>경비지도사</td></tr>
+<tr><td class="code">L</td><td>공인중개사</td></tr>
+<tr><td class="code">M</td><td>물류관리사</td></tr>
+<tr><td class="code">N</td><td>지식발전소</td></tr>
+<tr><td class="code">NPC</td><td>미선택</td></tr>
+<tr><td class="code">O</td><td>AT</td></tr>
+<tr><td class="code">Q</td><td>전기기사</td></tr>
+<tr><td class="code">R</td><td>번역사(종료)</td></tr>
+<tr><td class="code">S</td><td>사회복지사 1급</td></tr>
+<tr><td class="code">STU</td><td>학점은행제</td></tr>
+<tr><td class="code">T</td><td>계리직 공무원</td></tr>
+<tr><td class="code">U</td><td>재경관리사</td></tr>
+<tr><td class="code">V</td><td>직업상담사</td></tr>
+<tr><td class="code">W</td><td>온오프라인학원</td></tr>
+<tr><td class="code">X</td><td>전산세무회계</td></tr>
+<tr><td class="code">Y</td><td>소방설비기사</td></tr>
+<tr><td class="code">Z</td><td>공기업/대기업 취업</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </details>
+
+      <div class="ref-block" style="margin-top:28px;">
+        <div class="ref-head"><h3>콘텐츠 — 소분류 <span style="font-weight:400;color:var(--muted);">(선택)</span></h3><span class="ref-count" id="cnt-content_소분류">4개</span></div>
+        <div class="table-wrap">
+          <table id="tbl-content_소분류">
+            <thead><tr><th>code</th><th>설명</th><th>의미</th></tr></thead>
+            <tbody>
+<tr><td class="code">basic</td><td>기본강의</td><td class="desc">단일 과목 기본 커리큘럼</td></tr>
+<tr><td class="code">advanced</td><td>심화강의</td><td class="desc">기본 과정 이후 심화/기출 분석</td></tr>
+<tr><td class="code">mockexam</td><td>모의고사</td><td class="desc">실전 모의고사 상품</td></tr>
+<tr><td class="code">package</td><td>패키지</td><td class="desc">여러 과목을 묶은 종합 패키지</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <details class="fold">
+        <summary>캠페인 세부명 <span id="cnt-campaign_세부명">21개</span> 보기 (선택 항목, 같은 조건 캠페인이 여러 개일 때만)</summary>
+        <div class="table-wrap" style="margin-top:8px;">
+          <table id="tbl-campaign_세부명">
+            <thead><tr><th>code</th><th>설명</th><th>사용 상황</th></tr></thead>
+            <tbody>
+<tr><td class="code">MOCK_EXAM</td><td>모의고사/가답안·가채점</td><td class="desc">모의고사 응시 안내, 가답안/가채점 서비스 안내</td></tr>
+<tr><td class="code">PURCHASE_FUNNEL</td><td>구매전환(첫구매·장바구니)</td><td class="desc">장바구니 이탈, 첫구매 유도, 골든타임 리마인드</td></tr>
+<tr><td class="code">EXAM_DEADLINE</td><td>원서접수/마감임박</td><td class="desc">시험 원서접수 안내, 각종 마감 임박 알림</td></tr>
+<tr><td class="code">INFO_SESSION</td><td>설명회</td><td class="desc">오프라인/온라인 설명회 홍보 및 리마인드</td></tr>
+<tr><td class="code">COURSE_OPEN</td><td>개강안내</td><td class="desc">개강 일정 및 선행반 안내</td></tr>
+<tr><td class="code">SPECIAL_LECTURE</td><td>특강</td><td class="desc">무료/유료 특강 홍보</td></tr>
+<tr><td class="code">PROMOTION</td><td>프로모션/할인/쿠폰</td><td class="desc">할인, 쿠폰, 프로모션, 리패키징, 얼리버드 등 가격 프로모션</td></tr>
+<tr><td class="code">PASS_UPSELL</td><td>패스 상품 업셀</td><td class="desc">패스 상품(구독형) 가입/업그레이드 유도</td></tr>
+<tr><td class="code">NEW_PRODUCT</td><td>신규상품/오픈/런칭</td><td class="desc">신규 강의/상품 출시 및 오픈 안내</td></tr>
+<tr><td class="code">FREE_TRIAL</td><td>무료회원/무료체험</td><td class="desc">무료 회원가입, 무료 체험 유도</td></tr>
+<tr><td class="code">EXAM_RESULT</td><td>합격/결과 관련</td><td class="desc">합격 전략, 합격자 발표/후기 관련</td></tr>
+<tr><td class="code">CRM_RETENTION</td><td>CRM/학습독려</td><td class="desc">수강생 학습 독려, 재등록/연장 유도</td></tr>
+<tr><td class="code">SURVEY</td><td>설문/만족도조사</td><td class="desc">만족도 조사, 서베이, 진단 요청</td></tr>
+<tr><td class="code">REFUND</td><td>환급/환불</td><td class="desc">환급형 상품 안내, 환불 절차 안내</td></tr>
+<tr><td class="code">JOB_SUPPORT</td><td>취업/면접 지원</td><td class="desc">취업 연계, 면접/자소서 지원</td></tr>
+<tr><td class="code">CONSULT</td><td>상담/입학·모객안내</td><td class="desc">1:1 상담 유도, 학원 모객, 입학 안내</td></tr>
+<tr><td class="code">AS_NOTICE</td><td>AS/리마인드/안내(CS성)</td><td class="desc">배송/주소 확인, 두낫콜, 환불방어 등 CS 운영성 알림</td></tr>
+<tr><td class="code">PARTNER_EVENT</td><td>제휴 이벤트</td><td class="desc">제휴사 공동 이벤트, 카페/블로그 서포터즈</td></tr>
+<tr><td class="code">EVENT_GENERAL</td><td>일반 이벤트/모집</td><td class="desc">경품 이벤트, 참가자/체험단 모집</td></tr>
+<tr><td class="code">PROMO_GENERAL</td><td>일반 홍보/안내</td><td class="desc">위 유형에 명확히 속하지 않는 일반 홍보·안내 문구</td></tr>
+<tr><td class="code">OTHER</td><td>기타(자동분류 불가)</td><td class="desc">키워드 매칭에 실패한 건 (수동 확인 필요)</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </details>
+
+      <div class="ref-block" style="margin-top:28px;">
+        <div class="ref-head"><h3>작성 팀 <span style="color:var(--amber);font-weight:700;">필수</span></h3><span class="ref-count" id="cnt-team">4개</span></div>
+        <div class="table-wrap">
+          <table id="tbl-team">
+            <thead><tr><th>code</th><th>설명</th></tr></thead>
+            <tbody>
+<tr><td class="code">온라인사업1실</td><td>온라인사업1실</td></tr>
+<tr><td class="code">온라인사업2실</td><td>온라인사업2실</td></tr>
+<tr><td class="code">고객상담실</td><td>고객상담실</td></tr>
+<tr><td class="code">그로스실</td><td>그로스실</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      에듀윌 UTM 링크 가이드 · 초보자용 · 문의: 그로스실
+    </footer>
+  </main>
 </div>
 
 <script>
-  // ---- 기본 내장 데이터 (구글 시트 연동 실패/미설정 시 사용) ----
-  const DEFAULTS = {
-    medium: [
-      { code: "search", label: "검색광고" },
-      { code: "brandsearch", label: "브랜드검색" },
-      { code: "powerlink", label: "네이버 파워링크" },
-      { code: "shopping_search", label: "쇼핑검색" },
-      { code: "display", label: "디스플레이광고" },
-      { code: "paid_social", label: "유료 소셜광고" },
-      { code: "paid_video", label: "유료 영상광고" },
-      { code: "blog", label: "블로그" },
-      { code: "cafe", label: "네이버 카페 (외부/비공식)" },
-      { code: "cafe1", label: "공식카페_공무원" },
-      { code: "cafe2", label: "공식카페_공인중개사" },
-      { code: "cafe3", label: "공식카페_기사" },
-      { code: "cafe4", label: "공식카페_주택관리사" },
-      { code: "cafe5", label: "공식카페_취업" },
-      { code: "cafe6", label: "공식카페_한국사" },
-      { code: "cafe7", label: "공식카페_경찰 (중지)" },
-      { code: "cafe8", label: "공식카페_소방" },
-      { code: "cafe9", label: "공식카페_행정" },
-      { code: "cafe10", label: "공식카페_군무원 (중지)" },
-      { code: "cafe11", label: "공식카페_기술 (중지)" },
-      { code: "cafe12", label: "공식카페_계리" },
-      { code: "cafe13", label: "공식카페_경비" },
-      { code: "cafe14", label: "공식카페_검정" },
-      { code: "cafe15", label: "공식카페_금융" },
-      { code: "cafe16", label: "공식카페_무역" },
-      { code: "cafe17", label: "공식카페_직상" },
-      { code: "cafe18", label: "공식카페_IT (중지)" },
-      { code: "cafe19", label: "공식카페_산안기" },
-      { code: "cafe20", label: "공식카페_운전 (중지)" },
-      { code: "cafe21", label: "공식카페_토익" },
-      { code: "cafe22", label: "공식카페_CPTA (중지)" },
-      { code: "cafe23", label: "공식카페_편입" },
-      { code: "community", label: "커뮤니티 게시물" },
-      { code: "channel", label: "카카오 채널" },
-      { code: "openchat", label: "카카오 오픈채팅방" },
-      { code: "profile", label: "프로필 링크" },
-      { code: "litt", label: "리틀리" },
-      { code: "owned_text", label: "텍스트형 자사 콘텐츠" },
-      { code: "owned_image", label: "이미지형 자사 콘텐츠" },
-      { code: "owned_video", label: "영상형 자사 콘텐츠" },
-      { code: "viral", label: "바이럴 광고/게시" },
-      { code: "unpaid_seeding", label: "무가시딩" },
-      { code: "paid_seeding", label: "유가시딩" },
-      { code: "groupbuy", label: "공동구매" },
-      { code: "brand_message", label: "카카오 브랜드메시지" },
-      { code: "alimtalk", label: "카카오 알림톡" },
-      { code: "email", label: "이메일" },
-      { code: "sms", label: "SMS" },
-      { code: "lms", label: "LMS" },
-      { code: "mms", label: "MMS" },
-      { code: "push", label: "앱 푸시" },
-      { code: "in_app", label: "인앱 메시지" },
-      { code: "qr", label: "QR코드" },
-      { code: "referral", label: "외부 추천/제휴 링크" },
-    ],
-    purpose: [
-      { code: "awareness", label: "인지도/브랜딩" },
-      { code: "traffic", label: "사이트 유입" },
-      { code: "lead", label: "상담/리드" },
-      { code: "signup", label: "회원가입" },
-      { code: "activation", label: "가입 후 첫 행동" },
-      { code: "event", label: "이벤트 참여" },
-      { code: "retention", label: "재방문/지속 이용" },
-      { code: "winback", label: "이탈고객 재활성화" },
-      { code: "purchase", label: "구매" },
-      { code: "upsell", label: "추가구매" },
-      { code: "transactional", label: "서비스성 안내" },
-    ],
-    target: [
-      { code: "prospect", label: "잠재고객" },
-      { code: "visitor_nopurchase", label: "방문_미구매" },
-      { code: "new_nopurchase", label: "신규가입_미구매" },
-      { code: "lead_nopurchase", label: "상담/리드_미구매" },
-      { code: "cartpending", label: "구매전환대기" },
-      { code: "buyer", label: "구매고객" },
-      { code: "active7d", label: "활성수강생" },
-      { code: "dormant30d", label: "비활성수강생_30d" },
-      { code: "aboutcomplete", label: "수료예정군" },
-      { code: "repeat", label: "재구매후보" },
-      { code: "vip", label: "VIP고객" },
-      { code: "examd30", label: "시험임박군_D30" },
-      { code: "all", label: "전체" },
-    ],
-    source: [
-      { code: "eduwill", label: "에듀윌 웹/자사 채널 (CRM 자체발송 발신주체, 전사표준)" },
-      { code: "eduwill_app", label: "에듀윌 앱 (앱 푸시 등 앱 발신)" },
-      { code: "naver", label: "네이버" },
-      { code: "google", label: "구글" },
-      { code: "daum", label: "다음" },
-      { code: "bing", label: "빙" },
-      { code: "msn", label: "MSN (포털/엣지 새탭)" },
-      { code: "yahoo", label: "야후" },
-      { code: "chatgpt", label: "챗GPT (AI 레퍼럴)" },
-      { code: "youtube", label: "유튜브" },
-      { code: "instagram", label: "인스타그램_콘텐츠" },
-      { code: "facebook", label: "페이스북" },
-      { code: "meta", label: "메타_인스타 (유료광고 소재, medium=paid_social)" },
-      { code: "threads", label: "스레드" },
-      { code: "x", label: "X(트위터)" },
-      { code: "tiktok", label: "틱톡" },
-      { code: "kakao", label: "카카오" },
-      { code: "message", label: "문자 발송 주체 (SMS/LMS/MMS)" },
-      { code: "email", label: "이메일" },
-      { code: "dcinside", label: "디시인사이드" },
-      { code: "tg", label: "TG (매체사)" },
-      { code: "realclick", label: "리얼클릭 (매체사)" },
-      { code: "mobon", label: "모비온 (매체사)" },
-      { code: "nscreen", label: "스크린뷰 (매체사)" },
-      { code: "criteo", label: "크리테오 (매체사)" },
-      { code: "dable", label: "데이블 (매체사)" },
-      { code: "taboola", label: "타불라 (매체사)" },
-      { code: "neoclick", label: "네오클릭 (매체사)" },
-      { code: "searchnclick", label: "서치N클릭 (매체사, 기존 오탈자 교정)" },
-    ],
-    content_major: [
-      { code: "gov", label: "공무원&입시 — 9급·소방·계리·편입" },
-      { code: "license", label: "기술자격증 — 기사자격증" },
-      { code: "spec", label: "전문자격증 — 공인중개사·주택관리사·회계·사회복지사 등" },
-      { code: "job", label: "취업 — 공기업/대기업 취업·NCS 직무능력·토익" },
-      { code: "lang", label: "어학 — 토익·오픽 등 어학시험 대비" },
-      { code: "skill", label: "직무역량 — 컴퓨터활용능력·한국사능력검정 등" },
-    ],
-    content_mid: [
-      { code: "_101", label: "국제무역사/무역영어", group: "spec" },
-      { code: "_102", label: "무역영어", group: "spec" },
-      { code: "_103", label: "한식조리기능사", group: "license" },
-      { code: "_104", label: "소방공무원", group: "gov" },
-      { code: "_105", label: "부동산아카데미", group: "spec" },
-      { code: "_106", label: "건축기사", group: "license" },
-      { code: "_107", label: "토목기사", group: "license" },
-      { code: "_108", label: "산업/건설안전기사", group: "license" },
-      { code: "_109", label: "산업안전보건교육", group: "license" },
-      { code: "_110", label: "주택취업지원센터", group: "job" },
-      { code: "_111", label: "위험물산업기사/기능사", group: "license" },
-      { code: "_113", label: "소방시설관리사", group: "spec" },
-      { code: "_114", label: "세무사·회계사", group: "spec" },
-      { code: "_115", label: "토익", group: "lang" },
-      { code: "_116", label: "편입", group: "gov" },
-      { code: "_117", label: "면접", group: "job" },
-      { code: "_118", label: "화이트해커", group: "skill" },
-      { code: "_119", label: "글로벌 메인", group: "lang" },
-      { code: "_120", label: "군간부", group: "gov" },
-      { code: "_121", label: "임용", group: "gov" },
-      { code: "_123", label: "편입 게이트", group: "gov" },
-      { code: "_124", label: "감정평가사", group: "spec" },
-      { code: "_125", label: "노무사", group: "spec" },
-      { code: "_126", label: "법무사", group: "spec" },
-      { code: "0", label: "공통" },
-      { code: "1", label: "한경TESAT/매경TEST", group: "job" },
-      { code: "2", label: "책배송비" },
-      { code: "3", label: "전기기능사", group: "license" },
-      { code: "4", label: "청소년상담사(3급)", group: "spec" },
-      { code: "5", label: "ERP정보관리사", group: "skill" },
-      { code: "6", label: "건축기사/토목기사", group: "license" },
-      { code: "7", label: "7급 공무원", group: "gov" },
-      { code: "8", label: "KBS한국어/실용글쓰기", group: "skill" },
-      { code: "9", label: "조경기사/기능사", group: "license" },
-      { code: "A", label: "행정사", group: "spec" },
-      { code: "B", label: "검정고시", group: "gov" },
-      { code: "BC", label: "대입검정(고졸)", group: "gov" },
-      { code: "BH", label: "고입검정(중졸)", group: "gov" },
-      { code: "C", label: "경찰공무원", group: "gov" },
-      { code: "D", label: "도로교통사고감정사", group: "spec" },
-      { code: "E", label: "한자능력검정", group: "skill" },
-      { code: "F", label: "유통관리사", group: "job" },
-      { code: "G", label: "9급 공무원", group: "gov" },
-      { code: "H", label: "한국사능력검정", group: "skill" },
-      { code: "I", label: "IT자격증", group: "skill" },
-      { code: "IT", label: "IT자격증", group: "skill" },
-      { code: "J", label: "주택관리사", group: "spec" },
-      { code: "K", label: "경비지도사", group: "spec" },
-      { code: "L", label: "공인중개사", group: "spec" },
-      { code: "M", label: "물류관리사", group: "spec" },
-      { code: "N", label: "지식발전소" },
-      { code: "NPC", label: "미선택" },
-      { code: "O", label: "AT", group: "skill" },
-      { code: "Q", label: "전기기사", group: "license" },
-      { code: "R", label: "번역사(종료)", group: "lang" },
-      { code: "S", label: "사회복지사 1급", group: "spec" },
-      { code: "STU", label: "학점은행제", group: "gov" },
-      { code: "T", label: "계리직 공무원", group: "gov" },
-      { code: "U", label: "재경관리사", group: "gov" },
-      { code: "V", label: "직업상담사", group: "gov" },
-      { code: "W", label: "온오프라인학원", group: "license" },
-      { code: "X", label: "전산세무회계", group: "license" },
-      { code: "Y", label: "소방설비기사", group: "license" },
-      { code: "Z", label: "공기업/대기업 취업", group: "license" },
-    ],
-    content_minor: [
-      { code: "basic", label: "기본강의 — 단일 과목 기본 커리큘럼" },
-      { code: "advanced", label: "심화강의 — 기본 과정 이후 심화/기출 분석" },
-      { code: "mockexam", label: "모의고사 — 실전 모의고사 상품" },
-      { code: "package", label: "패키지 — 여러 과목을 묶은 종합 패키지" },
-    ],
-    team: [
-      { code: "온라인사업1실", label: "온라인사업1실" },
-      { code: "온라인사업2실", label: "온라인사업2실" },
-      { code: "마케팅실", label: "마케팅실" },
-      { code: "고객상담실", label: "고객상담실" },
-    ],
-    member: [],
-    campaign_slug: [],
-  };
-
-  const SHEET_TABS = ["medium", "purpose", "target", "source", "content_major", "content_mid", "content_minor", "team", "member", "campaign_slug"];
-  // JS 쪽 키(영문)와 실제 구글시트 탭 이름(국문)이 다른 경우의 매핑
-  const TAB_NAME_MAP = {
-    content_major: "content_대분류",
-    content_mid: "content_중분류",
-    content_minor: "content_소분류",
-    campaign_slug: "campaign_세부명",
-  };
-  let DATA = JSON.parse(JSON.stringify(DEFAULTS));
-
-  function fillSelect(selectEl, items) {
-    selectEl.innerHTML = items.map(i => `<option value="${i.code}">${i.label}</option>`).join("");
-  }
-
-  function fillSelectPreserve(selectEl, items) {
-    const prev = selectEl.value;
-    fillSelect(selectEl, items);
-    if (items.some(i => i.code === prev)) selectEl.value = prev;
-  }
-
-  // 라벨 기준 한글 가나다순(오름차순) 정렬 — 목록이 길수록 훑어보기 쉬움
-  function sortKo(items) {
-    return items.slice().sort((a, b) => a.label.localeCompare(b.label, "ko"));
-  }
-
-  function optionsFor(category, opts) {
-    opts = opts || {};
-    let items = sortKo(DATA[category] || []);
-    if (category === "content_mid" && opts.majorFilter) {
-      // 그룹(대분류)이 지정된 항목은 선택된 대분류와 일치할 때만, 그룹이 없는 공통 항목은 항상 표시
-      items = items.filter(i => !i.group || i.group === opts.majorFilter);
-    }
-    if (category === "content_major") return [...items, { code: "__custom", label: "직접 입력…" }];
-    if (category === "content_mid") return [{ code: "", label: "선택 안 함" }, ...items, { code: "__custom", label: "직접 입력…" }];
-    if (category === "content_minor") return [{ code: "", label: "선택 안 함" }, ...items, { code: "__custom", label: "직접 입력…" }];
-    if (category === "team") return [...items, { code: "__custom", label: "직접 입력…" }];
-    if (category === "campaign_slug") return [{ code: "", label: "선택 안 함" }, ...items, { code: "__custom", label: "직접 입력…" }];
-    return items;
-  }
-
-  // 대분류 선택이 바뀌면 중분류 목록을 그 대분류에 맞게 다시 채움
-  function refreshContentMid() {
-    const majorVal = contentMajorEl.value === "__custom" ? "" : contentMajorEl.value;
-    fillSelectPreserve(contentMidEl, optionsFor("content_mid", { majorFilter: majorVal }));
-    syncCustomWrap(contentMidEl, "customMidWrap");
-    if (contentMidEl._ssSync) contentMidEl._ssSync();
-  }
-
-  // 드롭다운에 "직접 입력…"만 있어서 그게 기본 선택값이 되는 경우, change 이벤트가
-  // 전혀 안 일어나 커스텀 입력창이 계속 숨어있는 문제를 막기 위해 값에 맞춰 강제로 동기화
-  function syncCustomWrap(selectEl, wrapId) {
-    const wrap = document.getElementById(wrapId);
-    if (wrap) wrap.style.display = selectEl.value === "__custom" ? "block" : "none";
-  }
-
-  // ---- 검색 가능한 드롭다운 (search-select) ----
-  // 기존 <select>는 숨겨서 그대로 두고(값 검증·change 이벤트 등 기존 로직 전부 재사용),
-  // 그 위에 타이핑하면 필터링되는 검색 입력창 + 목록 패널을 얹는다.
-  function makeSearchable(selectEl) {
-    if (selectEl._ssWired) return;
-    selectEl._ssWired = true;
-    selectEl.style.display = "none";
-
-    const wrapper = document.createElement("div");
-    wrapper.className = "ss-wrapper";
-    const input = document.createElement("input");
-    input.type = "text";
-    input.className = "ss-input";
-    input.autocomplete = "off";
-    input.placeholder = "검색 또는 선택";
-    const panel = document.createElement("div");
-    panel.className = "ss-panel";
-    wrapper.appendChild(input);
-    wrapper.appendChild(panel);
-    selectEl.insertAdjacentElement("afterend", wrapper);
-
-    function syncInputFromSelect() {
-      const opt = selectEl.options[selectEl.selectedIndex];
-      input.value = opt ? opt.textContent : "";
-    }
-
-    function renderPanel(filterText) {
-      const q = (filterText || "").trim().toLowerCase();
-      const opts = Array.from(selectEl.options);
-      const items = q ? opts.filter(o => o.textContent.toLowerCase().includes(q)) : opts;
-      if (!items.length) {
-        panel.innerHTML = `<div class="ss-empty">검색 결과 없음</div>`;
-      } else {
-        panel.innerHTML = items.map(o => {
-          const cls = "ss-item" + (o.value === selectEl.value ? " ss-current" : "");
-          return `<div class="${cls}" data-value="${escapeHtml(o.value)}">${escapeHtml(o.textContent)}</div>`;
-        }).join("");
-      }
-      panel.style.display = "block";
-    }
-
-    input.addEventListener("focus", () => renderPanel(""));
-    input.addEventListener("input", () => renderPanel(input.value));
-    input.addEventListener("blur", () => {
-      setTimeout(() => { panel.style.display = "none"; syncInputFromSelect(); }, 150);
-    });
-    input.addEventListener("keydown", (e) => {
-      if (e.key === "Escape") { panel.style.display = "none"; input.blur(); }
-    });
-
-    panel.addEventListener("mousedown", (e) => {
-      const item = e.target.closest(".ss-item");
-      if (!item) return;
+  document.querySelectorAll('.toc a[data-scroll-to]').forEach(function(a) {
+    a.addEventListener('click', function(e) {
       e.preventDefault();
-      selectEl.value = item.getAttribute("data-value");
-      selectEl.dispatchEvent(new Event("change", { bubbles: true }));
-      selectEl.dispatchEvent(new Event("input", { bubbles: true }));
-      syncInputFromSelect();
-      panel.style.display = "none";
-      input.blur();
+      var target = document.getElementById(a.getAttribute('data-scroll-to'));
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
-
-    selectEl._ssSync = syncInputFromSelect;
-    syncInputFromSelect();
-  }
-
-  function initSearchableSelects() {
-    ["medium", "purpose", "target", "source", "contentMajor", "contentMid", "contentMinor",
-     "teamSelect", "campaignSlugSelect"].forEach(id => {
-      const el = document.getElementById(id);
-      if (el) makeSearchable(el);
-    });
-  }
-
-  function syncSearchableDisplays() {
-    ["medium", "purpose", "target", "source", "contentMajor", "contentMid", "contentMinor",
-     "teamSelect", "campaignSlugSelect"].forEach(id => {
-      const el = document.getElementById(id);
-      if (el && el._ssSync) el._ssSync();
-    });
-  }
-
-  function populateMemberDatalist() {
-    const list = document.getElementById("memberDatalist");
-    if (!list) return;
-    list.innerHTML = sortKo(DATA.member || []).map(m => `<option value="${escapeHtml(m.code)}"></option>`).join("");
-  }
-
-  function populateSelectsFromData() {
-    fillSelectPreserve(document.getElementById("medium"), optionsFor("medium"));
-    fillSelectPreserve(document.getElementById("purpose"), optionsFor("purpose"));
-    fillSelectPreserve(document.getElementById("target"), optionsFor("target"));
-    fillSelectPreserve(document.getElementById("source"), optionsFor("source"));
-    fillSelectPreserve(document.getElementById("contentMajor"), optionsFor("content_major"));
-    fillSelectPreserve(document.getElementById("teamSelect"), optionsFor("team"));
-    fillSelectPreserve(document.getElementById("campaignSlugSelect"), optionsFor("campaign_slug"));
-    populateMemberDatalist();
-
-    syncCustomWrap(document.getElementById("contentMajor"), "customMajorWrap");
-    syncCustomWrap(document.getElementById("teamSelect"), "customTeamWrap");
-    syncCustomWrap(document.getElementById("campaignSlugSelect"), "customSlugWrap");
-
-    refreshContentMid(); // 대분류에 맞춰 중분류를 채움 (선택 안 함/소분류는 여기서 같이 처리)
-    fillSelectPreserve(document.getElementById("contentMinor"), optionsFor("content_minor"));
-    syncCustomWrap(document.getElementById("contentMinor"), "customMinorWrap");
-
-    initSearchableSelects();
-    syncSearchableDisplays();
-
-    renderRefPanel();
-  }
-
-  const now = new Date();
-  const dateInput = document.getElementById("sendDate");
-  dateInput.value = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
-
-  const el = (id) => document.getElementById(id);
-  const baseUrlEl = el("baseUrl"), mediumEl = el("medium"), purposeEl = el("purpose"),
-        targetEl = el("target"), sourceEl = el("source"),
-        contentMajorEl = el("contentMajor"), contentMidEl = el("contentMid"), contentMinorEl = el("contentMinor"),
-        customMajorEl = el("customMajor"), customMidEl = el("customMid"), customMinorEl = el("customMinor"),
-        campaignSlugSelectEl = el("campaignSlugSelect"), customSlugEl = el("customSlug"),
-        teamSelectEl = el("teamSelect"), customTeamEl = el("customTeam"),
-        memberInputEl = el("memberInput");
-
-  contentMajorEl.addEventListener("change", () => {
-    el("customMajorWrap").style.display = contentMajorEl.value === "__custom" ? "block" : "none";
-    refreshContentMid();
-    render();
-  });
-  contentMidEl.addEventListener("change", () => {
-    el("customMidWrap").style.display = contentMidEl.value === "__custom" ? "block" : "none";
-    render();
-  });
-  contentMinorEl.addEventListener("change", () => {
-    el("customMinorWrap").style.display = contentMinorEl.value === "__custom" ? "block" : "none";
-    render();
-  });
-  campaignSlugSelectEl.addEventListener("change", () => {
-    el("customSlugWrap").style.display = campaignSlugSelectEl.value === "__custom" ? "block" : "none";
-    render();
-  });
-  teamSelectEl.addEventListener("change", () => {
-    el("customTeamWrap").style.display = teamSelectEl.value === "__custom" ? "block" : "none";
   });
 
-  [baseUrlEl, mediumEl, purposeEl, targetEl, dateInput, sourceEl,
-   contentMajorEl, contentMidEl, contentMinorEl, customMajorEl, customMidEl, customMinorEl,
-   campaignSlugSelectEl, customSlugEl, memberInputEl]
-    .forEach(e => e.addEventListener("input", render));
-
-  // 팀명을 시트 탭 이름으로 그대로 쓰므로, 구글시트 탭 이름에 못 쓰는 문자만 제거
-  function sanitizeTeamName(raw) {
-    return raw.trim().replace(/[\[\]\*\?:\/\\]/g, "").slice(0, 100);
-  }
-  function currentMember() {
-    return (memberInputEl.value || "").trim().slice(0, 60);
-  }
-  function currentTeam() {
-    if (teamSelectEl.value === "__custom") {
-      return sanitizeTeamName(customTeamEl.value || "") || "기타";
-    }
-    return teamSelectEl.value;
-  }
-
-  // 캠페인 세부명 정리: 소문자화, 공백/특수문자를 밑줄로, 연속 밑줄 정리
-  // (source/medium이 대소문자·공백 편차로 GA4에서 갈라졌던 문제를 세부명에서 반복하지 않기 위함)
-  function sanitizeSlug(raw) {
-    return raw
-      .trim()
-      .toLowerCase()
-      .replace(/[^a-z0-9가-힣]+/g, "_")
-      .replace(/^_+|_+$/g, "")
-      .replace(/_{2,}/g, "_");
-  }
-
-  // 세부명이 source/medium/콘텐츠(대·중·소분류) 코드북에 이미 있는 값과 겹치면 경고
-  function checkSlugCollision(slug) {
-    if (!slug) return null;
-    if (DATA.source.some(s => s.code === slug)) return `"${slug}"은(는) 이미 source 코드로 쓰이고 있어요. 다른 이름을 써주세요.`;
-    if (DATA.medium.some(m => m.code === slug)) return `"${slug}"은(는) 이미 medium 코드로 쓰이고 있어요. 다른 이름을 써주세요.`;
-    if (DATA.content_major.some(c => c.code === slug)) return `"${slug}"은(는) 이미 콘텐츠 대분류 코드로 쓰이고 있어요. 다른 이름을 써주세요.`;
-    if (DATA.content_mid.some(c => c.code === slug)) return `"${slug}"은(는) 이미 콘텐츠 중분류 코드로 쓰이고 있어요. 다른 이름을 써주세요.`;
-    if (DATA.content_minor.some(c => c.code === slug)) return `"${slug}"은(는) 이미 콘텐츠 소분류 코드로 쓰이고 있어요. 다른 이름을 써주세요.`;
-    return null;
-  }
-
-  // 발송일 입력(YYYY-MM-DD)을 YYMMDD로 변환 (연도는 뒤 2자리만 사용)
-  function toYYMMDD(dateStr) {
-    if (!dateStr) return "";
-    const [y, m, d] = dateStr.split("-");
-    if (!y || !m || !d) return "";
-    return y.slice(2) + m + d;
-  }
-
-  function currentValues() {
-    const yymmdd = toYYMMDD(dateInput.value);
-    const source = sourceEl.value;
-    const major = contentMajorEl.value === "__custom" ? customMajorEl.value.trim() : contentMajorEl.value;
-    const mid = contentMidEl.value === "__custom" ? customMidEl.value.trim() : contentMidEl.value;
-    const minor = contentMinorEl.value === "__custom" ? customMinorEl.value.trim() : contentMinorEl.value;
-    const content = [major, mid, minor].filter(Boolean).join("_");
-    const slugRaw = campaignSlugSelectEl.value === "__custom" ? (customSlugEl.value || "") : campaignSlugSelectEl.value;
-    const campaignSlug = sanitizeSlug(slugRaw || "");
-    return {
-      baseUrl: baseUrlEl.value.trim(),
-      medium: mediumEl.value,
-      purpose: purposeEl.value,
-      target: targetEl.value,
-      yymmdd,
-      campaignSlug,
-      source,
-
-      content,
-      team: currentTeam(),
-      member: currentMember(),
-    };
-  }
-
-  function buildCampaignCode(v) {
-    return [v.content, v.purpose, v.target, v.yymmdd, v.campaignSlug].filter(Boolean).join("_");
-  }
-
-  function buildUrl(v, campaignCode) {
-    if (!v.baseUrl) return null;
-    let url;
-    try {
-      url = new URL(v.baseUrl);
-    } catch (e) {
-      return "__invalid__";
-    }
-    const params = new URLSearchParams(url.search);
-    if (v.source) params.set("utm_source", v.source);
-    params.set("utm_medium", v.medium);
-    params.set("utm_campaign", campaignCode);
-    // utm_content는 넣지 않음 — 콘텐츠가 이미 campaign 맨 앞 조각으로 들어가 있어 중복.
-    // (콘텐츠 값 자체는 v.content로 계속 보관되어 아카이브 시트의 '콘텐츠' 컬럼에는 그대로 기록됨)
-    url.search = params.toString();
-    return url.toString();
-  }
-
-  function renderBreakdown(v, campaignCode) {
-    const parts = [
-      { seg: v.content, key: "콘텐츠" },
-      { seg: v.purpose, key: "purpose" },
-      { seg: v.target, key: "target" },
-      { seg: v.yymmdd, key: "yymmdd" },
-      { seg: v.campaignSlug, key: "세부명" },
-    ].filter(p => p.seg);
-    const purposeIdx = DATA.purpose.findIndex(p => p.code === v.purpose);
-    const chipColor = purposeIdx >= 0 ? `var(--chip-${purposeIdx % 8})` : "var(--accent)";
-    const html = parts.map((p, i) => {
-      const chip = `<span class="chip" style="background:${chipColor}"><span class="chip-label">${p.key}</span>${p.seg}</span>`;
-      const sep = i < parts.length - 1 ? `<span class="chip sep">_</span>` : "";
-      return chip + sep;
-    }).join("");
-    el("codeBreakdown").innerHTML = html || `<span class="field-desc">콘텐츠·목적·타겟·발송일을 선택하면 캠페인 코드가 조립됩니다.</span>`;
-  }
-
-  function escapeHtml(s) {
-    return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-  }
-
-  function renderUrlBox(url) {
-    const box = el("urlBox");
-    const warn = el("warnLine");
-    if (!url) {
-      box.textContent = "—";
-      warn.classList.add("show");
-      warn.textContent = "랜딩 URL을 입력하면 전체 UTM 링크가 완성됩니다.";
-      return false;
-    }
-    if (url === "__invalid__") {
-      box.textContent = "—";
-      warn.classList.add("show");
-      warn.textContent = "올바른 URL 형식이 아닙니다. (예: https://www.eduwill.net/...)";
-      return false;
-    }
-    warn.classList.remove("show");
-    const [base, qs] = url.split("?");
-    const qsHtml = qs
-      ? "?" + qs.split("&").map(pair => {
-          const [k, val] = pair.split("=");
-          let decoded = val || "";
-          try { decoded = decodeURIComponent(decoded); } catch (e) {}
-          return `<span class="param-key">${escapeHtml(k)}</span>=${escapeHtml(decoded)}`;
-        }).join("&amp;")
-      : "";
-    box.innerHTML = `${escapeHtml(base)}<span class="qs">${qsHtml}</span>`;
-    return true;
-  }
-
-  let lastUrl = null, lastCampaign = null, lastValues = null;
-
-  function render() {
-    const v = currentValues();
-    const campaignCode = buildCampaignCode(v);
-    renderBreakdown(v, campaignCode);
-    const url = buildUrl(v, campaignCode);
-    const valid = renderUrlBox(url);
-
-    const slugIssue = checkSlugCollision(v.campaignSlug);
-    const warnEl = el("slugWarning");
-    if (slugIssue) {
-      warnEl.textContent = slugIssue;
-      warnEl.style.display = "block";
-    } else {
-      warnEl.style.display = "none";
-    }
-
-    // 소스는 필수값 — 비어 있으면(직접입력 공란 등) 생성 자체를 막음
-    const sourceMissing = !v.source;
-    // 콘텐츠는 utm_campaign 맨 앞에 들어가는 필수값 — 비어 있으면(직접입력 공란 등) 생성 자체를 막음
-    const contentMissing = !v.content;
-    // 작성 팀 / 작성 담당자도 필수값 — 아카이빙 시 누가 만들었는지 반드시 남기기 위함
-    const teamMissing = !v.team;
-    const memberMissing = !v.member;
-
-    if (valid) {
-      if (sourceMissing) {
-        el("warnLine").classList.add("show");
-        el("warnLine").textContent = "소스를 선택해야 링크가 만들어집니다.";
-      } else if (contentMissing) {
-        el("warnLine").classList.add("show");
-        el("warnLine").textContent = "콘텐츠를 선택하거나 직접 입력해야 캠페인 코드가 완성됩니다.";
-      } else if (teamMissing) {
-        el("warnLine").classList.add("show");
-        el("warnLine").textContent = "작성 팀을 선택해야 링크가 만들어집니다.";
-      } else if (memberMissing) {
-        el("warnLine").classList.add("show");
-        el("warnLine").textContent = "작성 담당자를 입력해야 링크가 만들어집니다.";
-      }
-    }
-
-    const finalValid = valid && !slugIssue && !contentMissing && !sourceMissing && !teamMissing && !memberMissing;
-    lastUrl = finalValid ? url : null;
-    lastCampaign = campaignCode;
-    lastValues = finalValid ? v : null;
-    el("copyBtn").disabled = !finalValid;
-    el("saveBtn").disabled = !finalValid;
-  }
-
-  el("copyBtn").addEventListener("click", async () => {
-    if (!lastUrl) return;
-    try {
-      await navigator.clipboard.writeText(lastUrl);
-    } catch (e) {
-      const ta = document.createElement("textarea");
-      ta.value = lastUrl;
-      document.body.appendChild(ta);
-      ta.select();
-      document.execCommand("copy");
-      ta.remove();
-    }
-    const toast = el("toast");
-    toast.textContent = "복사됨";
-    toast.classList.add("show");
-    setTimeout(() => toast.classList.remove("show"), 1400);
-  });
-
-  const HISTORY_KEY = "eduwill_utm_history_v1";
-
-  function loadHistory() {
-    try {
-      return JSON.parse(localStorage.getItem(HISTORY_KEY) || "[]");
-    } catch (e) {
-      return [];
-    }
-  }
-  function saveHistory(items) {
-    localStorage.setItem(HISTORY_KEY, JSON.stringify(items.slice(0, 300)));
-  }
-
-  function renderHistory() {
-    const items = loadHistory();
-    const list = el("historyList");
-    if (!items.length) {
-      list.innerHTML = `<div class="empty-state">아직 저장된 링크가 없습니다.<br>URL 생성 후 "기록에 저장"을 눌러보세요.</div>`;
-      return;
-    }
-    list.innerHTML = items.map((item, idx) => `
-      <div class="history-item">
-        <div class="history-main">
-          <div class="history-campaign">${escapeHtml(item.campaign)}</div>
-          <div class="history-url">${escapeHtml(item.url)}</div>
-        </div>
-        <div class="history-actions">
-          <button class="icon-btn" data-copy="${idx}" type="button">복사</button>
-          <button class="icon-btn" data-del="${idx}" type="button">삭제</button>
-        </div>
-      </div>
-    `).join("");
-  }
-
-  el("saveBtn").addEventListener("click", () => {
-    if (!lastUrl || !lastValues) return;
-    const entryId = (crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}-${Math.random().toString(36).slice(2)}`);
-    const team = lastValues.team;
-    const member = lastValues.member;
-    const items = loadHistory();
-    items.unshift({ campaign: lastCampaign, url: lastUrl, savedAt: Date.now(), entryId, team });
-    saveHistory(items);
-    renderHistory();
-
-    const toast = el("toast");
-    if (effectiveArchiveUrl() && lastValues) {
-      archiveToSheet({
-        action: "save",
-        entryId,
-        team,
-        member,
-        landingUrl: lastValues.baseUrl,
-        url: lastUrl,
-        campaign: lastCampaign,
-        content: lastValues.content,
-        purpose: lastValues.purpose,
-        target: lastValues.target,
-        yymmdd: lastValues.yymmdd,
-        campaignSlug: lastValues.campaignSlug,
-        source: lastValues.source,
-        medium: lastValues.medium,
+  document.querySelectorAll('.filter-input').forEach(function(input) {
+    input.addEventListener('input', function() {
+      var targetId = input.getAttribute('data-filter-target');
+      var table = document.getElementById(targetId);
+      if (!table) return;
+      var q = input.value.trim().toLowerCase();
+      table.querySelectorAll('tbody tr').forEach(function(tr) {
+        var text = tr.textContent.toLowerCase();
+        tr.classList.toggle('hidden-row', q.length > 0 && text.indexOf(q) === -1);
       });
-      toast.textContent = `저장됨 · ${team} 시트로 전송 중`;
-    } else {
-      toast.textContent = "이 브라우저에 저장됨 (팀 시트 연동 안 됨)";
-    }
-    toast.classList.add("show");
-    setTimeout(() => toast.classList.remove("show"), 1800);
-  });
-
-  el("historyList").addEventListener("click", async (e) => {
-    const copyIdx = e.target.getAttribute("data-copy");
-    const delIdx = e.target.getAttribute("data-del");
-    const items = loadHistory();
-    if (copyIdx !== null) {
-      const item = items[Number(copyIdx)];
-      if (item) {
-        try { await navigator.clipboard.writeText(item.url); } catch (err) {}
-        const toast = el("toast");
-        toast.textContent = "복사됨";
-        toast.classList.add("show");
-        setTimeout(() => toast.classList.remove("show"), 1400);
-      }
-    }
-    if (delIdx !== null) {
-      const item = items[Number(delIdx)];
-      items.splice(Number(delIdx), 1);
-      saveHistory(items);
-      renderHistory();
-
-      const toast = el("toast");
-      if (item && item.entryId && item.team && effectiveArchiveUrl()) {
-        archiveToSheet({ action: "delete", entryId: item.entryId, team: item.team });
-        toast.textContent = `삭제됨 · ${item.team} 시트에서도 삭제 요청 전송됨`;
-      } else {
-        toast.textContent = "이 브라우저에서 삭제됨 (시트 연동 정보 없음 — 시트에서 수동 삭제 필요)";
-      }
-      toast.classList.add("show");
-      setTimeout(() => toast.classList.remove("show"), 2400);
-    }
-  });
-
-  el("clearHistory").addEventListener("click", () => {
-    saveHistory([]);
-    renderHistory();
-  });
-
-  // ---- CSV export / import (team sharing) ----
-  function csvEscape(field) {
-    const s = String(field == null ? "" : field);
-    if (/[",\n\r]/.test(s)) return '"' + s.replace(/"/g, '""') + '"';
-    return s;
-  }
-
-  function itemsToCsv(items) {
-    const lines = [["campaign", "url", "saved_at"].join(",")];
-    items.forEach((it) => {
-      lines.push([
-        csvEscape(it.campaign),
-        csvEscape(it.url),
-        csvEscape(new Date(it.savedAt).toISOString()),
-      ].join(","));
     });
-    return lines.join("\r\n");
-  }
-
-  function parseCsv(text) {
-    const rows = [];
-    let row = [], field = "", inQuotes = false;
-    for (let i = 0; i < text.length; i++) {
-      const c = text[i];
-      if (inQuotes) {
-        if (c === '"') {
-          if (text[i + 1] === '"') { field += '"'; i++; }
-          else { inQuotes = false; }
-        } else {
-          field += c;
-        }
-      } else if (c === '"') {
-        inQuotes = true;
-      } else if (c === ",") {
-        row.push(field); field = "";
-      } else if (c === "\n" || c === "\r") {
-        if (c === "\r" && text[i + 1] === "\n") i++;
-        row.push(field); rows.push(row); row = []; field = "";
-      } else {
-        field += c;
-      }
-    }
-    if (field.length || row.length) { row.push(field); rows.push(row); }
-    return rows.filter((r) => r.some((cell) => cell !== ""));
-  }
-
-  let csvStatusTimer = null;
-  function showCsvStatus(msg, type) {
-    const s = el("csvStatus");
-    s.textContent = msg;
-    s.className = "csv-status show" + (type ? " " + type : "");
-    clearTimeout(csvStatusTimer);
-    csvStatusTimer = setTimeout(() => s.classList.remove("show"), 6000);
-  }
-
-  function downloadViaBlob(filename, text) {
-    const blob = new Blob([text], { type: "text/csv;charset=utf-8" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = filename;
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-    setTimeout(() => URL.revokeObjectURL(url), 1000);
-  }
-
-  el("exportCsv").addEventListener("click", async () => {
-    const items = loadHistory();
-    if (!items.length) { showCsvStatus("내보낼 기록이 없습니다.", "warn"); return; }
-    const csv = "﻿" + itemsToCsv(items);
-    const stamp = new Date();
-    const datePart = `${stamp.getFullYear()}${String(stamp.getMonth() + 1).padStart(2, "0")}${String(stamp.getDate()).padStart(2, "0")}`;
-    const filename = `eduwill_utm_history_${datePart}.csv`;
-    if (!window.claude || !window.claude.downloads) {
-      // claude.ai 저장 기능이 없는 환경(파일을 직접 열어 쓰는 경우) — 일반 브라우저 다운로드로 대체
-      try {
-        downloadViaBlob(filename, csv);
-        showCsvStatus(`${items.length}건을 CSV로 내보냈습니다.`, "success");
-      } catch (err) {
-        showCsvStatus("파일 저장에 실패했습니다: " + (err && err.message ? err.message : "알 수 없는 오류"), "error");
-      }
-      return;
-    }
-    try {
-      await window.claude.downloads.save({ filename, data: csv });
-      showCsvStatus(`${items.length}건을 CSV로 내보냈습니다.`, "success");
-    } catch (err) {
-      const code = err && err.code;
-      if (code === "extension_not_enabled" || code === "rejected_extension") {
-        try {
-          await window.claude.downloads.save({ filename: filename.replace(/\.csv$/, ".txt"), data: csv });
-          showCsvStatus(`${items.length}건을 텍스트 파일로 내보냈습니다. 저장 후 확장자를 .csv로 바꿔서 사용하세요.`, "success");
-        } catch (err2) {
-          showCsvStatus("파일 저장에 실패했습니다: " + (err2 && err2.message ? err2.message : "알 수 없는 오류"), "error");
-        }
-      } else if (code === "declined") {
-        showCsvStatus("다운로드가 취소되었습니다.", "warn");
-      } else if (code === "rate_limited") {
-        showCsvStatus("잠시 후 다시 시도해주세요.", "warn");
-      } else {
-        showCsvStatus("파일 저장에 실패했습니다: " + (err && err.message ? err.message : "알 수 없는 오류"), "error");
-      }
-    }
   });
 
-  el("importCsvBtn").addEventListener("click", () => el("importCsvFile").click());
-  el("importCsvFile").addEventListener("change", (e) => {
-    const file = e.target.files && e.target.files[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = () => {
-      try {
-        const rows = parseCsv(String(reader.result));
-        if (!rows.length) { showCsvStatus("파일에서 읽을 데이터가 없습니다.", "warn"); return; }
-        let dataRows = rows;
-        const first = rows[0].map((c) => c.trim().toLowerCase());
-        if (first[0] === "campaign" && first[1] === "url") dataRows = rows.slice(1);
-        const imported = dataRows
-          .filter((r) => r[0] && r[1])
-          .map((r) => {
-            const t = Date.parse(r[2]);
-            return { campaign: r[0].trim(), url: r[1].trim(), savedAt: isNaN(t) ? Date.now() : t };
-          });
-        if (!imported.length) {
-          showCsvStatus("가져올 수 있는 행이 없습니다. campaign,url,saved_at 형식을 확인하세요.", "warn");
-          return;
-        }
-        const existing = loadHistory();
-        const key = (it) => it.campaign + "|" + it.url;
-        const merged = new Map(existing.map((it) => [key(it), it]));
-        let added = 0;
-        imported.forEach((it) => {
-          const k = key(it);
-          if (!merged.has(k)) { merged.set(k, it); added++; }
-        });
-        const result = Array.from(merged.values()).sort((a, b) => b.savedAt - a.savedAt);
-        saveHistory(result);
-        renderHistory();
-        showCsvStatus(`${imported.length}건 중 ${added}건을 새로 추가했습니다. (중복 ${imported.length - added}건 제외)`, "success");
-      } catch (err) {
-        showCsvStatus("CSV 파일을 읽는 중 오류가 발생했습니다.", "error");
-      } finally {
-        e.target.value = "";
-      }
-    };
-    reader.readAsText(file, "utf-8");
-  });
+  // ---- 전체 코드표 실시간 연동 (생성기와 같은 구글시트, 같은 gviz 방식) ----
+  // 페이지에 이미 렌더링된 표는 "마지막으로 확인한 스냅샷"이고, 아래 스크립트가 성공하면
+  // 그 시점의 최신 시트 내용으로 표를 다시 그려서 덮어씁니다. 실패해도 스냅샷이 그대로 남아있어
+  // 페이지가 비어 보이는 일은 없습니다.
+  const REF_SHEET_ID = "1SF6z8bbWAXopPPuoNePX8hEzX92y5LrIS9MetwKDon8";
+  const REF_TABS = ["source", "medium", "purpose", "target", "content_대분류", "content_중분류", "content_소분류", "campaign_세부명", "team"];
+  let refJsonpCounter = 0;
 
-  const refToggle = el("refToggle");
-  const refPanel = el("refPanel");
-  function renderRefPanel() {
-    refPanel.innerHTML = `
-      <table class="ref-table">
-        <tr><th>구분</th><th>코드</th><th>의미</th></tr>
-        ${DATA.content_major.map(c => `<tr><td>콘텐츠(대분류)</td><td class="mono">${escapeHtml(c.code)}</td><td>${escapeHtml(c.label)}</td></tr>`).join("")}
-        ${DATA.medium.map(m => `<tr><td>채널</td><td class="mono">${escapeHtml(m.code)}</td><td>${escapeHtml(m.label)}</td></tr>`).join("")}
-        ${DATA.purpose.map(p => `<tr><td>목적</td><td class="mono">${escapeHtml(p.code)}</td><td>${escapeHtml(p.label)}</td></tr>`).join("")}
-      </table>
-      <p class="field-desc" style="margin-top:10px;">규칙: utm_campaign = {콘텐츠대분류_중분류_소분류}_{purpose}_{target}_{YYMMDD} · medium은 utm_medium에 별도로 담기며 campaign에는 포함되지 않음 · 중분류/소분류는 content_중분류/content_소분류 탭 참고 · 세그먼트 정의는 「04_세그먼트택소노미」 참조</p>
-    `;
-  }
-  refToggle.addEventListener("click", () => {
-    refPanel.classList.toggle("show");
-    refToggle.textContent = refPanel.classList.contains("show") ? "코드표 닫기" : "코드표 보기";
-  });
-
-  // ---- 구글 시트 연동 (독립 HTML 파일에서만 동작 — claude.ai 아티팩트는 CSP로 외부 요청이 막혀 있음) ----
-  const SHEET_KEY = "eduwill_utm_sheet_id_v1";
-  const DEFAULT_SHEET_ID = "1SF6z8bbWAXopPPuoNePX8hEzX92y5LrIS9MetwKDon8";
-
-  function extractSheetId(input) {
-    if (!input) return "";
-    const trimmed = input.trim();
-    const m = trimmed.match(/\/d\/([a-zA-Z0-9-_]+)/);
-    if (m) return m[1];
-    if (/^[a-zA-Z0-9-_]{20,}$/.test(trimmed)) return trimmed;
-    return "";
-  }
-
-  let sheetStatusTimer = null;
-  function showSheetStatus(msg, type) {
-    const s = el("sheetStatus");
-    s.textContent = msg;
-    s.className = "csv-status show" + (type ? " " + type : "");
-    clearTimeout(sheetStatusTimer);
-    sheetStatusTimer = setTimeout(() => s.classList.remove("show"), 9000);
-  }
-
-  // 구글의 gviz 엔드포인트는 CORS 헤더를 내려주지 않아 fetch()로는 브라우저에서 막힌다.
-  // 대신 <script> 태그로 불러와 JSONP 콜백으로 받는 방식(구글이 의도한 사용 방식)을 쓴다.
-  let jsonpCounter = 0;
-  function loadJsonp(urlBuilder, timeoutMs = 12000) {
-    return new Promise((resolve, reject) => {
-      const cbName = `__utmSheetCb_${Date.now()}_${jsonpCounter++}`;
+  function refLoadJsonp(urlBuilder, timeoutMs) {
+    timeoutMs = timeoutMs || 12000;
+    return new Promise(function(resolve, reject) {
+      const cbName = "__utmRefCb_" + Date.now() + "_" + (refJsonpCounter++);
       const script = document.createElement("script");
       let settled = false;
-      const timer = setTimeout(() => {
+      const timer = setTimeout(function() {
         if (settled) return;
         settled = true;
         cleanup();
-        reject(new Error("응답 시간이 초과되었습니다."));
+        reject(new Error("응답 시간 초과"));
       }, timeoutMs);
       function cleanup() {
         delete window[cbName];
         if (script.parentNode) script.parentNode.removeChild(script);
         clearTimeout(timer);
       }
-      window[cbName] = (data) => {
+      window[cbName] = function(data) {
         if (settled) return;
         settled = true;
         cleanup();
         resolve(data);
       };
-      script.onerror = () => {
+      script.onerror = function() {
         if (settled) return;
         settled = true;
         cleanup();
-        reject(new Error("스크립트 로드 실패 (네트워크 또는 시트 접근 권한을 확인하세요)"));
+        reject(new Error("스크립트 로드 실패"));
       };
       script.src = urlBuilder(cbName);
       document.head.appendChild(script);
     });
   }
 
-  async function fetchSheetTab(sheetId, tabName) {
-    const json = await loadJsonp((cbName) =>
-      `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json%3BresponseHandler:${cbName}&sheet=${encodeURIComponent(tabName)}`
-    );
-    if (!json || json.status !== "ok" || !json.table || !Array.isArray(json.table.rows)) {
-      const msg = (json && json.errors && json.errors[0] && json.errors[0].detailed_message) || "시트 응답 오류";
-      throw new Error(msg);
-    }
-    const rows = json.table.rows.map(r => (r.c || []).map(cell => (cell && cell.v != null) ? String(cell.v) : ""));
-    if (!rows.length) throw new Error("빈 탭");
-    const header = rows[0].map(h => h.trim().toLowerCase());
-    const codeIdx = header.indexOf("code");
-    const labelIdx = header.indexOf("label");
-    const groupIdx = header.indexOf("group");
-    if (codeIdx === -1 || labelIdx === -1) throw new Error("code/label 열 없음");
-    const items = rows.slice(1)
-      .filter(r => r[codeIdx] && r[codeIdx].trim())
-      .map(r => {
-        const item = { code: r[codeIdx].trim(), label: (r[labelIdx] || r[codeIdx]).trim() };
-        if (groupIdx !== -1 && r[groupIdx] && r[groupIdx].trim()) item.group = r[groupIdx].trim();
-        return item;
+  function refFetchTab(sheetId, tabName) {
+    return refLoadJsonp(function(cbName) {
+      return "https://docs.google.com/spreadsheets/d/" + sheetId + "/gviz/tq?tqx=out:json%3BresponseHandler:" + cbName + "&sheet=" + encodeURIComponent(tabName);
+    }).then(function(json) {
+      if (!json || json.status !== "ok" || !json.table || !Array.isArray(json.table.rows)) {
+        throw new Error("시트 응답 오류");
+      }
+      const rows = json.table.rows.map(function(r) {
+        return (r.c || []).map(function(cell) { return (cell && cell.v != null) ? String(cell.v) : ""; });
       });
-    // 데이터 행이 0개인 건 실패가 아니라 "아직 안 채운 빈 탭"일 수 있음(member/campaign_slug 등) — 정상 처리
-    return items;
-  }
-
-  async function loadFromSheet(sheetId) {
-    if (!sheetId) return;
-    showSheetStatus("구글 시트에서 불러오는 중…", null);
-    const results = await Promise.allSettled(SHEET_TABS.map(cat => fetchSheetTab(sheetId, TAB_NAME_MAP[cat] || cat)));
-    const okCats = [], failedCats = [];
-    results.forEach((r, i) => {
-      const cat = SHEET_TABS[i];
-      if (r.status === "fulfilled") { DATA[cat] = r.value; okCats.push(cat); }
-      else { DATA[cat] = JSON.parse(JSON.stringify(DEFAULTS[cat])); failedCats.push(cat); }
+      if (!rows.length) return [];
+      const header = rows[0].map(function(h) { return (h || "").trim().toLowerCase(); });
+      const codeIdx = header.indexOf("code");
+      const labelIdx = header.indexOf("label");
+      if (codeIdx === -1 || labelIdx === -1) throw new Error("code/label 열 없음");
+      // 3번째 열은 탭마다 이름이 달라서(의미/선택기준/포함범위 등) 이름 상관없이 "3번째 실제 열"을 참고용 설명으로 사용
+      const extraIdx = header.length > 2 ? 2 : -1;
+      return rows.slice(1)
+        .filter(function(r) { return r[codeIdx] && r[codeIdx].trim(); })
+        .map(function(r) {
+          const item = { code: r[codeIdx].trim(), label: (r[labelIdx] || r[codeIdx]).trim() };
+          if (extraIdx !== -1 && r[extraIdx] && r[extraIdx].trim()) item.extra = r[extraIdx].trim();
+          return item;
+        });
     });
-    populateSelectsFromData();
-    render();
-    // 시트에 없는 탭 이름을 넣으면 구글이 에러 대신 다른(주로 첫) 탭 데이터를 조용히 돌려주는 경우가 있다.
-    // 성공한 탭들끼리 내용이 완전히 겹치면 탭 이름 오타일 가능성이 높으므로 알려준다.
-    const seen = new Map();
-    const dupPairs = [];
-    okCats.forEach((cat) => {
-      if (!DATA[cat].length) return; // 빈 탭끼리는 "동일 데이터"로 오탐하지 않도록 제외 (member/campaign_slug 등 정상적으로 비어있을 수 있음)
-      const sig = JSON.stringify(DATA[cat].map((x) => x.code));
-      if (seen.has(sig)) dupPairs.push(`${seen.get(sig)}/${cat}`);
-      else seen.set(sig, cat);
-    });
-    const stamp = new Date().toLocaleString("ko-KR", { hour12: false });
-    if (dupPairs.length) {
-      showSheetStatus(`다음 탭들이 서로 동일한 데이터를 반환했습니다 — 탭 이름을 확인하세요: ${dupPairs.join(", ")} (${stamp})`, "warn");
-      return;
-    }
-    if (!failedCats.length) {
-      showSheetStatus(`구글 시트에서 ${SHEET_TABS.length}개 탭을 모두 불러왔습니다. (${stamp})`, "success");
-    } else if (okCats.length) {
-      showSheetStatus(`일부 탭을 불러오지 못해 기본값으로 대체했습니다: ${failedCats.join(", ")} (${stamp})`, "warn");
-    } else {
-      showSheetStatus("시트를 전혀 불러오지 못해 기본값을 사용합니다. 시트 공유 설정(링크가 있는 모든 사용자 - 뷰어)과 탭 이름(medium/purpose/target/source/content_대분류/content_중분류/content_소분류/team/member), code/label 열을 확인하세요.", "error");
-    }
   }
 
-  function effectiveSheetId() {
-    return localStorage.getItem(SHEET_KEY) || DEFAULT_SHEET_ID;
+  function escapeHtmlRef(s) {
+    return String(s == null ? "" : s)
+      .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
   }
 
-  el("sheetSaveBtn").addEventListener("click", () => {
-    const id = extractSheetId(el("sheetIdInput").value);
-    if (!id) { showSheetStatus("올바른 구글 시트 URL 또는 ID를 입력하세요.", "error"); return; }
-    localStorage.setItem(SHEET_KEY, id);
-    loadFromSheet(id);
-  });
-  el("sheetRefreshBtn").addEventListener("click", () => {
-    loadFromSheet(effectiveSheetId());
-  });
-  el("sheetResetBtn").addEventListener("click", () => {
-    localStorage.removeItem(SHEET_KEY);
-    el("sheetIdInput").value = DEFAULT_SHEET_ID;
-    loadFromSheet(DEFAULT_SHEET_ID);
-  });
-
-  // ---- 팀별 아카이빙 (Apps Script 웹앱 연동) ----
-  const ARCHIVE_KEY = "eduwill_utm_archive_url_v1";
-  const DEFAULT_ARCHIVE_URL = "https://script.google.com/macros/s/AKfycbyI-EpxHi8-X6xhoVvjQ6C5-cj1gHRFlmsOEqsxatwB-lv0jBEcX6flWAqz79V9TPeESQ/exec";
-
-  function effectiveArchiveUrl() {
-    return localStorage.getItem(ARCHIVE_KEY) || DEFAULT_ARCHIVE_URL;
-  }
-  function showArchiveStatus(msg, type) {
-    const box = el("archiveStatus");
-    box.textContent = msg;
-    box.className = "csv-status show" + (type ? " " + type : "");
+  function renderRefTable(tabKey, items) {
+    const table = document.getElementById("tbl-" + tabKey);
+    const countEl = document.getElementById("cnt-" + tabKey);
+    if (!table) return;
+    const hasExtraCol = table.querySelectorAll("thead th").length > 2;
+    const tbody = table.querySelector("tbody");
+    tbody.innerHTML = items.map(function(i) {
+      const codeCell = '<td class="code">' + escapeHtmlRef(i.code) + '</td>';
+      const labelCell = '<td>' + escapeHtmlRef(i.label) + '</td>';
+      const extraCell = hasExtraCol ? '<td class="desc">' + escapeHtmlRef(i.extra || "") + '</td>' : '';
+      return '<tr>' + codeCell + labelCell + extraCell + '</tr>';
+    }).join("");
+    if (countEl) countEl.textContent = items.length + "개";
   }
 
-  el("archiveSaveBtn").addEventListener("click", () => {
-    const url = el("archiveUrlInput").value.trim();
-    if (!url || !url.startsWith("https://script.google.com/")) {
-      showArchiveStatus("올바른 Apps Script 웹앱 URL을 입력하세요 (https://script.google.com/macros/s/…/exec)", "error");
-      return;
-    }
-    localStorage.setItem(ARCHIVE_KEY, url);
-    showArchiveStatus("연결 저장 완료 — 이제 '기록에 저장' 시 팀 시트에도 자동 기록됩니다.", "success");
-  });
-  el("archiveResetBtn").addEventListener("click", () => {
-    localStorage.removeItem(ARCHIVE_KEY);
-    el("archiveUrlInput").value = DEFAULT_ARCHIVE_URL;
-    showArchiveStatus("팀 공용 웹앱으로 되돌렸습니다.", "success");
-  });
-
-  // Apps Script 웹앱으로 전송 (CORS 프리플라이트를 피하기 위해 text/plain으로 전송,
-  // 서버(doPost)에서 JSON.parse로 그대로 파싱합니다)
-  async function archiveToSheet(payload) {
-    const url = effectiveArchiveUrl();
-    if (!url) return { skipped: true };
-    try {
-      await fetch(url, {
-        method: "POST",
-        mode: "no-cors",
-        headers: { "Content-Type": "text/plain;charset=utf-8" },
-        body: JSON.stringify(payload),
+  function syncReferenceTables() {
+    const statusEl = document.getElementById("refSyncStatus");
+    Promise.allSettled(REF_TABS.map(function(t) { return refFetchTab(REF_SHEET_ID, t); }))
+      .then(function(results) {
+        let okCount = 0, failCount = 0;
+        results.forEach(function(r, i) {
+          const tabKey = REF_TABS[i];
+          if (r.status === "fulfilled") {
+            renderRefTable(tabKey, r.value);
+            okCount++;
+          } else {
+            failCount++;
+          }
+        });
+        if (!statusEl) return;
+        const stamp = new Date().toLocaleString("ko-KR", { hour12: false });
+        if (failCount === 0) {
+          statusEl.textContent = "✓ 구글시트와 실시간 연동됨 · 최신 업데이트 확인 (" + stamp + ")";
+        } else if (okCount > 0) {
+          statusEl.textContent = "일부 탭은 최신 정보를 못 불러와 기존 내용을 유지합니다 (" + stamp + ")";
+        } else {
+          statusEl.textContent = "지금 보이는 표는 마지막으로 저장된 스냅샷입니다 (실시간 연동 실패)";
+        }
       });
-      return { ok: true };
-    } catch (err) {
-      return { ok: false, error: err };
-    }
   }
 
-  populateSelectsFromData();
-  render();
-  renderHistory();
-
-  el("sheetIdInput").value = effectiveSheetId();
-  loadFromSheet(effectiveSheetId());
-
-  el("archiveUrlInput").value = effectiveArchiveUrl();
+  syncReferenceTables();
 </script>
+
+</body>
+</html>

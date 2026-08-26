@@ -581,6 +581,10 @@
         <div class="url-block">
           <div class="url-box" id="urlBox">—</div>
           <div class="warning-line" id="warnLine">랜딩 URL을 입력하면 전체 UTM 링크가 완성됩니다.</div>
+          <div style="margin-top:12px;">
+            <label for="shortUrlInput" style="font-size:12.5px;">숏링크 <span class="opt">(선택 — 외부 단축 URL 서비스로 줄인 링크가 있으면 붙여넣으세요)</span></label>
+            <input type="text" id="shortUrlInput" placeholder="예: https://bit.ly/abc123" />
+          </div>
           <div class="btn-row">
             <button class="primary" id="copyBtn" type="button">URL 복사</button>
             <button class="ghost" id="saveBtn" type="button">기록에 저장</button>
@@ -1018,7 +1022,7 @@
 
   [baseUrlEl, mediumEl, purposeEl, targetEl, dateInput, sourceEl,
    contentMajorEl, contentMidEl, contentMinorEl, customMajorEl, customMidEl, customMinorEl,
-   campaignSlugSelectEl, customSlugEl, memberInputEl]
+   campaignSlugSelectEl, customSlugEl, memberInputEl, teamSelectEl, customTeamEl]
     .forEach(e => e.addEventListener("input", render));
 
   // 팀명을 시트 탭 이름으로 그대로 쓰므로, 구글시트 탭 이름에 못 쓰는 문자만 제거
@@ -1269,6 +1273,7 @@
     const entryId = (crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}-${Math.random().toString(36).slice(2)}`);
     const team = lastValues.team;
     const member = lastValues.member;
+    const shortUrl = (el("shortUrlInput").value || "").trim();
     const items = loadHistory();
     items.unshift({ campaign: lastCampaign, url: lastUrl, savedAt: Date.now(), entryId, team });
     saveHistory(items);
@@ -1283,6 +1288,7 @@
         member,
         landingUrl: lastValues.baseUrl,
         url: lastUrl,
+        shortUrl,
         campaign: lastCampaign,
         content: lastValues.content,
         purpose: lastValues.purpose,
@@ -1298,6 +1304,7 @@
     }
     toast.classList.add("show");
     setTimeout(() => toast.classList.remove("show"), 1800);
+    el("shortUrlInput").value = ""; // 다음 캠페인에 실수로 재사용되지 않도록 저장 후 비움
   });
 
   el("historyList").addEventListener("click", async (e) => {

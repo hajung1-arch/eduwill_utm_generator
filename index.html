@@ -505,35 +505,43 @@
         <label for="medium">매체 (utm_medium)</label>
         <select id="medium"></select>
         <p class="field-desc" style="margin-top:6px;">전달 방식·채널 유형입니다. campaign 문자열에는 포함되지 않고 utm_medium에 별도로 담깁니다.</p>
+        <div id="placementWrap" style="display:none; margin-top:14px;">
+          <label for="contentPlacement">노출 위치 <span class="req">*</span></label>
+          <select id="contentPlacement"></select>
+          <p class="field-desc" style="margin-top:6px;">카페 매체를 선택하면 필수입니다. 링크게시판·대문배너 등 카페 내 게시 위치를 나타내며, 아래 "콘텐츠(대분류/중분류/소분류)" 대신 이 값이 utm_campaign 맨 앞 조각으로 들어갑니다 (별도의 utm_content 파라미터는 붙지 않습니다). 목록은 연동된 시트의 <b>content_노출위치 탭</b>에서 관리됩니다 — 추가·삭제하면 그대로 반영됩니다.</p>
+        </div>
       </div>
 
       <div class="field-group">
         <p class="section-label">STEP 4 · 캠페인 (콘텐츠 · 목적 · 타겟 · 발송일)</p>
-        <label style="margin-bottom:4px;">콘텐츠 <span class="req">*</span> <span class="opt">(대분류 필수, 중분류·소분류는 선택)</span></label>
-        <div class="field-row">
-          <div>
-            <label for="contentMajor" style="font-weight:400;font-size:11.5px;">대분류</label>
-            <select id="contentMajor"></select>
-            <div id="customMajorWrap" style="display:none; margin-top:8px;">
-              <input type="text" id="customMajor" placeholder="직접 입력 (예: gov)" />
+        <div id="contentTaxonomyWrap">
+          <label style="margin-bottom:4px;">콘텐츠 <span class="req">*</span> <span class="opt">(대분류 필수, 중분류·소분류는 선택)</span></label>
+          <div class="field-row">
+            <div>
+              <label for="contentMajor" style="font-weight:400;font-size:11.5px;">대분류</label>
+              <select id="contentMajor"></select>
+              <div id="customMajorWrap" style="display:none; margin-top:8px;">
+                <input type="text" id="customMajor" placeholder="직접 입력 (예: gov)" />
+              </div>
+            </div>
+            <div>
+              <label for="contentMid" style="font-weight:400;font-size:11.5px;">중분류 (선택)</label>
+              <select id="contentMid"></select>
+              <div id="customMidWrap" style="display:none; margin-top:8px;">
+                <input type="text" id="customMid" placeholder="직접 입력 (예: G)" />
+              </div>
+            </div>
+            <div>
+              <label for="contentMinor" style="font-weight:400;font-size:11.5px;">소분류 (선택)</label>
+              <select id="contentMinor"></select>
+              <div id="customMinorWrap" style="display:none; margin-top:8px;">
+                <input type="text" id="customMinor" placeholder="직접 입력 (예: basic)" />
+              </div>
             </div>
           </div>
-          <div>
-            <label for="contentMid" style="font-weight:400;font-size:11.5px;">중분류 (선택)</label>
-            <select id="contentMid"></select>
-            <div id="customMidWrap" style="display:none; margin-top:8px;">
-              <input type="text" id="customMid" placeholder="직접 입력 (예: G)" />
-            </div>
-          </div>
-          <div>
-            <label for="contentMinor" style="font-weight:400;font-size:11.5px;">소분류 (선택)</label>
-            <select id="contentMinor"></select>
-            <div id="customMinorWrap" style="display:none; margin-top:8px;">
-              <input type="text" id="customMinor" placeholder="직접 입력 (예: basic)" />
-            </div>
-          </div>
+          <p class="field-desc" style="margin-top:6px;">대분류만 선택해도 됩니다. 중분류·소분류를 채우면 <code>대분류_중분류_소분류</code> 형태로 이어붙여 campaign 맨 앞과 아카이브 시트에 반영됩니다.</p>
+          <p class="field-desc" style="margin-top:10px;">이 값이 utm_campaign 맨 앞 조각이 됩니다. (카페 매체를 선택하면 이 항목 대신 위쪽의 "노출 위치"가 그 자리를 대신합니다.)</p>
         </div>
-        <p class="field-desc" style="margin-top:6px;">대분류만 선택해도 됩니다. 중분류·소분류를 채우면 <code>대분류_중분류_소분류</code> 형태로 이어붙여 campaign 맨 앞과 아카이브 시트에 반영됩니다.</p>
 
         <div style="margin-top:16px;">
           <label for="purpose">캠페인 목적 (purpose) <span class="req">*</span></label>
@@ -558,7 +566,6 @@
           <p class="field-desc" style="margin-top:6px;">콘텐츠·목적·타겟·발송일이 같은 캠페인이 이 날 하나뿐이면 "선택 안 함"으로 두세요. campaign에는 medium이 들어가지 않으므로, 같은 프로모션을 여러 채널로 함께 보내도 campaign 값은 하나로 묶입니다(채널별 구분은 utm_medium으로 필터링). 목록은 연동된 시트의 <b>campaign_세부명 탭</b>에서 관리됩니다. 목록에 없으면 직접 입력도 가능합니다.</p>
           <p id="slugWarning" class="field-warning" style="display:none;"></p>
         </div>
-        <p class="field-desc" style="margin-top:10px;">콘텐츠는 utm_campaign 맨 앞에 반영되는 필수값입니다. (utm_content는 중복이라 URL에 별도로 붙지 않습니다.)</p>
       </div>
     </div>
 
@@ -583,7 +590,11 @@
           <div class="warning-line" id="warnLine">랜딩 URL을 입력하면 전체 UTM 링크가 완성됩니다.</div>
           <div style="margin-top:12px;">
             <label for="shortUrlInput" style="font-size:12.5px;">숏링크 <span class="opt">(선택 — 외부 단축 URL 서비스로 줄인 링크가 있으면 붙여넣으세요)</span></label>
-            <input type="text" id="shortUrlInput" placeholder="예: https://bit.ly/abc123" />
+            <div style="display:flex; gap:8px; align-items:flex-start;">
+              <input type="text" id="shortUrlInput" placeholder="예: https://bit.ly/abc123" style="flex:1;" />
+              <button class="ghost" id="shortUrlGoBtn" type="button" style="white-space:nowrap;">숏링크 만들러가기 ↗</button>
+            </div>
+            <p class="field-desc" style="margin-top:6px;">에듀윌 숏링크 관리 페이지가 새 탭으로 열립니다. 거기서 만든 숏링크를 위 입력창에 붙여넣으면 됩니다.</p>
           </div>
           <div class="btn-row">
             <button class="primary" id="copyBtn" type="button">URL 복사</button>
@@ -610,7 +621,6 @@
     </div>
   </div>
 </div>
-
 <script>
   // ---- 기본 내장 데이터 (구글 시트 연동 실패/미설정 시 사용) ----
   const DEFAULTS = {
@@ -817,16 +827,41 @@
     ],
     member: [],
     campaign_slug: [],
+    content_placement: [
+      { code: "linkboard", label: "링크게시판" },
+      { code: "notice", label: "공지글" },
+      { code: "mainbanner", label: "대문배너(이미지)" },
+      { code: "maintextbanner", label: "대문텍스트배너" },
+      { code: "maintext", label: "대문텍스트" },
+      { code: "formbanner", label: "글양식배너(텍스트)" },
+      { code: "imagebanner", label: "글양식배너(이미지)" },
+      { code: "formtext_top", label: "글양식배너(상단텍스트)" },
+      { code: "uppertextbanner", label: "글양식배너(상단텍스트폼배너)" },
+      { code: "formtext_body", label: "글양식배너(본문텍스트)" },
+      { code: "textformbanner", label: "글양식배너(본문텍스트폼배너)" },
+      { code: "message", label: "쪽지" },
+      { code: "mail", label: "메일" },
+      { code: "contents", label: "콘텐츠" },
+      { code: "event", label: "이벤트" },
+      { code: "comment", label: "댓글" },
+      { code: "posting", label: "포스팅" },
+    ],
   };
 
-  const SHEET_TABS = ["medium", "purpose", "target", "source", "content_major", "content_mid", "content_minor", "team", "member", "campaign_slug"];
+  const SHEET_TABS = ["medium", "purpose", "target", "source", "content_major", "content_mid", "content_minor", "team", "member", "campaign_slug", "content_placement"];
   // JS 쪽 키(영문)와 실제 구글시트 탭 이름(국문)이 다른 경우의 매핑
   const TAB_NAME_MAP = {
     content_major: "content_대분류",
     content_mid: "content_중분류",
     content_minor: "content_소분류",
     campaign_slug: "campaign_세부명",
+    content_placement: "content_노출위치",
   };
+  // 노출 위치(카페 캠페인용) 필드가 필요한 매체: utm_medium 코드가 이 접두사로 시작하면 카페 계열로 판단
+  // (cafe, cafe1~cafe23 등 — 새 카페 코드가 추가돼도 이름 규칙만 지키면 자동으로 걸림)
+  function isCafeMedium(mediumCode) {
+    return typeof mediumCode === "string" && mediumCode.startsWith("cafe");
+  }
   let DATA = JSON.parse(JSON.stringify(DEFAULTS));
 
   function fillSelect(selectEl, items) {
@@ -942,7 +977,7 @@
 
   function initSearchableSelects() {
     ["medium", "purpose", "target", "source", "contentMajor", "contentMid", "contentMinor",
-     "teamSelect", "campaignSlugSelect"].forEach(id => {
+     "teamSelect", "campaignSlugSelect", "contentPlacement"].forEach(id => {
       const el = document.getElementById(id);
       if (el) makeSearchable(el);
     });
@@ -950,7 +985,7 @@
 
   function syncSearchableDisplays() {
     ["medium", "purpose", "target", "source", "contentMajor", "contentMid", "contentMinor",
-     "teamSelect", "campaignSlugSelect"].forEach(id => {
+     "teamSelect", "campaignSlugSelect", "contentPlacement"].forEach(id => {
       const el = document.getElementById(id);
       if (el && el._ssSync) el._ssSync();
     });
@@ -970,6 +1005,7 @@
     fillSelectPreserve(document.getElementById("contentMajor"), optionsFor("content_major"));
     fillSelectPreserve(document.getElementById("teamSelect"), optionsFor("team"));
     fillSelectPreserve(document.getElementById("campaignSlugSelect"), optionsFor("campaign_slug"));
+    fillSelectPreserve(document.getElementById("contentPlacement"), optionsFor("content_placement"));
     populateMemberDatalist();
 
     syncCustomWrap(document.getElementById("contentMajor"), "customMajorWrap");
@@ -982,6 +1018,7 @@
 
     initSearchableSelects();
     syncSearchableDisplays();
+    if (typeof syncPlacementVisibility === "function") syncPlacementVisibility();
 
     renderRefPanel();
   }
@@ -997,7 +1034,16 @@
         customMajorEl = el("customMajor"), customMidEl = el("customMid"), customMinorEl = el("customMinor"),
         campaignSlugSelectEl = el("campaignSlugSelect"), customSlugEl = el("customSlug"),
         teamSelectEl = el("teamSelect"), customTeamEl = el("customTeam"),
-        memberInputEl = el("memberInput");
+        memberInputEl = el("memberInput"), contentPlacementEl = el("contentPlacement");
+
+  // 매체가 카페 계열로 바뀔 때: 노출 위치 필드를 보여주고, 콘텐츠(대분류/중분류/소분류)는 숨김 (서로 대체 관계)
+  function syncPlacementVisibility() {
+    const show = isCafeMedium(mediumEl.value);
+    el("placementWrap").style.display = show ? "block" : "none";
+    el("contentTaxonomyWrap").style.display = show ? "none" : "block";
+  }
+  mediumEl.addEventListener("change", syncPlacementVisibility);
+  syncPlacementVisibility();
 
   contentMajorEl.addEventListener("change", () => {
     el("customMajorWrap").style.display = contentMajorEl.value === "__custom" ? "block" : "none";
@@ -1022,7 +1068,7 @@
 
   [baseUrlEl, mediumEl, purposeEl, targetEl, dateInput, sourceEl,
    contentMajorEl, contentMidEl, contentMinorEl, customMajorEl, customMidEl, customMinorEl,
-   campaignSlugSelectEl, customSlugEl, memberInputEl, teamSelectEl, customTeamEl]
+   campaignSlugSelectEl, customSlugEl, memberInputEl, teamSelectEl, customTeamEl, contentPlacementEl]
     .forEach(e => e.addEventListener("input", render));
 
   // 팀명을 시트 탭 이름으로 그대로 쓰므로, 구글시트 탭 이름에 못 쓰는 문자만 제거
@@ -1058,6 +1104,7 @@
     if (DATA.content_major.some(c => c.code === slug)) return `"${slug}"은(는) 이미 콘텐츠 대분류 코드로 쓰이고 있어요. 다른 이름을 써주세요.`;
     if (DATA.content_mid.some(c => c.code === slug)) return `"${slug}"은(는) 이미 콘텐츠 중분류 코드로 쓰이고 있어요. 다른 이름을 써주세요.`;
     if (DATA.content_minor.some(c => c.code === slug)) return `"${slug}"은(는) 이미 콘텐츠 소분류 코드로 쓰이고 있어요. 다른 이름을 써주세요.`;
+    if (DATA.content_placement && DATA.content_placement.some(c => c.code === slug)) return `"${slug}"은(는) 이미 노출 위치 코드로 쓰이고 있어요. 다른 이름을 써주세요.`;
     return null;
   }
 
@@ -1072,15 +1119,23 @@
   function currentValues() {
     const yymmdd = toYYMMDD(dateInput.value);
     const source = sourceEl.value;
+    const medium = mediumEl.value;
+    const cafe = isCafeMedium(medium);
     const major = contentMajorEl.value === "__custom" ? customMajorEl.value.trim() : contentMajorEl.value;
     const mid = contentMidEl.value === "__custom" ? customMidEl.value.trim() : contentMidEl.value;
     const minor = contentMinorEl.value === "__custom" ? customMinorEl.value.trim() : contentMinorEl.value;
-    const content = [major, mid, minor].filter(Boolean).join("_");
+    // 카페 매체를 선택한 동안은 콘텐츠(대분류/중분류/소분류) 입력창이 화면에서 숨겨지므로,
+    // 이전에 남아있던 값이 실수로 campaign/아카이브에 섞여 들어가지 않도록 비워서 계산
+    const content = cafe ? "" : [major, mid, minor].filter(Boolean).join("_");
+    // 반대로 카페가 아니면 노출 위치는 숨겨진 채 기본 선택값이 남아있을 수 있으므로 동일하게 비움
+    const placement = cafe ? (contentPlacementEl.value || "") : "";
+    // utm_campaign 맨 앞 조각으로 실제 쓰이는 값: 카페면 노출 위치, 아니면 콘텐츠
+    const campaignContent = cafe ? placement : content;
     const slugRaw = campaignSlugSelectEl.value === "__custom" ? (customSlugEl.value || "") : campaignSlugSelectEl.value;
     const campaignSlug = sanitizeSlug(slugRaw || "");
     return {
       baseUrl: baseUrlEl.value.trim(),
-      medium: mediumEl.value,
+      medium,
       purpose: purposeEl.value,
       target: targetEl.value,
       yymmdd,
@@ -1088,13 +1143,15 @@
       source,
 
       content,
+      placement,
+      campaignContent,
       team: currentTeam(),
       member: currentMember(),
     };
   }
 
   function buildCampaignCode(v) {
-    return [v.content, v.purpose, v.target, v.yymmdd, v.campaignSlug].filter(Boolean).join("_");
+    return [v.campaignContent, v.purpose, v.target, v.yymmdd, v.campaignSlug].filter(Boolean).join("_");
   }
 
   function buildUrl(v, campaignCode) {
@@ -1109,15 +1166,15 @@
     if (v.source) params.set("utm_source", v.source);
     params.set("utm_medium", v.medium);
     params.set("utm_campaign", campaignCode);
-    // utm_content는 넣지 않음 — 콘텐츠가 이미 campaign 맨 앞 조각으로 들어가 있어 중복.
-    // (콘텐츠 값 자체는 v.content로 계속 보관되어 아카이브 시트의 '콘텐츠' 컬럼에는 그대로 기록됨)
+    // utm_content는 아예 사용하지 않음 — 콘텐츠(또는 카페의 경우 노출 위치)가
+    // 이미 campaign 맨 앞 조각으로 들어가 있어 URL에 별도 파라미터로 중복 부착하지 않음.
     url.search = params.toString();
     return url.toString();
   }
 
   function renderBreakdown(v, campaignCode) {
     const parts = [
-      { seg: v.content, key: "콘텐츠" },
+      { seg: v.campaignContent, key: isCafeMedium(v.medium) ? "노출위치" : "콘텐츠" },
       { seg: v.purpose, key: "purpose" },
       { seg: v.target, key: "target" },
       { seg: v.yymmdd, key: "yymmdd" },
@@ -1186,8 +1243,8 @@
 
     // 소스는 필수값 — 비어 있으면(직접입력 공란 등) 생성 자체를 막음
     const sourceMissing = !v.source;
-    // 콘텐츠는 utm_campaign 맨 앞에 들어가는 필수값 — 비어 있으면(직접입력 공란 등) 생성 자체를 막음
-    const contentMissing = !v.content;
+    // 카페면 노출 위치, 아니면 콘텐츠(대분류) — 둘 중 그 상황에 맞는 값이 utm_campaign 맨 앞에 들어가는 필수값
+    const contentMissing = !v.campaignContent;
     // 작성 팀 / 작성 담당자도 필수값 — 아카이빙 시 누가 만들었는지 반드시 남기기 위함
     const teamMissing = !v.team;
     const memberMissing = !v.member;
@@ -1198,7 +1255,9 @@
         el("warnLine").textContent = "소스를 선택해야 링크가 만들어집니다.";
       } else if (contentMissing) {
         el("warnLine").classList.add("show");
-        el("warnLine").textContent = "콘텐츠를 선택하거나 직접 입력해야 캠페인 코드가 완성됩니다.";
+        el("warnLine").textContent = isCafeMedium(v.medium)
+          ? "카페 매체는 노출 위치를 선택해야 링크가 만들어집니다."
+          : "콘텐츠를 선택하거나 직접 입력해야 캠페인 코드가 완성됩니다.";
       } else if (teamMissing) {
         el("warnLine").classList.add("show");
         el("warnLine").textContent = "작성 팀을 선택해야 링크가 만들어집니다.";
@@ -1232,6 +1291,10 @@
     toast.textContent = "복사됨";
     toast.classList.add("show");
     setTimeout(() => toast.classList.remove("show"), 1400);
+  });
+
+  el("shortUrlGoBtn").addEventListener("click", () => {
+    window.open("https://ngene.eduwill.net/marketing/shortUrlManage.action", "_blank", "noopener");
   });
 
   const HISTORY_KEY = "eduwill_utm_history_v1";
@@ -1297,6 +1360,7 @@
         campaignSlug: lastValues.campaignSlug,
         source: lastValues.source,
         medium: lastValues.medium,
+        placement: lastValues.placement || "",
       });
       toast.textContent = `저장됨 · ${team} 시트로 전송 중`;
     } else {
@@ -1502,8 +1566,9 @@
         ${DATA.content_major.map(c => `<tr><td>콘텐츠(대분류)</td><td class="mono">${escapeHtml(c.code)}</td><td>${escapeHtml(c.label)}</td></tr>`).join("")}
         ${DATA.medium.map(m => `<tr><td>채널</td><td class="mono">${escapeHtml(m.code)}</td><td>${escapeHtml(m.label)}</td></tr>`).join("")}
         ${DATA.purpose.map(p => `<tr><td>목적</td><td class="mono">${escapeHtml(p.code)}</td><td>${escapeHtml(p.label)}</td></tr>`).join("")}
+        ${DATA.content_placement.map(c => `<tr><td>노출 위치(카페 캠페인용)</td><td class="mono">${escapeHtml(c.code)}</td><td>${escapeHtml(c.label)}</td></tr>`).join("")}
       </table>
-      <p class="field-desc" style="margin-top:10px;">규칙: utm_campaign = {콘텐츠대분류_중분류_소분류}_{purpose}_{target}_{YYMMDD} · medium은 utm_medium에 별도로 담기며 campaign에는 포함되지 않음 · 중분류/소분류는 content_중분류/content_소분류 탭 참고 · 세그먼트 정의는 「04_세그먼트택소노미」 참조</p>
+      <p class="field-desc" style="margin-top:10px;">규칙: utm_campaign = {콘텐츠대분류_중분류_소분류 또는 카페면 노출위치}_{purpose}_{target}_{YYMMDD} · medium은 utm_medium에 별도로 담기며 campaign에는 포함되지 않음 · utm_content는 사용하지 않음 · 카페 계열 매체(cafe, cafe1~23)를 선택하면 콘텐츠 대분류/중분류/소분류 대신 노출 위치가 campaign 맨 앞 조각이 됨(content_노출위치 탭) · 중분류/소분류는 content_중분류/content_소분류 탭 참고 · 세그먼트 정의는 「04_세그먼트택소노미」 참조</p>
     `;
   }
   refToggle.addEventListener("click", () => {

@@ -879,10 +879,14 @@
     return items.slice().sort((a, b) => a.label.localeCompare(b.label, "ko"));
   }
 
+  // 이 대분류를 고르면 중분류를 그룹으로 거르지 않고 전체 목록을 보여줌
+  // (예: 브랜딩은 유튜브 공식/공인 등 다양한 성격의 중분류를 자유롭게 붙여 쓰기 위함)
+  const CONTENT_MID_SHOW_ALL_MAJORS = ["branding"];
+
   function optionsFor(category, opts) {
     opts = opts || {};
     let items = sortKo(DATA[category] || []);
-    if (category === "content_mid" && opts.majorFilter) {
+    if (category === "content_mid" && opts.majorFilter && CONTENT_MID_SHOW_ALL_MAJORS.indexOf(opts.majorFilter) === -1) {
       // 그룹(대분류)이 지정된 항목은 선택된 대분류와 일치할 때만, 그룹이 없는 공통 항목은 항상 표시
       items = items.filter(i => !i.group || i.group === opts.majorFilter);
     }

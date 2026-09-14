@@ -429,7 +429,7 @@
         <div class="callout" style="margin:12px 0 0;">
           <strong>혹시 드롭다운이 텅 비어있거나 이상하면</strong>
           화면에 "일부 탭을 불러오지 못해 기본값으로 대체했습니다"라는 주황색 문구가 뜨는지 확인하세요.
-          뜬다면 인터넷 연결을 확인하고 <b>"새로고침"</b> 버튼을 한 번 눌러보세요. 그래도 안 되면 담당자(그로스실)에게 알려주세요.
+          뜬다면 인터넷 연결을 확인하고 <b>"새로고침"</b> 버튼을 한 번 눌러보세요. 그래도 안 되면 담당자(그로스마케팅팀)에게 알려주세요.
         </div>
       </div>
       <div class="walk-step">
@@ -450,7 +450,7 @@
       <div class="walk-step">
         <div class="ws-head"><div class="ws-num">2</div><h4>작성 팀 / 작성 담당자 (필수)</h4></div>
         <p>본인 소속 팀을 목록에서 고르고, 이름을 입력하세요. 이 정보는 저장할 때 "누가 언제 이 링크를 만들었는지" 기록에 남아요 — 나중에 담당자를 찾아야 할 때 요긴해요.</p>
-        <div class="example"><b>입력값</b>팀: 그로스실 &nbsp; / &nbsp; 담당자: 정현아</div>
+        <div class="example"><b>입력값</b>팀: 그로스마케팅팀 &nbsp; / &nbsp; 담당자: 정현아</div>
       </div>
       <div class="shot"><img src="step1.png" alt="STEP 1 화면 — 랜딩 URL, 작성 팀, 작성 담당자 입력 예시"></div>
       <div class="shot-caption">실제 화면 — STEP 1을 다 채운 모습</div>
@@ -471,6 +471,14 @@
       </div>
       <div class="shot"><img src="step3.png" alt="STEP 3 화면 — 매체 선택 예시"></div>
 
+      <div class="callout">
+        <strong>카페 매체를 고르면 화면이 달라져요</strong>
+        매체를 <code>cafe1</code>~<code>cafe23</code>처럼 <b>공식카페 계열</b>로 고르면, 아래 STEP 4의 "콘텐츠(대분류/중분류/소분류)" 칸이 사라지고
+        그 자리에 <b>"노출 위치"</b>라는 새 필수 항목이 나타나요. 카페 게시글이 "링크게시판·대문배너·글양식배너" 중 어디에 올라가는지를 고르는 항목인데,
+        이 값이 콘텐츠 대신 캠페인 코드 맨 앞자리를 대신 채우게 됩니다. 카페가 아닌 매체(검색광고·이메일·SMS 등)에서는 이 항목이 아예 보이지 않고
+        예전처럼 콘텐츠(대분류/중분류/소분류)를 그대로 채우면 돼요.
+      </div>
+
       <h3>STEP 4 · 캠페인 (콘텐츠 · 목적 · 타겟 · 발송일)</h3>
       <div class="walk-step">
         <div class="ws-head"><div class="ws-num">5</div><h4>콘텐츠 선택 (필수) — 대분류만 골라도 되고, 더 자세히 골라도 돼요</h4></div>
@@ -479,9 +487,17 @@
           중분류·소분류는 선택 사항이라 건너뛰어도 됩니다.
         </p>
         <div class="example">
-          <b>대분류</b>gov (공무원&amp;입시)<br>
+          <b>대분류</b>gov (공무원)<br>
           <b>중분류</b>선택 안 함 — 더 구체적으로 표현하고 싶을 때만 채우면 돼요<br>
           <b>소분류</b>선택 안 함
+        </div>
+        <div class="callout teal" style="margin-top:14px;">
+          <strong>대분류가 9개로 늘었어요</strong>
+          공무원 · 편입/능력검정 · 기술자격증 · 전문자격증 · 취업/교양 · 금융/IT/비즈니스 · 자격증 통합 · AI · 브랜딩. 두 가지는 조금 특별하게 동작해요.
+          <div style="margin-top:8px;">
+            <b>브랜딩</b>을 고르면 중분류에 <b>모든 과목이 다 보여요</b> (예: 유튜브 공식 채널엔 "브랜딩+공인중개사"처럼 자유롭게 조합).<br>
+            <b>자격증 통합</b>을 고르면 중분류에 "전문자격증+기술자격증"이 <b>합쳐서</b> 보여요. 다른 대분류는 지금처럼 그 대분류에 속한 것만 좁혀서 보여줍니다.
+          </div>
         </div>
       </div>
       <div class="shot"><img src="step4.png" alt="STEP 4 화면 — 콘텐츠, 목적, 타겟, 발송일 입력 예시"></div>
@@ -505,8 +521,9 @@
         <div class="ws-head"><div class="ws-num">9</div><h4>캠페인 세부명 (선택 — 대부분 비워둬도 됨)</h4></div>
         <p>
           같은 날, 같은 콘텐츠·목적·타겟으로 캠페인이 <b>두 개 이상</b> 나갈 때만 채우세요.
-          예를 들어 오늘 "구매전환대기" 대상으로 알림톡을 하나 더 보낸다면, 서로 구분하기 위해 여기에 별명을 붙여요.
-          지금 예시는 하나뿐이니 "선택 안 함"으로 둡니다. (자세한 목록은 09. 전체 코드표에서 확인할 수 있어요.)
+          지금은 프로모션 성격이나 마케팅 퍼널 단계(모의고사 안내, 구매전환, 특강 등)를 나타내는
+          <b>21개 표준 코드</b>로 목록이 정리되어 있어요 — 자유롭게 아무 이름이나 짓기보다, 이 상황에 가장 가까운 코드를 골라주세요.
+          지금 예시는 하나뿐이니 "선택 안 함"으로 둡니다. (전체 목록은 09. 전체 코드표에서 확인할 수 있어요.)
         </p>
       </div>
       <div class="walk-step">
@@ -519,6 +536,11 @@
         <p style="margin-top:14px;"><b>URL 복사</b> 버튼을 누르면 바로 사용할 수 있어요.</p>
         <div class="example">
           <b>완성된 링크</b>https://land.eduwill.net/sites/home?utm_source=kakao&amp;utm_medium=alimtalk&amp;utm_campaign=gov_purchase_cartpending_260820
+        </div>
+        <div class="callout" style="margin-top:14px;">
+          <strong>숏링크가 필요하면 "숏링크 만들러가기" 버튼</strong>
+          URL 밑에 있는 <code>숏링크 만들러가기 ↗</code> 버튼을 누르면 에듀윌 숏링크 관리 페이지가 새 탭으로 열려요.
+          거기서 만든 짧은 링크를 복사해서 바로 위 "숏링크" 입력창에 붙여넣으면, "기록에 저장" 시 팀 시트에 숏링크도 함께 기록됩니다. (선택 사항이에요.)
         </div>
       </div>
 
@@ -615,7 +637,7 @@
 
       <h3>이래서 작성 팀 · 작성 담당자가 필수예요</h3>
       <p>
-        이 두 정보가 있어야 "이 링크는 그로스실 정현아가 만들었다"는 게 기록에 남아요. 비워두면 나중에
+        이 두 정보가 있어야 "이 링크는 그로스마케팅팀 정현아가 만들었다"는 게 기록에 남아요. 비워두면 나중에
         문제가 생겼을 때(예: 잘못된 링크가 발견됐을 때) 누구에게 물어봐야 할지조차 알 수 없게 돼요. 그래서 필수값으로
         막아뒀어요 — 비워두면 링크 생성 버튼이 눌리지 않습니다.
       </p>
@@ -637,11 +659,11 @@
       <div class="callout">
         <strong>연결이 안 되어 있을 때 해결 방법</strong>
         <div style="margin-top:10px;font-size:13.5px;line-height:1.8;">
-          <b>1단계.</b> 상단 "팀별 아카이빙" 입력창에 URL이 채워져 있는지 확인하세요. 비어있다면 담당자(그로스실)에게
+          <b>1단계.</b> 상단 "팀별 아카이빙" 입력창에 URL이 채워져 있는지 확인하세요. 비어있다면 담당자(그로스마케팅팀)에게
           연결 URL을 다시 받아서 붙여넣고 <b>"연결 저장"</b>을 눌러주세요.<br>
           <b>2단계.</b> URL은 있는데도 안 된다면, "기본값으로 되돌리기"를 눌러 팀 공용 웹앱으로 재연결해보세요.<br>
           <b>3단계.</b> 그래도 안 되면 이건 담당자가 확인해야 하는 문제예요(구글시트 쪽 권한 설정 문제일 가능성이 높아요) —
-          "기록에 저장을 눌렀는데 시트에 안 쌓여요"라고 담당자(그로스실)에게 알려주세요.
+          "기록에 저장을 눌렀는데 시트에 안 쌓여요"라고 담당자(그로스마케팅팀)에게 알려주세요.
         </div>
       </div>
 
@@ -688,6 +710,16 @@
           <p style="margin:0;font-size:13.5px;">실제 본인 소속과 이름을 정확히 입력</p>
         </div>
       </div>
+      <div class="dd-grid">
+        <div class="dd-card bad">
+          <span class="dtag">DON'T</span>
+          <p style="margin:0;font-size:13.5px;">카페 매체인데 "노출 위치"를 안 고르고 넘어가기</p>
+        </div>
+        <div class="dd-card good">
+          <span class="dtag">DO</span>
+          <p style="margin:0;font-size:13.5px;">카페 매체를 골랐다면 노출 위치까지 반드시 선택</p>
+        </div>
+      </div>
     </section>
 
     <section id="faq">
@@ -708,7 +740,11 @@
       </details>
       <details class="faq-item">
         <summary>대분류만 고르고 중분류·소분류는 안 골라도 되나요?</summary>
-        <div class="a">네, 됩니다. 대분류만 필수이고 중분류·소분류는 선택 사항이에요. 더 구체적으로 구분하고 싶을 때만 채우면 돼요.</div>
+        <div class="a">네, 됩니다. 대분류만 필수이고 중분류·소분류는 선택 사항이에요. 더 구체적으로 구분하고 싶을 때만 채우면 돼요. (단, 카페 매체를 고른 경우엔 콘텐츠 대신 "노출 위치"가 필수예요.)</div>
+      </details>
+      <details class="faq-item">
+        <summary>카페 매체를 골랐는데 콘텐츠(대분류/중분류/소분류) 칸이 안 보여요. 고장인가요?</summary>
+        <div class="a">고장이 아니에요. 카페 계열 매체(cafe, cafe1~cafe23)를 고르면 콘텐츠 칸 대신 "노출 위치" 칸이 나타나도록 설계돼 있어요. 노출 위치를 채우시면 됩니다.</div>
       </details>
       <details class="faq-item">
         <summary>같은 링크를 여러 번 만들면 안 되나요?</summary>
@@ -727,7 +763,7 @@
       <p id="refSyncStatus" style="font-size:12.5px;color:var(--muted);margin:-10px 0 22px;">불러오는 중…</p>
 
       <div class="ref-block">
-        <div class="ref-head"><h3>소스 — 누가 보냈나 <span style="color:var(--amber);font-weight:700;">필수</span></h3><span class="ref-count" id="cnt-source">28개</span></div>
+        <div class="ref-head"><h3>소스 — 누가 보냈나 <span style="color:var(--amber);font-weight:700;">필수</span></h3><span class="ref-count" id="cnt-source">41개</span></div>
         <input class="filter-input" type="text" placeholder="예: 네이버, google, 매체사..." data-filter-target="tbl-source">
         <div class="table-wrap">
           <table id="tbl-source">
@@ -761,13 +797,26 @@
 <tr><td class="code">taboola</td><td>타불라 (매체사)</td></tr>
 <tr><td class="code">neoclick</td><td>네오클릭 (매체사)</td></tr>
 <tr><td class="code">searchnclick</td><td>서치N클릭 (매체사, 기존 오탈자 교정)</td></tr>
+<tr><td class="code">nate</td><td>네이트</td></tr>
+<tr><td class="code">adpick</td><td>애드픽</td></tr>
+<tr><td class="code">linkprice</td><td>링크프라이스</td></tr>
+<tr><td class="code">adn</td><td>ADN 클로징패널</td></tr>
+<tr><td class="code">icover</td><td>아이커버</td></tr>
+<tr><td class="code">tenping</td><td>텐핑</td></tr>
+<tr><td class="code">targetpick</td><td>타겟픽</td></tr>
+<tr><td class="code">adpacker</td><td>애드패커</td></tr>
+<tr><td class="code">digitalcamp</td><td>디지털캠프</td></tr>
+<tr><td class="code">blind</td><td>블라인드</td></tr>
+<tr><td class="code">remember</td><td>리멤버</td></tr>
+<tr><td class="code">OOH</td><td>옥외광고</td></tr>
+<tr><td class="code">publication</td><td>출판물/PDF</td></tr>
             </tbody>
           </table>
         </div>
       </div>
 
       <div class="ref-block">
-        <div class="ref-head"><h3>매체 — 어떻게 보냈나 <span style="color:var(--amber);font-weight:700;">필수</span></h3><span class="ref-count" id="cnt-medium">51개</span></div>
+        <div class="ref-head"><h3>매체 — 어떻게 보냈나 <span style="color:var(--amber);font-weight:700;">필수</span></h3><span class="ref-count" id="cnt-medium">59개</span></div>
         <input class="filter-input" type="text" placeholder="예: 광고, 카카오, 문자..." data-filter-target="tbl-medium">
         <div class="table-wrap">
           <table id="tbl-medium">
@@ -777,7 +826,11 @@
 <tr><td class="code">brandsearch</td><td>브랜드검색</td></tr>
 <tr><td class="code">shopping_search</td><td>쇼핑검색</td></tr>
 <tr><td class="code">display</td><td>디스플레이광고</td></tr>
+<tr><td class="code">paid_social</td><td>유료 광고 소재</td></tr>
 <tr><td class="code">paid_video</td><td>유료 영상광고</td></tr>
+<tr><td class="code">paid_native</td><td>유료 콘텐츠</td></tr>
+<tr><td class="code">power_content</td><td>네이버 파워컨텐츠광고</td></tr>
+<tr><td class="code">place_ad</td><td>네이버 플레이스광고</td></tr>
 <tr><td class="code">blog</td><td>블로그</td></tr>
 <tr><td class="code">cafe</td><td>네이버 카페 (외부/비공식)</td></tr>
 <tr><td class="code">cafe1</td><td>공식카페_공무원</td></tr>
@@ -807,10 +860,13 @@
 <tr><td class="code">channel</td><td>카카오 채널</td></tr>
 <tr><td class="code">openchat</td><td>카카오 오픈채팅방</td></tr>
 <tr><td class="code">profile</td><td>프로필 링크</td></tr>
-<tr><td class="code">litt</td><td>리틀리</td></tr>
+<tr><td class="code">inpock</td><td>리틀리/인포크</td></tr>
+<tr><td class="code">story</td><td>스토리</td></tr>
 <tr><td class="code">owned_text</td><td>텍스트형 자사 콘텐츠</td></tr>
 <tr><td class="code">owned_image</td><td>이미지형 자사 콘텐츠</td></tr>
 <tr><td class="code">owned_video</td><td>영상형 자사 콘텐츠</td></tr>
+<tr><td class="code">owned_shorts</td><td>숏폼형 자사 콘텐츠</td></tr>
+<tr><td class="code">owned_community</td><td>커뮤니티형 자사 콘텐츠</td></tr>
 <tr><td class="code">viral</td><td>바이럴 광고/게시</td></tr>
 <tr><td class="code">unpaid_seeding</td><td>무가시딩</td></tr>
 <tr><td class="code">paid_seeding</td><td>유가시딩</td></tr>
@@ -819,11 +875,12 @@
 <tr><td class="code">alimtalk</td><td>카카오 알림톡</td></tr>
 <tr><td class="code">email</td><td>이메일</td></tr>
 <tr><td class="code">lms</td><td>문자</td></tr>
+<tr><td class="code">web_push</td><td>웹 푸시</td></tr>
 <tr><td class="code">push</td><td>앱 푸시</td></tr>
 <tr><td class="code">in_app</td><td>인앱 메시지</td></tr>
 <tr><td class="code">qr</td><td>QR코드</td></tr>
 <tr><td class="code">refer</td><td>외부 추천/제휴 링크</td></tr>
-<tr><td class="code">paid_native</td><td>유료 콘텐츠</td></tr>
+<tr><td class="code">subway</td><td>지하철</td></tr>
             </tbody>
           </table>
         </div>
@@ -876,17 +933,20 @@
       </div>
 
       <div class="ref-block">
-        <div class="ref-head"><h3>콘텐츠 — 대분류 <span style="color:var(--amber);font-weight:700;">필수</span></h3><span class="ref-count" id="cnt-content_대분류">6개</span></div>
+        <div class="ref-head"><h3>콘텐츠 — 대분류 <span style="color:var(--amber);font-weight:700;">필수</span></h3><span class="ref-count" id="cnt-content_대분류">9개</span></div>
         <div class="table-wrap">
           <table id="tbl-content_대분류">
             <thead><tr><th>code</th><th>설명</th><th>포함 범위</th></tr></thead>
             <tbody>
-<tr><td class="code">gov</td><td>공무원&amp;입시</td><td class="desc">9급·소방·계리·편입</td></tr>
+<tr><td class="code">gov</td><td>공무원</td><td class="desc">9급·소방·계리 등</td></tr>
+<tr><td class="code">admission</td><td>편입/능력검정</td><td class="desc">편입·검정고시·토익·한국사능력검정 등</td></tr>
 <tr><td class="code">license</td><td>기술자격증</td><td class="desc">기사자격증</td></tr>
 <tr><td class="code">spec</td><td>전문자격증</td><td class="desc">공인중개사·주택관리사·회계·사회복지사 등</td></tr>
-<tr><td class="code">job</td><td>취업</td><td class="desc">공기업/대기업 취업·NCS 직무능력·토익</td></tr>
-<tr><td class="code">lang</td><td>어학</td><td class="desc">토익·오픽 등 어학시험 대비</td></tr>
-<tr><td class="code">skill</td><td>직무역량</td><td class="desc">컴퓨터활용능력·한국사능력검정 등</td></tr>
+<tr><td class="code">job</td><td>취업/교양</td><td class="desc">공기업/대기업 취업·NCS 직무능력 등</td></tr>
+<tr><td class="code">finance</td><td>금융/IT/비즈니스</td><td class="desc">전산세무회계·재경관리사·IT자격증 등</td></tr>
+<tr><td class="code">cert</td><td>자격증 통합</td><td class="desc">기술·전문자격증 등 자격증 과정 전체</td></tr>
+<tr><td class="code">ai</td><td>AI</td><td class="desc">AI CLASS·AICE</td></tr>
+<tr><td class="code">branding</td><td>브랜딩</td><td class="desc">에듀윌 브랜드 관련</td></tr>
             </tbody>
           </table>
         </div>
@@ -944,7 +1004,6 @@
 <tr><td class="code">G</td><td>9급 공무원</td></tr>
 <tr><td class="code">H</td><td>한국사능력검정</td></tr>
 <tr><td class="code">I</td><td>IT자격증</td></tr>
-<tr><td class="code">IT</td><td>IT자격증</td></tr>
 <tr><td class="code">J</td><td>주택관리사</td></tr>
 <tr><td class="code">K</td><td>경비지도사</td></tr>
 <tr><td class="code">L</td><td>공인중개사</td></tr>
@@ -983,6 +1042,34 @@
         </div>
       </div>
 
+      <div class="ref-block" style="margin-top:28px;">
+        <div class="ref-head"><h3>콘텐츠 — 노출 위치 <span style="font-weight:400;color:var(--muted);">(카페 매체를 고를 때만 필수)</span></h3><span class="ref-count" id="cnt-content_노출위치">17개</span></div>
+        <div class="table-wrap">
+          <table id="tbl-content_노출위치">
+            <thead><tr><th>code</th><th>설명</th></tr></thead>
+            <tbody>
+<tr><td class="code">linkboard</td><td>링크게시판</td></tr>
+<tr><td class="code">notice</td><td>공지글</td></tr>
+<tr><td class="code">mainbanner</td><td>대문배너(이미지)</td></tr>
+<tr><td class="code">maintextbanner</td><td>대문텍스트배너</td></tr>
+<tr><td class="code">maintext</td><td>대문텍스트</td></tr>
+<tr><td class="code">formbanner</td><td>글양식배너(텍스트)</td></tr>
+<tr><td class="code">imagebanner</td><td>글양식배너(이미지)</td></tr>
+<tr><td class="code">formtext_top</td><td>글양식배너(상단텍스트)</td></tr>
+<tr><td class="code">uppertextbanner</td><td>글양식배너(상단텍스트폼배너)</td></tr>
+<tr><td class="code">formtext_body</td><td>글양식배너(본문텍스트)</td></tr>
+<tr><td class="code">textformbanner</td><td>글양식배너(본문텍스트폼배너)</td></tr>
+<tr><td class="code">message</td><td>쪽지</td></tr>
+<tr><td class="code">mail</td><td>메일</td></tr>
+<tr><td class="code">contents</td><td>콘텐츠</td></tr>
+<tr><td class="code">event</td><td>이벤트</td></tr>
+<tr><td class="code">comment</td><td>댓글</td></tr>
+<tr><td class="code">posting</td><td>포스팅</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
       <details class="fold">
         <summary>캠페인 세부명 <span id="cnt-campaign_세부명">21개</span> 보기 (선택 항목, 같은 조건 캠페인이 여러 개일 때만)</summary>
         <div class="table-wrap" style="margin-top:8px;">
@@ -1016,15 +1103,20 @@
       </details>
 
       <div class="ref-block" style="margin-top:28px;">
-        <div class="ref-head"><h3>작성 팀 <span style="color:var(--amber);font-weight:700;">필수</span></h3><span class="ref-count" id="cnt-team">4개</span></div>
+        <div class="ref-head"><h3>작성 팀 <span style="color:var(--amber);font-weight:700;">필수</span></h3><span class="ref-count" id="cnt-team">9개</span></div>
         <div class="table-wrap">
           <table id="tbl-team">
             <thead><tr><th>code</th><th>설명</th></tr></thead>
             <tbody>
-<tr><td class="code">온라인사업1실</td><td>온라인사업1실</td></tr>
-<tr><td class="code">온라인사업2실</td><td>온라인사업2실</td></tr>
 <tr><td class="code">고객상담실</td><td>고객상담실</td></tr>
-<tr><td class="code">그로스실</td><td>그로스실</td></tr>
+<tr><td class="code">그로스마케팅팀</td><td>그로스마케팅팀</td></tr>
+<tr><td class="code">브랜드마케팅팀</td><td>브랜드마케팅팀</td></tr>
+<tr><td class="code">출판마케팅팀</td><td>출판마케팅팀</td></tr>
+<tr><td class="code">신성장사업실</td><td>신성장사업실</td></tr>
+<tr><td class="code">사업1팀</td><td>사업1팀</td></tr>
+<tr><td class="code">사업2팀</td><td>사업2팀</td></tr>
+<tr><td class="code">사업3팀</td><td>사업3팀</td></tr>
+<tr><td class="code">사업4팀</td><td>사업4팀</td></tr>
             </tbody>
           </table>
         </div>
@@ -1032,7 +1124,7 @@
     </section>
 
     <footer>
-      에듀윌 UTM 링크 가이드 · 초보자용 · 문의: 그로스실
+      에듀윌 UTM 링크 가이드 · 초보자용 · 문의: 그로스마케팅팀
     </footer>
   </main>
 </div>
@@ -1064,7 +1156,7 @@
   // 그 시점의 최신 시트 내용으로 표를 다시 그려서 덮어씁니다. 실패해도 스냅샷이 그대로 남아있어
   // 페이지가 비어 보이는 일은 없습니다.
   const REF_SHEET_ID = "1SF6z8bbWAXopPPuoNePX8hEzX92y5LrIS9MetwKDon8";
-  const REF_TABS = ["source", "medium", "purpose", "target", "content_대분류", "content_중분류", "content_소분류", "campaign_세부명", "team"];
+  const REF_TABS = ["source", "medium", "purpose", "target", "content_대분류", "content_중분류", "content_소분류", "content_노출위치", "campaign_세부명", "team"];
   let refJsonpCounter = 0;
 
   function refLoadJsonp(urlBuilder, timeoutMs) {

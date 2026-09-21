@@ -1724,11 +1724,48 @@
     }
     if (!failedCats.length) {
       showSheetStatus(`구글 시트에서 ${SHEET_TABS.length}개 탭을 모두 불러왔습니다. (${stamp})`, "success");
-    } else if (okCats.length) {
+      return;
+    }
+    if (okCats.length) {
       showSheetStatus(`일부 탭을 불러오지 못해 기본값으로 대체했습니다: ${failedCats.join(", ")} (${stamp})`, "warn");
-    } else {
+      return;
+    }
+    // 구글시트 직접 접근(gviz)이 전부 실패했을 때 — 조직 정책 등으로 외부 공유 자체가
+    // 막혀있는 경우가 많음. 같은 스프레드시트에 연결된 Apps Script 웹앱(아카이빙용)은
+    // 별도 배포 권한을 쓰기 때문에 그 정책의 영향을 안 받으므로, 이 경로로 한 번 더 시도한다.
+    try {
+      const tabs = await fetchCodebookViaAppsScript();
+      let recovered = 0;
+      SHEET_TABS.forEach((cat) => {
+        const tabName = TAB_NAME_MAP[cat] || cat;
+        if (tabs[tabName] && tabs[tabName].length) {
+          DATA[cat] = tabs[tabName];
+          recovered++;
+        }
+      });
+      populateSelectsFromData();
+      render();
+      const stamp2 = new Date().toLocaleString("ko-KR", { hour12: false });
+      if (recovered) {
+        showSheetStatus(`구글시트 직접 접근이 막혀있어 Apps Script 경유로 코드북을 불러왔습니다. (${stamp2})`, "warn");
+      } else {
+        showSheetStatus("Apps Script 경유로도 코드북을 가져오지 못해 기본값을 사용합니다. 아카이브 웹앱 배포 상태를 확인하세요.", "error");
+      }
+    } catch (err) {
       showSheetStatus("시트를 전혀 불러오지 못해 기본값을 사용합니다. 시트 공유 설정(링크가 있는 모든 사용자 - 뷰어)과 탭 이름(medium/purpose/target/source/content_대분류/content_중분류/content_소분류/team/member), code/label 열을 확인하세요.", "error");
     }
+  }
+
+  // gviz 직접 접근이 막혔을 때의 우회 경로 — 아카이브 Apps Script 웹앱에 코드북 데이터를
+  // 요청한다. <script> 태그로 불러오는 JSONP 방식이라 CORS 제약을 받지 않는다.
+  function fetchCodebookViaAppsScript() {
+    const url = effectiveArchiveUrl();
+    if (!url) return Promise.reject(new Error("아카이브 웹앱 URL이 설정되지 않았습니다."));
+    return loadJsonp((cbName) => `${url}?page=codebook&callback=${cbName}`)
+      .then((json) => {
+        if (!json || json.status !== "ok" || !json.tabs) throw new Error("Apps Script 코드북 응답 오류");
+        return json.tabs;
+      });
   }
 
   function effectiveSheetId() {

@@ -1367,7 +1367,7 @@
     `).join("");
   }
 
-  el("saveBtn").addEventListener("click", () => {
+  el("saveBtn").addEventListener("click", async () => {
     if (!lastUrl || !lastValues) return;
     const entryId = (crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}-${Math.random().toString(36).slice(2)}`);
     const team = lastValues.team;
@@ -1380,7 +1380,9 @@
 
     const toast = el("toast");
     if (effectiveArchiveUrl() && lastValues) {
-      archiveToSheet({
+      toast.textContent = `${team} 시트로 전송 중…`;
+      toast.classList.add("show");
+      const result = await archiveToSheet({
         action: "save",
         entryId,
         team,
@@ -1397,12 +1399,14 @@
         source: lastValues.source,
         medium: lastValues.medium,
       });
-      toast.textContent = `저장됨 · ${team} 시트로 전송 중`;
+      toast.textContent = result.ok
+        ? `저장됨 · ${team} 시트에 기록됨`
+        : `이 브라우저에만 저장됨 — 팀 시트 전송 실패 (${result.message || result.status || "알 수 없는 오류"})`;
     } else {
       toast.textContent = "이 브라우저에 저장됨 (팀 시트 연동 안 됨)";
     }
     toast.classList.add("show");
-    setTimeout(() => toast.classList.remove("show"), 1800);
+    setTimeout(() => toast.classList.remove("show"), 2600);
     el("shortUrlInput").value = ""; // 다음 캠페인에 실수로 재사용되지 않도록 저장 후 비움
   });
 
@@ -1428,13 +1432,17 @@
 
       const toast = el("toast");
       if (item && item.entryId && item.team && effectiveArchiveUrl()) {
-        archiveToSheet({ action: "delete", entryId: item.entryId, team: item.team });
-        toast.textContent = `삭제됨 · ${item.team} 시트에서도 삭제 요청 전송됨`;
+        toast.textContent = `${item.team} 시트에서 삭제 요청 중…`;
+        toast.classList.add("show");
+        const result = await archiveToSheet({ action: "delete", entryId: item.entryId, team: item.team });
+        toast.textContent = result.ok
+          ? `삭제됨 · ${item.team} 시트에서도 삭제됨`
+          : `이 브라우저에서만 삭제됨 — 팀 시트 삭제 실패 (${result.message || result.status || "알 수 없는 오류"}), 시트에서 수동 삭제 필요`;
       } else {
         toast.textContent = "이 브라우저에서 삭제됨 (시트 연동 정보 없음 — 시트에서 수동 삭제 필요)";
       }
       toast.classList.add("show");
-      setTimeout(() => toast.classList.remove("show"), 2400);
+      setTimeout(() => toast.classList.remove("show"), 2800);
     }
   });
 
@@ -1815,19 +1823,20 @@
     showArchiveStatus("팀 공용 웹앱으로 되돌렸습니다.", "success");
   });
 
-  // Apps Script 웹앱으로 전송 (CORS 프리플라이트를 피하기 위해 text/plain으로 전송,
-  // 서버(doPost)에서 JSON.parse로 그대로 파싱합니다)
+  // Apps Script 웹앱으로 전송 — <script> 태그로 불러오는 GET(JSONP) 방식.
+  // 일부 사내 네트워크/보안 정책이 fetch()의 POST 요청은 막아도 이런 일반 GET 리소스 로드는
+  // 허용하는 경우가 많아 이 방식을 씁니다. 예전 no-cors POST 방식과 달리 응답을 실제로
+  // 읽을 수 있어서, 화면에 "저장됨"이라고 뜨는 게 진짜 저장 성공을 의미하게 됩니다.
   async function archiveToSheet(payload) {
     const url = effectiveArchiveUrl();
     if (!url) return { skipped: true };
+    const qs = Object.keys(payload)
+      .filter((k) => payload[k] !== undefined && payload[k] !== null)
+      .map((k) => encodeURIComponent(k) + "=" + encodeURIComponent(payload[k]))
+      .join("&");
     try {
-      await fetch(url, {
-        method: "POST",
-        mode: "no-cors",
-        headers: { "Content-Type": "text/plain;charset=utf-8" },
-        body: JSON.stringify(payload),
-      });
-      return { ok: true };
+      const json = await loadJsonp((cbName) => `${url}?page=archive&callback=${cbName}&${qs}`);
+      return json && json.status ? { ok: json.status === "ok", status: json.status, message: json.message } : { ok: false };
     } catch (err) {
       return { ok: false, error: err };
     }
